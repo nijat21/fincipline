@@ -11,7 +11,7 @@ function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="shadow-md w-full border-box fixed top-0 left-0 bg-neutral-100">
+        <div className="shadow-md w-full border-box fixed top-0 left-0">
             <div className="md:px-10 py-4 px-7 bg-white md:flex justify-between items-center">
                 {/* Logo and brand */}
                 <div className="flex items-center text-2xl cursor-pointer gap-2">
@@ -39,7 +39,8 @@ function Navbar() {
                             </li>
                         ))
                     }
-                    <button className="btn bg-neutral-700 text-white py-1 px-3 md:ml-8 rounded md:static">Get Started</button>
+                    <button className="btn border border-neutral-700 bg-neutral-700 text-white py-1 px-3 mx-[-15px] md:ml-8 rounded md:static">Sign Up</button>
+                    <button className="btn border border-neutral-700 text-black py-1 px-3 mx-[-15px] md:ml-8 rounded md:static">Log In</button>
                 </ul>
             </div>
         </div>

@@ -5,6 +5,7 @@ import { Toaster, toast } from 'sonner';
 import './App.css';
 import HomePage from './pages/HomePage';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
         </Routes>
       </AnimatePresence>
+      <Footer />
     </div>
   );
 }
