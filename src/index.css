@@ -5,3 +5,13 @@
 * {
   @apply font-serif;
 }
+
+.App.light {
+  background-color: #f8fafc;
+  color: black;
+}
+
+.App.dark {
+  background-color: #2b364b;
+  color: #cbd5e1;
+}

@@ -1,0 +1,30 @@
+import axios from "axios";
+const baseUrl = `${import.meta.env.VITE_FINCIPLINE_API}/plaid`;
+
+const setAuthorizationHeaders = () => {
+    // Axios method that intercepts with every methods 
+    axios.interceptors.request.use(config => {
+        // retrieving the token from local storage
+        const token = localStorage.getItem('authToken');
+
+        if (token) {
+            config.headers = {
+                Authorization: `Bearer ${token}`
+            };
+        }
+        return config;
+    });
+};
+
+setAuthorizationHeaders();
+
+
+// Creating a Link token
+export const createLinkToken = async (user) => {
+    return axios.post(`${baseUrl}/create_link_token`, user);
+};
+
+// Convert Link token to public token
+export const setAccessToken = async (input) => {
+    return axios.post(`${baseUrl}/set_access_token`, input);
+};
