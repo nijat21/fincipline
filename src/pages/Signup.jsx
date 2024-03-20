@@ -33,32 +33,35 @@ function Signup() {
     }, []);
 
     return (
-        <div className="flex flex-col h-screen items-center justify-center text-xl">
-            <h1 className="font-medium text-3xl h-16">Sign up</h1>
-            <form onSubmit={handleSubmit} className="min-w-1/5">
-                <div className=" flex flex-col">
-                    <label htmlFor="" className="py-2">Name</label>
-                    <input type="text" name="name" value={name} onChange={({ target }) => setName(target.value)}
-                        className="p-1 mb-1 rounded-sm" ref={uRef}
-                    />
+        <div className="flex flex-col h-screen items-center justify-center">
+            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 rounded-md shadow-2xl">
+                <h1 className="font-medium text-3xl h-16">Sign up</h1>
+                <form onSubmit={handleSubmit} className="min-w-1/5">
+                    <div className=" flex flex-col">
+                        <label htmlFor="" className="py-2">Name</label>
+                        <input type="text" name="name" value={name} onChange={({ target }) => setName(target.value)}
+                            className="p-1 mb-1 rounded-sm text-black bg-black bg-opacity-10 dark:bg-white" ref={uRef}
+                        />
 
-                    <label htmlFor="" className="py-2">Email</label>
-                    <input type="email" name="email" value={email} onChange={({ target }) => setEmail(target.value)}
-                        className="p-1 mb-1 rounded-sm"
-                    />
+                        <label htmlFor="" className="py-2">Email</label>
+                        <input type="email" name="email" value={email} onChange={({ target }) => setEmail(target.value)}
+                            className="p-1 mb-1 rounded-sm text-black bg-black bg-opacity-10 dark:bg-white"
+                        />
 
-                    <label htmlFor="" className="py-2">Password</label>
-                    <input type="password" name="password" value={password} onChange={({ target }) => setPassword(target.value)}
-                        className="p-1 mb-1 rounded-sm"
-                    />
-                </div>
-                <div className="h-20 mt-2 flex justify-center items-center">
-                    <button type="submit" className="min-w-20 p-2 border border-black hover:bg-neutral-700 hover:text-white hover:border-transparent">Sign up</button>
-                </div>
-            </form>
-            {error && (<p>{error}</p>)}
+                        <label htmlFor="" className="py-2">Password</label>
+                        <input type="password" name="password" value={password} onChange={({ target }) => setPassword(target.value)}
+                            className="p-1 mb-1 rounded-sm text-black bg-black bg-opacity-10 dark:bg-white"
+                        />
+                    </div>
+                    <div className="h-20 mt-2 flex justify-center items-center">
+                        <button type="submit" className="min-w-20 p-2 border border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                         dark:hover:bg-white dark:hover:text-black  hover:border-transparent">Sign up</button>
+                    </div>
+                </form>
+                {error && (<p>{error}</p>)}
 
-            <Link to={'/login'} >Already have an account? <p className='text-blue-400 hover:text-blue-600 inline'>Log in</p></Link>
+                <Link to={'/login'} >Already have an account? <p className='text-blue-400 hover:text-blue-600 inline'>Log in</p></Link>
+            </div>
         </div>
     );
 }

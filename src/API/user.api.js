@@ -18,24 +18,24 @@ const setAuthorizationHeaders = () => {
 
 setAuthorizationHeaders();
 
-// Get all Banks
-export const getBanks = async (params) => {
-    const { user_id } = params;
-    return axios.get(`${baseUrl}/banks/${user_id}`);
+
+// uploading profile photo
+export const upload = (image) => {
+    return axios.post(`${baseUrl}/upload`, image);
 };
 
-// Get all accounts of a specific bank
-export const getAccounts = async (params) => {
-    const { bank_id } = params;
-    return axios.get(`${baseUrl}/accounts/${bank_id}`);
+// Update user info with new photo
+export const updateImg = (reqBody) => {
+    return axios.put(`${baseUrl}/updateImg`, reqBody);
 };
 
-// Get a specific account
-export const getAccount = async (params) => {
-    const { _id } = params;
-    return axios.get(`${baseUrl}/accounts/${_id}`);
-};
+// Edit User information => Change email and/or password
 
-// Delete specific bank 
 
-// Delete specific account
+
+// Delete user and all bank accounts
+export const deleteUser = (user_id) => {
+    return axios.delete(`${baseUrl}/deleteUser/${user_id}`);
+}
+
+

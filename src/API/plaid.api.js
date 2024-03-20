@@ -28,3 +28,9 @@ export const createLinkToken = async (user) => {
 export const setAccessToken = async (input) => {
     return axios.post(`${baseUrl}/set_access_token`, input);
 };
+
+// /auth
+export const retrieveAuth = async (params) => {
+    const { user_id, bank_id } = params;
+    return axios.get(`${baseUrl}/auth/${user_id}/${bank_id}`);
+};

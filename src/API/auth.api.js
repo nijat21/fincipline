@@ -10,6 +10,7 @@ export const login = user => {
     return axios.post(`${baseUrl}/login`, user);
 };
 
+
 export const verify = storedToken => {
     return axios.get(`${baseUrl}/verify`, {
         headers: {

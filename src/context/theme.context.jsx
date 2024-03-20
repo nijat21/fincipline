@@ -4,6 +4,7 @@ const ThemeContext = createContext();
 
 const ThemeProvider = props => {
     const [theme, setTheme] = useState('light');
+    const [spinnerColor, setSpinnerColor] = useState("");
 
     // Check preferred color scheme
     useEffect(() => {
@@ -13,6 +14,15 @@ const ThemeProvider = props => {
             setTheme('light');
         }
     }, []);
+
+    // Change spinner color per theme
+    useEffect(() => {
+        if (theme === 'dark') {
+            setSpinnerColor('white');
+        } else {
+            setSpinnerColor('#171717');
+        }
+    });
 
     // Toggle optionally
     const toggleTheme = () => {
@@ -24,7 +34,7 @@ const ThemeProvider = props => {
     };
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme, toggleTheme, spinnerColor, setSpinnerColor }}>
             {props.children}
         </ThemeContext.Provider>
     );

@@ -15,3 +15,8 @@
   background-color: #2b364b;
   color: #cbd5e1;
 }
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

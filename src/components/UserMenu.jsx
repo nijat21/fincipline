@@ -54,9 +54,8 @@ const userContent = () => {
     return (
         <div className="h-28 w-40 p-4 text-lg  bg-white border border-zinc-500 dark:border-gray-300 dark:text-slate-300 dark:bg-slate-800 shadow-xl rounded-md
         flex flex-col items-center justify-center">
-            <Link>Profile</Link>
-
-            <button onClick={logoutUser}>Log out</button>
+            <Link to={'/profile'}>Profile</Link>
+            <Link onClick={logoutUser}>Log out</Link>
         </div>
     );
 };

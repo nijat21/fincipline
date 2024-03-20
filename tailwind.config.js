@@ -18,6 +18,9 @@ export default {
         '2screen': '184vh', // 2 times the screen height
         '3screen': '276vh', // 3 times the screen height
       },
+      screens: {
+        'md': '950px'
+      }
     },
   },
   plugins: [],
