@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import Ad from '../components/Ad';
 import PlaidLink from './PlaidLink';
+import { v4 as uuidv4 } from 'uuid';
 
 
 function HomePage() {
@@ -34,7 +35,18 @@ function HomePage() {
                                 <h1 className='text-5xl text-center'>Accounts</h1>
                             </div>
                             <div className='h-1/5 text-2xl'>
-                                Balance:
+                                {/* <table className='text-lg'>
+                                    <thead>
+                                        <th className='p-2'>Account</th>
+                                        <th className='p-2'>Balance</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className='p-2'>Chase main checking</td>
+                                            <td className='p-2'>100Usd</td>
+                                        </tr>
+                                    </tbody>
+                                </table> */}
                             </div>
                             <Menu>
                                 <MenuButton
@@ -54,13 +66,13 @@ function HomePage() {
                                         currBank
                                         :
                                         <>
-                                            Select your bank <i class="fa-solid fa-chevron-down"></i>
+                                            Select your bank <i className="fa-solid fa-chevron-down"></i>
                                         </>
                                     }
                                 </MenuButton>
                                 <MenuList color="#0f172a" bg="gray.400" minW='188px'>
                                     {banks.map(bank => {
-                                        return <MenuItem bg="gray.400" _hover={{ bg: 'gray.500' }} onClick={() => setCurrBank(bank.institution_name)}>{bank.institution_name}</MenuItem>;
+                                        return <MenuItem key={uuidv4()} bg="gray.400" _hover={{ bg: 'gray.500' }} onClick={() => setCurrBank(bank.institution_name)}>{bank.institution_name}</MenuItem>;
                                     })}
                                 </MenuList>
                             </Menu>

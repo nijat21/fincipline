@@ -34,7 +34,7 @@ const AuthProvider = props => {
             // if token isn't available 
             setUser(null);
             setIsLoggedIn(false);
-            setProfilePhoto(null);
+            setProfilePhoto(null); s;
             setBanks(null);
         }
 
