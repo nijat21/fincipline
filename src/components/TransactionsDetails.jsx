@@ -11,14 +11,10 @@ import Filters from "./Filters";
 
 function TransactionsDetails() {
     const { user, banks } = useContext(AuthContext);
-    const { currMonth, setCurrMonth, selectedBank, selectedMonth, setSelectedMonth, rangeSelected } = useContext(FilterContext);
+    const { currMonth, setCurrMonth, selectedBank, setSelectedMonth } = useContext(FilterContext);
     const navigate = useNavigate();
     const [banksTransactions, setBanksTransactions] = useState([]);
     const [theBank, setTheBank] = useState(null);
-    const [bankAndMonth, setBankAndMonth] = useState(null);
-    const [byMonth, setByMonth] = useState(null);
-
-
 
     // Create a map to keep track of banks already added to banksTransactions
     const addedBanksMap = new Map(banksTransactions.map(bank => [bank._id, bank]));
@@ -82,23 +78,7 @@ function TransactionsDetails() {
     }, []);
 
     // Filter by month
-    useEffect(() => {
-        if (rangeSelected) {
-            console.log(rangeSelected);
-        } else {
-            if (selectedMonth && selectedBank) {
-                const monthFilterer = theBank.added_transactions.find(transaction => transaction.date === selectedMonth);
-                setBankAndMonth(monthFilterer);
-                console.log(monthFilterer);
-            } else if (selectedMonth && !selectedBank) {
-                const tranByMonth = banksTransactions.map(bank => {
-                    const dateTransactions = bank.added_transactions.find(transaction => transaction.date === selectedMonth);
-                    return dateTransactions;
-                });
-                setByMonth(tranByMonth);
-            }
-        }
-    }, [selectedMonth, selectedBank, banksTransactions]);
+
 
     // Filter by custom range
 
@@ -139,7 +119,6 @@ function TransactionsDetails() {
                                 })
                             )
                             :
-
                             (
                                 banksTransactions.length > 0 && banksTransactions.map(Bank => {
                                     return (
@@ -160,7 +139,6 @@ function TransactionsDetails() {
                                 })
                             )
                         }
-
                     </tbody>
                 </table>
             </div>
