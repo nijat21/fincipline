@@ -10,6 +10,8 @@ const AuthProvider = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [profilePhoto, setProfilePhoto] = useState('');
     const [user, setUser] = useState(null);
+    const [banks, setBanks] = useState([]);
+    const [bankReturned, setBankReturned] = useState(null);
 
 
     const storeToken = token => {
@@ -34,7 +36,7 @@ const AuthProvider = props => {
             // if token isn't available 
             setUser(null);
             setIsLoggedIn(false);
-            setProfilePhoto(null); s;
+            setProfilePhoto(null);
             setBanks(null);
         }
 
@@ -48,22 +50,20 @@ const AuthProvider = props => {
     const logoutUser = () => {
         removeToken();
         authenticateUser();
+        localStorage.removeItem('currBank');
     };
 
     // Authenticate user every time reloaded
     useEffect(() => {
         authenticateUser();
+        renderBanks();
     }, []);
 
-
-
-    // Plaid parts
-    // User details
-    const [banks, setBanks] = useState([]);
 
     // Show banks
     const renderBanks = async () => {
         if (user) {
+            setIsLoading(true);
             try {
                 const response = await getBanks({ user_id: user._id });
                 setBanks(response.data);
@@ -71,20 +71,22 @@ const AuthProvider = props => {
             } catch (error) {
                 console.log(error);
             }
+            setIsLoading(false);
         }
     };
+
 
     useEffect(() => {
         // showAccounts();
         renderBanks();
-    }, [user]);
+    }, [user, bankReturned]);
 
 
 
     return (
         <AuthContext.Provider value={{
             isLoading, setIsLoading, isLoggedIn, user, storeToken, authenticateUser, logoutUser,
-            profilePhoto, setProfilePhoto, banks, setBanks
+            profilePhoto, setProfilePhoto, banks, setBanks, setBankReturned
         }}>
             {props.children}
         </AuthContext.Provider>

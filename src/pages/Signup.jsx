@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'sonner';
 import { signup } from '../API/auth.api.js';
 
 
@@ -19,6 +20,7 @@ function Signup() {
         } else {
             try {
                 await signup(user);
+                toast.success('You have successfully created your profile!');
                 navigate('/login');
             } catch (error) {
                 console.log('Error singing up', error);

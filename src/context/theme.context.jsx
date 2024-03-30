@@ -18,11 +18,11 @@ const ThemeProvider = props => {
     // Change spinner color per theme
     useEffect(() => {
         if (theme === 'dark') {
-            setSpinnerColor('white');
+            setSpinnerColor('#FFF');
         } else {
             setSpinnerColor('#171717');
         }
-    });
+    }, [theme]);
 
     // Toggle optionally
     const toggleTheme = () => {

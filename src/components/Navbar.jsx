@@ -26,7 +26,7 @@ function Navbar() {
     }, [ref]);
 
     return (
-        <div className="shadow-sm w-full border-box fixed top-0 left-0 z-50 text-black  bg-white dark:text-slate-300 dark:bg-slate-900">
+        <div className="shadow-sm w-full border-box fixed top-0 left-0 z-[1000] text-black  bg-white dark:text-slate-300 dark:bg-slate-900">
             <div ref={ref} className="px-10 p-4 md:flex justify-between items-center">
                 {/* Logo and brand */}
                 <div className="flex items-center text-2xl cursor-pointer gap-2">

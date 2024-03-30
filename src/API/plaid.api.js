@@ -34,3 +34,15 @@ export const retrieveAuth = async (params) => {
     const { user_id, bank_id } = params;
     return axios.get(`${baseUrl}/auth/${user_id}/${bank_id}`);
 };
+
+// Get the Bank balance
+export const getBalance = async (params) => {
+    const { user_id, bank_id } = params;
+    return axios.get(`${baseUrl}/balance/${user_id}/${bank_id}`);
+};
+
+// Get the Bank transactions
+export const getTransactions = async (params) => {
+    const { user_id, bank_id } = params;
+    return axios.get(`${baseUrl}/transactions/${user_id}/${bank_id}`);
+};

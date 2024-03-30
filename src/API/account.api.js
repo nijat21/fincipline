@@ -24,6 +24,9 @@ export const getBanks = async (params) => {
     return axios.get(`${baseUrl}/banks/${user_id}`);
 };
 
+
+
+
 // Get all accounts of a specific bank
 export const getAccounts = async (params) => {
     const { bank_id } = params;

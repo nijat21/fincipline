@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { toast } from 'sonner';
 import { AuthContext } from '../context/auth.context.jsx';
 import { getAccounts } from '../API/account.api.js';
 import { createLinkToken, setAccessToken } from '../API/plaid.api';
 import { usePlaidLink } from 'react-plaid-link';
 
+
 function PlaidLink() {
-    const { banks, isLoggedIn, isLoading, user, setError } = useContext(AuthContext);
+    const { banks, setBankReturned, user, } = useContext(AuthContext);
     const [linkToken, setLinkToken] = useState('');
 
     // Create a link token
@@ -25,14 +27,19 @@ function PlaidLink() {
     }, []);
 
     // If successfully connected, create a public token and send it to backend
-    const onSuccess = React.useCallback((public_token, metadata) => {
+    const onSuccess = React.useCallback(async (public_token, metadata) => {
         try {
-            setAccessToken({ public_token: public_token, user_id: user._id, metadata });
-            console.log('Post request is made to the server sending public_token');
+            const response = await setAccessToken({ public_token: public_token, user_id: user._id, metadata });
+            console.log('Post request is made to the server sending public_token', response);
+            setBankReturned(response.data.bank);
+            if (response.status == 200) {
+                toast.success('Account successfully added!');
+            } else {
+                toast.warning("Something wend wrong");
+            }
         } catch (error) {
             console.log(`Cannot get access token`, error);
         }
-        // console.log('Plaid Link success', public_token, metadata);
     });
 
     const config = {
@@ -44,22 +51,18 @@ function PlaidLink() {
 
     // open the Link menu when conditions are met
     useEffect(() => {
-        if (ready && linkToken && !banks) {
+        if (ready && linkToken && banks.length === 0) {
             open();
         }
-    }, [ready, linkToken, open]);
-
-
-    // Getting /auth info for each bank
-
+    }, [ready, linkToken, open, banks]);
 
 
     return (
-        <div className='w-full flex justify-center'>
+        <div>
             {error && <p>An error occurred: {error.message}</p>}
             <button onClick={() => open()} disabled={!ready}
-                className="p-2 m-2 border rounded-sm border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">Connect a bank account</button>
+                className="p-2 py-[10px] w-[188px] mx-2 px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer bg-black bg-opacity-40">New bank account</button>
         </div>
     );
 }

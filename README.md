@@ -24,6 +24,8 @@ Framer Motion
 <br/>
 React-scroll
 <br/>
+Currency Symbol Map
+<br/>
 
 <!-- Uuid -->
 <br/>

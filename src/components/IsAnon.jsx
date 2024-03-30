@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/auth.context";
 import { ThemeContext } from "../context/theme.context";
 import { Navigate } from "react-router-dom";
-import { Spinner } from '@chakra-ui/react';
+import HashLoader from "react-spinners/HashLoader";
 
 const IsAnon = props => {
     const { isLoggedIn, isLoading } = useContext(AuthContext);
@@ -10,13 +10,11 @@ const IsAnon = props => {
 
     // if the authentication is still loading 
     if (isLoading) {
-        <Spinner
-            thickness='4px'
-            speed='0.65s'
-            emptyColor='gray.200'
-            color={spinnerColor}
-            size='xl'
-        />;
+        return (
+            <div className="h-screen w-screen flex justify-center items-center">
+                <HashLoader color="#FFF" size={60} />
+            </div>
+        );
     }
 
     if (isLoggedIn) {

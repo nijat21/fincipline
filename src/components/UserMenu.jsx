@@ -4,6 +4,7 @@ import { AnimatePresence, motion as m } from 'framer-motion';
 import { AuthContext } from "../context/auth.context";
 
 function UserMenu() {
+
     return (
         <div>
             <FlyoutLink href="#" FlyoutContent={userContent}>
@@ -50,12 +51,15 @@ const FlyoutLink = ({ children, href, FlyoutContent }) => {
 };
 
 const userContent = () => {
+    const { user } = useContext(AuthContext);
+
     const { logoutUser } = useContext(AuthContext);
     return (
         <div className="h-28 w-40 p-4 text-lg  bg-white border border-zinc-500 dark:border-gray-300 dark:text-slate-300 dark:bg-slate-800 shadow-xl rounded-md
         flex flex-col items-center justify-center">
-            <Link to={'/profile'}>Profile</Link>
-            <Link onClick={logoutUser}>Log out</Link>
+            <h5 className="font-semibold border-b mb-2">{`${user.name[0].toUpperCase()}${user.name.slice(1)}`}</h5>
+            <Link to={'/profile'} className="hover:border-b hover:text-xl">Profile</Link>
+            <Link onClick={logoutUser} className="hover:border-b hover:text-xl">Log out</Link>
         </div>
     );
 };

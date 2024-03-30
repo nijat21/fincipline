@@ -16,6 +16,7 @@ import Accounts from "./pages/Accounts";
 import Profile from "./pages/Profile";
 import Upload from "./pages/Upload";
 import TransactionsPage from "./pages/TransactionsPage";
+import IsHybrid from "./components/IsHybrid";
 
 function App() {
   const { theme } = useContext(ThemeContext);
@@ -23,11 +24,12 @@ function App() {
   return (
     <div className={`App ${theme} overflow-hidden`}>
       <Navbar />
+      <Toaster richColors position='bottom-right' />
       <AnimatePresence>
-        <div className="pt-[70px]">
+        <div className="pt-[68px]">
           <Toaster richColors position='bottom-right' />
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<IsHybrid><HomePage /></IsHybrid>} />
             <Route path="/signup" element={<IsAnon><Signup /></IsAnon>} />
             <Route path="/login" element={<IsAnon><Login /></IsAnon>} />
             <Route path="/plaid_link" element={<IsPrivate><PlaidLink /></IsPrivate>} />
