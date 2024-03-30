@@ -79,10 +79,10 @@ function Navbar() {
                                 :
                                 <>
                                     <li className="mt-7 md:my-0 md:ml-8 flex justify-center" onClick={() => setIsOpen(false)}>
-                                        <button className="btn border border-black text-black dark:border-white dark:text-white py-1 px-3 w-[100px] md:ml-8 rounded md:static">
+                                        <button className="btn border border-black text-black dark:border-white dark:text-white py-1  w-28 md:ml-8 rounded md:static">
                                             <Link to={'/login'}>Log In</Link>
                                         </button>
-                                        <button className="btn border border-black bg-black dark:border-white dark:bg-white dark:text-black text-white w-[90px] py-1 px-3 md:ml-3 rounded md:static">
+                                        <button className="btn border border-black bg-black dark:border-white dark:bg-white dark:text-black text-white w-28  py-1 md:ml-3 rounded md:static">
                                             <Link to={'/signup'}>Sign Up</Link>
                                         </button>
                                     </li>
