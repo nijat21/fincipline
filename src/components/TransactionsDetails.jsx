@@ -11,10 +11,12 @@ import Filters from "./Filters";
 
 function TransactionsDetails() {
     const { user, banks } = useContext(AuthContext);
-    const { currMonth, setCurrMonth, selectedBank, setSelectedMonth } = useContext(FilterContext);
+    const { currMonth, setCurrMonth, selectedBank, selectedMonth, setSelectedMonth } = useContext(FilterContext);
     const navigate = useNavigate();
     const [banksTransactions, setBanksTransactions] = useState([]);
     const [theBank, setTheBank] = useState(null);
+    // const [bankAndMonth, setBankAndMonth] = useState(null);
+
 
     // Create a map to keep track of banks already added to banksTransactions
     const addedBanksMap = new Map(banksTransactions.map(bank => [bank._id, bank]));
@@ -78,7 +80,16 @@ function TransactionsDetails() {
     }, []);
 
     // Filter by month
-
+    // useEffect(() => {
+    //     if (rangeSelected) {
+    //         console.log(rangeSelected);
+    //     } else {
+    //         if (selectedMonth && theBank) {
+    //             const monthFilterer = theBank.added_transactions.find(transaction => transaction.date === selectedMonth);
+    //             setBankAndMonth(monthFilterer);
+    //         }
+    //     }
+    // }, [selectedMonth]);
 
     // Filter by custom range
 
