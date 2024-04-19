@@ -16,7 +16,7 @@ function TransactionsDetails() {
     const [banksTransactions, setBanksTransactions] = useState([]);
     const [theBank, setTheBank] = useState(null);
 
-    // Create a map to keep track of banks already added to banksTransactions
+    // A map to keep track of banks already added to banksTransactions
     const addedBanksMap = new Map(banksTransactions.map(bank => [bank._id, bank]));
 
     // Retrieve transactions
@@ -30,10 +30,11 @@ function TransactionsDetails() {
                         const transactions = await getTransactions(params);
                         const addedTransactions = transactions.data.added_transactions;
                         const newBank = {
-                            ...bank,
+                            ...bank.name,
                             added_transactions: addedTransactions
                         };
                         addBankTransactions(newBank);
+                        console.log(newBank);
                     } catch (error) {
                         console.log('Error retrieving transactions', error);
                     }
@@ -48,9 +49,13 @@ function TransactionsDetails() {
     };
 
 
+    // Sort all transactions by date
+    // const sortTransactions = () => {
+
+    // };
+
     useEffect(() => {
         retrieveTransactions();
-        // console.log(banksTransactions);
     }, [banks]);
 
 
@@ -77,9 +82,7 @@ function TransactionsDetails() {
         setSelectedMonth(formattedDate);
     }, []);
 
-
-    // Filter by custom range
-
+    // Sort by month
 
 
     return (
@@ -99,6 +102,7 @@ function TransactionsDetails() {
                         </tr>
                     </thead>
                     <tbody className="text-xl text-center">
+                        {/* {console.log("banksTransactions", banksTransactions)} */}
                         {theBank ?
                             (
 

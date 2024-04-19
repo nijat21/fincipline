@@ -31,7 +31,7 @@ function Login() {
 
     return (
         <div className=" h-screen flex justify-center items-center">
-            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 rounded-md shadow-2xl ">
+            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 rounded-md shadow-2xl max-w-1/3 dark:bg-gradient-to-r dark:from-indigo-500 dark:via-purple-500 dark:to-pink-500 ">
                 <h1 className="font-medium text-3xl h-16">Log in</h1>
                 <form onSubmit={handleSubmit} className="min-w-1/5">
                     <div className=" flex flex-col">
@@ -51,9 +51,9 @@ function Login() {
                     </div>
                 </form>
 
-                {error && (<p>{error}</p>)}
+                {error && (<p className="opacity-60 text-center py-2">{error}</p>)}
 
-                <Link to={'/signup'} >Don't have an account? <p className='text-blue-400 hover:text-blue-600 inline'>Sign up</p></Link>
+                <Link to={'/signup'}>Don't have an account? <p className='text-blue-400 hover:text-blue-600 inline'>Sign up</p></Link>
             </div>
         </div>
 

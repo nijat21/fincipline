@@ -38,6 +38,7 @@ const AuthProvider = props => {
             setIsLoggedIn(false);
             setProfilePhoto(null);
             setBanks(null);
+            removeCurrBank();
         }
 
         setIsLoading(false);
@@ -47,10 +48,14 @@ const AuthProvider = props => {
         localStorage.removeItem('authToken');
     };
 
+    const removeCurrBank = () => {
+        localStorage.removeItem('currBank');
+    };
+
     const logoutUser = () => {
         removeToken();
+        removeCurrBank();
         authenticateUser();
-        localStorage.removeItem('currBank');
     };
 
     // Authenticate user every time reloaded
@@ -67,7 +72,7 @@ const AuthProvider = props => {
             try {
                 const response = await getBanks({ user_id: user._id });
                 setBanks(response.data);
-                // console.log(response.data[0]);
+                console.log(response.data[0]);
             } catch (error) {
                 console.log(error);
             }

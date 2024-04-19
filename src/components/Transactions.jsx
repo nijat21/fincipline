@@ -7,7 +7,6 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 
 function Transactions({ currBank }) {
     // console.log(currBank);
-    const [addedTransactions, setAddedTransactions] = useState([]);
     const [recentTransactions, setRecentTransactions] = useState([]);
 
 
@@ -17,7 +16,6 @@ function Transactions({ currBank }) {
             try {
                 const params = { user_id: currBank.user_id, bank_id: currBank._id };
                 const transactions = await getTransactions(params);
-                setAddedTransactions(transactions.data.added_transactions);
                 setRecentTransactions(transactions.data.added_transactions.slice(0, 5));
             } catch (error) {
                 console.log('Error retrieving transactions', error);
@@ -59,6 +57,11 @@ function Transactions({ currBank }) {
                     })}
                 </tbody>
             </table>
+            {!currBank && (
+                <div className="flex justify-center">
+                    <h1 className="text-lg pt-6">No bank selected.</h1>
+                </div>
+            )}
         </div>
     );
 }

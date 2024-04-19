@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = `${import.meta.env.VITE_FINCIPLINE_API}/api`;
+const baseUrl = `${import.meta.env.VITE_FINCIPLINE_API}/account`;
 
 const setAuthorizationHeaders = () => {
     // Axios method that intercepts with every methods 

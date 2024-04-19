@@ -98,12 +98,12 @@ function Filters() {
                 </li>
             </ul>
             {dateRangeMenu &&
-                <div className='h-48 z-50 mb-4 text-lg rounded-md bg-black bg-opacity-40 flex justify-center'>
+                <div className='h-48 z-50 mb-4 text-lg rounded-md bg-black bg-opacity-30 flex justify-center'>
                     <DateRangeForm />
                 </div>
             }
             {bankMenu &&
-                <div className='z-50 mb-4 h-28 w-40 text-lg pl-4 rounded-md bg-black bg-opacity-40 flex items-center'>
+                <div className='z-50 mb-4 h-28 w-40 text-lg pl-4 border-black dark:border-slate-300 rounded-md bg-black bg-opacity-30 flex items-center'>
                     <ul className='list-none'>
                         {banks.length > 0 && banks.map(bank => {
                             return <li key={uuidv4()} className='hover:border-b'>

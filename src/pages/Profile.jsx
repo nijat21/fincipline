@@ -23,16 +23,16 @@ function Profile() {
 
     return (
         <div className="flex flex-col h-screen items-center justify-center">
-            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 rounded-md shadow-2xl">
-                <div className="p-4 min-w-44 flex flex-col items-center justify-center border rounded-sm hover:bg-slate-600 cursor-pointer"
+            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 w-1/4 rounded-md shadow-2xl">
+                <div className="min-w-44 flex flex-col items-center justify-center border rounded-sm hover:bg-slate-600 cursor-pointer"
                     onClick={() => { navigate('/profile/upload'); }}>
                     {profilePhoto ?
                         <img src={profilePhoto} alt="" className="grayscale w-40" />
                         :
-                        <>
+                        <div className="p-4">
                             <i className="fa-regular fa-user fa-2xl p-10"></i>
                             <p className="text-md">Upload a photo</p>
-                        </>
+                        </div>
                     }
                 </div>
 

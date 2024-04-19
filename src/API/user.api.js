@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = `${import.meta.env.VITE_FINCIPLINE_API}/api`;
+const baseUrl = `${import.meta.env.VITE_FINCIPLINE_API}/user`;
 
 const setAuthorizationHeaders = () => {
     // Axios method that intercepts with every methods 
@@ -20,12 +20,12 @@ setAuthorizationHeaders();
 
 
 // uploading profile photo
-export const upload = (image) => {
+export const upload = async (image) => {
     return axios.post(`${baseUrl}/upload`, image);
 };
 
 // Update user info with new photo
-export const updateImg = (reqBody) => {
+export const updateImg = async (reqBody) => {
     return axios.put(`${baseUrl}/updateImg`, reqBody);
 };
 
@@ -34,7 +34,7 @@ export const updateImg = (reqBody) => {
 
 
 // Delete user and all bank accounts
-export const deleteUser = (user_id) => {
+export const deleteUser = async (user_id) => {
     return axios.delete(`${baseUrl}/deleteUser/${user_id}`);
 }
 

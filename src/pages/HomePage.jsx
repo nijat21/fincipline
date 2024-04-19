@@ -32,7 +32,7 @@ function HomePage() {
     }, []);
 
     return (
-        <div className=' w-screen z-50'>
+        <div className=' w-screen z-50 special-overflow-hidden'>
             <div className='h-2screen w-screen flex flex-col items-center'>
                 {/* <GradientBackground /> */}
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box z-50
@@ -40,34 +40,36 @@ function HomePage() {
 
                     <Balance currBank={currBank} />
 
-                    <Menu style={{ zIndex: 50 }}>
-                        <MenuButton
-                            className='text-lg'
-                            px={4}
-                            py={2}
-                            m={4}
-                            minW={'188px'}
-                            transition='all 0.2s'
-                            borderRadius='md'
-                            borderWidth='1px'
-                            _hover={{ bg: 'gray.400', color: '#0f172a' }}
-                            _expanded={{ bg: 'gray.400', color: '#0f172a' }}
-                            _focus={{ boxShadow: 'outline' }}
-                        >
-                            {currBank ?
-                                currBank.institution_name
-                                :
-                                <>
-                                    Select your bank <i className="fa-solid fa-chevron-down"></i>
-                                </>
-                            }
-                        </MenuButton>
-                        <MenuList color="#0f172a" bg="gray.400" minW='188px'>
-                            {banks.length > 0 && banks.map(bank => {
-                                return <MenuItem key={uuidv4()} bg="gray.400" _hover={{ bg: 'gray.500' }} onClick={() => handleSelect(bank)}>{bank.institution_name}</MenuItem>;
-                            })}
-                        </MenuList>
-                    </Menu>
+                    {banks.length > 0 &&
+                        <Menu style={{ zIndex: 50 }}>
+                            <MenuButton
+                                className='text-lg'
+                                px={4}
+                                py={2}
+                                m={4}
+                                minW={'188px'}
+                                transition='all 0.2s'
+                                borderRadius='md'
+                                borderWidth='1px'
+                                _hover={{ bg: 'gray.400', color: '#0f172a' }}
+                                _expanded={{ bg: 'gray.400', color: '#0f172a' }}
+                                _focus={{ boxShadow: 'outline' }}
+                            >
+                                {currBank ?
+                                    currBank.institution_name
+                                    :
+                                    <>
+                                        Select your bank <i className="fa-solid fa-chevron-down"></i>
+                                    </>
+                                }
+                            </MenuButton>
+                            <MenuList color="#0f172a" bg="gray.400" minW='188px'>
+                                {banks.length > 0 && banks.map(bank => {
+                                    return <MenuItem key={uuidv4()} bg="gray.400" _hover={{ bg: 'gray.500' }} onClick={() => handleSelect(bank)}>{bank.institution_name}</MenuItem>;
+                                })}
+                            </MenuList>
+                        </Menu>
+                    }
 
                     <PlaidLink />
                 </div>

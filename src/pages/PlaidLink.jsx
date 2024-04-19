@@ -62,7 +62,7 @@ function PlaidLink() {
             {error && <p>An error occurred: {error.message}</p>}
             <button onClick={() => open()} disabled={!ready}
                 className="p-2 py-[10px] w-[188px] mx-2 px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer bg-black bg-opacity-40">New bank account</button>
+            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer bg-black bg-opacity-40">Add bank account</button>
         </div>
     );
 }

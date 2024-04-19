@@ -92,9 +92,9 @@ function Navbar() {
                             <li className="my-7 md:my-0 md:ml-6 flex justify-center" onClick={() => setIsOpen(false)}>
                                 <button onClick={toggleTheme}>
                                     {theme === "light" ?
-                                        <i className="w-6 fa-regular fa-moon fa-xl"></i>
+                                        <i className="w-6 fa-solid fa-circle-half-stroke fa-xl" style={{ color: "#232323" }}></i>
                                         :
-                                        <i className="w-6 fa-regular fa-sun fa-xl"></i>
+                                        <i className="w-6 fa-solid fa-lightbulb fa-xl" style={{ color: "#FFf995" }}></i>
                                     }
                                 </button>
                             </li>
