@@ -28,6 +28,7 @@ function HomePage() {
         const savedBank = localStorage.getItem('currBank');
         if (savedBank) {
             setCurrBank(JSON.parse(savedBank));
+            setSelectedBank(JSON.parse(savedBank));
         }
     }, []);
 

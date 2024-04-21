@@ -31,6 +31,7 @@ const AuthProvider = props => {
                 console.log('Not able to authenticate the user', error);
                 setUser(null);
                 setIsLoggedIn(false);
+                removeCurrBank();
             }
         } else {
             // if token isn't available 

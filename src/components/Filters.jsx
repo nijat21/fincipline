@@ -111,7 +111,7 @@ function Filters() {
                             </li>;
                         })}
                         <li className=''>
-                            <button className='opacity-60 hover:opacity-100' onClick={() => clearBankSelection()}>Clear</button>
+                            <button className='hover:border-b' onClick={() => clearBankSelection()}>All</button>
                         </li>
                     </ul>
                 </div>

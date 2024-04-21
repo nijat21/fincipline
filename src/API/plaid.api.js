@@ -42,7 +42,13 @@ export const getBalance = async (params) => {
 };
 
 // Get the Bank transactions
-export const getTransactions = async (params) => {
+export const getBankTransactions = async (params) => {
     const { user_id, bank_id } = params;
     return axios.get(`${baseUrl}/transactions/${user_id}/${bank_id}`);
+};
+
+// Get users all transactions
+export const getAllTransactions = async (params) => {
+    const { user_id } = params;
+    return axios.get(`${baseUrl}/transactions/${user_id}`);
 };

@@ -5,84 +5,46 @@ import { v4 as uuidv4 } from 'uuid';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { format } from 'date-fns';
 import { getBanks } from "../API/account.api";
-import { getTransactions } from "../API/plaid.api";
+import { getAllTransactions } from "../API/plaid.api";
 import { useNavigate } from "react-router-dom";
 import Filters from "./Filters";
 
 function TransactionsDetails() {
-    const { user, banks } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const { currMonth, setCurrMonth, selectedBank, setSelectedMonth } = useContext(FilterContext);
+    const [allTransactions, setAllTransactions] = useState(null);
     const navigate = useNavigate();
+
     const [banksTransactions, setBanksTransactions] = useState([]);
-    const [theBank, setTheBank] = useState(null);
 
-    // A map to keep track of banks already added to banksTransactions
-    const addedBanksMap = new Map(banksTransactions.map(bank => [bank._id, bank]));
 
-    // Retrieve transactions
-    const retrieveTransactions = async () => {
-        if (banks.length > 0) {
-            // console.log(banks);
-            for (const bank of banks) {
-                if (!addedBanksMap.has(bank._id)) {
-                    try {
-                        const params = { user_id: bank.user_id, bank_id: bank._id };
-                        const transactions = await getTransactions(params);
-                        const addedTransactions = transactions.data.added_transactions;
-                        const newBank = {
-                            ...bank.name,
-                            added_transactions: addedTransactions
-                        };
-                        addBankTransactions(newBank);
-                        console.log(newBank);
-                    } catch (error) {
-                        console.log('Error retrieving transactions', error);
-                    }
-                }
-            }
+    // Retrieve all transactions
+    const retrieveTransactions = async (id) => {
+        if (!id) {
+            console.log('User ID is not present');
+        }
+        try {
+            const params = { user_id: id };
+            const transactions = await getAllTransactions(params);
+            setAllTransactions(transactions.data.sorted_transactions);
+        } catch (error) {
+            console.log('Error retrieving transactions', error);
         }
     };
 
-    // Adding bank with transactions into banksTransactions array
-    const addBankTransactions = newBank => {
-        setBanksTransactions(prevBanks => [...prevBanks, newBank]);
-    };
+    // Sort transactions by bank
 
 
-    // Sort all transactions by date
+    // Sort all transactions by month
     // const sortTransactions = () => {
 
     // };
 
+    // Once user is available, load all transactions
     useEffect(() => {
-        retrieveTransactions();
-    }, [banks]);
+        retrieveTransactions(user._id);
+    }, [user]);
 
-
-    // Filter by bank
-    useEffect(() => {
-        if (selectedBank && banksTransactions.length > 0) {
-            const bankFound = banksTransactions.find(bank => bank.institution_id === selectedBank.institution_id);
-            setTheBank(bankFound);
-        } else {
-            setTheBank(null);
-        }
-    }, [selectedBank, banksTransactions]);
-
-
-    // Set the default to last month
-    useEffect(() => {
-        const date = new Date();
-
-        // Format the date to "Mar'24" format
-        const formattedDate = date.toLocaleDateString('en-US', {
-            month: 'short',
-            year: '2-digit',
-        });
-        setSelectedMonth(formattedDate);
-    }, []);
-
-    // Sort by month
 
 
     return (
@@ -95,6 +57,7 @@ function TransactionsDetails() {
                     <thead className="text-lg h-10 bg-black bg-opacity-20">
                         <tr>
                             <th className="px-10">Bank</th>
+                            <th className="px-10">Account</th>
                             <th className="px-10">Transaction</th>
                             <th className="px-10">Date</th>
                             <th className="px-10">Category</th>
@@ -102,44 +65,21 @@ function TransactionsDetails() {
                         </tr>
                     </thead>
                     <tbody className="text-xl text-center">
-                        {/* {console.log("banksTransactions", banksTransactions)} */}
-                        {theBank ?
-                            (
+                        {allTransactions && allTransactions.length > 0 && allTransactions.map(tran => {
+                            return (
+                                <tr key={uuidv4()} className="text-lg border-b min-h-">
+                                    <td>{tran.account_details.institution_name}</td>
+                                    <td>{tran.account_details.acc_subtype}</td>
+                                    <td className="px-10 py-2 text-center flex items-center">
+                                        {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 my-2" />}
+                                        {tran.name}
+                                    </td>
+                                    <td>{format(new Date(tran.date), "MMM dd, yyyy")}</td>
+                                    <td>{tran.category[0]}</td>
+                                    <td>{`${tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</td>
+                                </tr>);
 
-                                theBank.added_transactions.length > 0 && theBank.added_transactions.map(tran => {
-                                    return (
-                                        <tr key={uuidv4()} className="text-lg border-b min-h-">
-                                            <td>{theBank.institution_name}</td>
-                                            <td className="px-10 py-2 text-center flex items-center">
-                                                {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 my-2" />}
-                                                {tran.name}
-                                            </td>
-                                            <td>{format(new Date(tran.date), "MMM dd, yyyy")}</td>
-                                            <td>{tran.category[0]}</td>
-                                            <td>{`${tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</td>
-                                        </tr>);
-                                })
-                            )
-                            :
-                            (
-                                banksTransactions.length > 0 && banksTransactions.map(Bank => {
-                                    return (
-                                        Bank.added_transactions.length > 0 && Bank.added_transactions.map(tran => {
-                                            return (
-                                                <tr key={uuidv4()} className="text-lg border-b min-h-">
-                                                    <td>{Bank.institution_name}</td>
-                                                    <td className="px-10 py-2 text-center flex items-center">
-                                                        {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 my-2" />}
-                                                        {tran.name}
-                                                    </td>
-                                                    <td>{format(new Date(tran.date), "MMM dd, yyyy")}</td>
-                                                    <td>{tran.category[0]}</td>
-                                                    <td>{`${tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</td>
-                                                </tr>);
-                                        })
-                                    );
-                                })
-                            )
+                        })
                         }
                     </tbody>
                 </table>

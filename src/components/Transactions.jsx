@@ -1,21 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { getTransactions } from "../API/plaid.api";
+import { getBankTransactions } from "../API/plaid.api";
 import { Link } from "react-router-dom";
 import { format } from 'date-fns';
 import getSymbolFromCurrency from 'currency-symbol-map';
 
 function Transactions({ currBank }) {
-    // console.log(currBank);
     const [recentTransactions, setRecentTransactions] = useState([]);
-
 
     // Retrieve transactions
     const retrieveTransactions = async (currBank) => {
         if (currBank) {
             try {
                 const params = { user_id: currBank.user_id, bank_id: currBank._id };
-                const transactions = await getTransactions(params);
+                const transactions = await getBankTransactions(params);
                 setRecentTransactions(transactions.data.added_transactions.slice(0, 5));
             } catch (error) {
                 console.log('Error retrieving transactions', error);
@@ -31,12 +29,12 @@ function Transactions({ currBank }) {
 
     return (
         <div>
-            <h2 className="text-3xl py-10 text-center">{`Recent Transactions`}</h2>
+            <h2 className="text-3xl py-10 text-center">{`${currBank && currBank.institution_name} Recent Transactions`}</h2>
 
             <table className="box-border">
                 <thead className="text-lg h-10 bg-black bg-opacity-20">
                     <tr>
-                        <th className="px-10">Name</th>
+                        <th className="px-10">Transaction</th>
                         <th className="px-10">Date</th>
                         <th className="px-10">Category</th>
                         <th className="px-10">Amount</th>
