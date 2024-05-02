@@ -15,6 +15,8 @@ function HomePage() {
     const { isLoggedIn, user, setError, banks, bankReturned } = useContext(AuthContext);
     const { setSelectedBank } = useContext(FilterContext);
     const [currBank, setCurrBank] = useState(null);
+    const [open, setOpen] = useState(false);
+
 
     // Handle bank select
     const handleSelect = (bank) => {
@@ -43,7 +45,7 @@ function HomePage() {
 
                     {banks.length > 0 &&
                         <Menu style={{ zIndex: 50 }}>
-                            <MenuButton
+                            <MenuButton onClick={() => setOpen(!open)}
                                 className='text-lg'
                                 px={4}
                                 py={2}
@@ -60,8 +62,13 @@ function HomePage() {
                                     currBank.institution_name
                                     :
                                     <>
-                                        Select your bank <i className="fa-solid fa-chevron-down"></i>
+                                        Select your bank
                                     </>
+                                }
+                                {open ?
+                                    <i className="fa-solid fa-x pl-2"></i>
+                                    :
+                                    <i className="fa-solid fa-chevron-down pl-2"></i>
                                 }
                             </MenuButton>
                             <MenuList color="#0f172a" bg="gray.400" minW='188px'>

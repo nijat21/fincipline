@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Filters from "./Filters";
 
 function TransactionsDetails() {
-    const { user } = useContext(AuthContext);
+    const { user, currBank } = useContext(AuthContext);
     const { currMonth, setCurrMonth, selectedBank, setSelectedMonth } = useContext(FilterContext);
     const [allTransactions, setAllTransactions] = useState(null);
     const navigate = useNavigate();
@@ -26,7 +26,17 @@ function TransactionsDetails() {
         try {
             const params = { user_id: id };
             const transactions = await getAllTransactions(params);
-            setAllTransactions(transactions.data.sorted_transactions);
+
+            // If there's a bank selected, filter the array to show only that bank's transactions
+            // institution_id
+            if (selectedBank) {
+                const bankTran = transactions.data.sorted_transactions.filter(tran => {
+                    return tran.account_details.institution_id === selectedBank.institution_id;
+                });
+                setAllTransactions(bankTran);
+            } else {
+                setAllTransactions(transactions.data.sorted_transactions);
+            }
         } catch (error) {
             console.log('Error retrieving transactions', error);
         }
@@ -43,7 +53,7 @@ function TransactionsDetails() {
     // Once user is available, load all transactions
     useEffect(() => {
         retrieveTransactions(user._id);
-    }, [user]);
+    }, [user, selectedBank]);
 
 
 
@@ -57,7 +67,6 @@ function TransactionsDetails() {
                     <thead className="text-lg h-10 bg-black bg-opacity-20">
                         <tr>
                             <th className="px-10">Bank</th>
-                            <th className="px-10">Account</th>
                             <th className="px-10">Transaction</th>
                             <th className="px-10">Date</th>
                             <th className="px-10">Category</th>
@@ -69,9 +78,10 @@ function TransactionsDetails() {
                             return (
                                 <tr key={uuidv4()} className="text-lg border-b min-h-">
                                     <td>{tran.account_details.institution_name}</td>
-                                    <td>{tran.account_details.acc_subtype}</td>
                                     <td className="px-10 py-2 text-center flex items-center">
-                                        {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 my-2" />}
+                                        <div className="h-10 my-1">
+                                            {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6" />}
+                                        </div>
                                         {tran.name}
                                     </td>
                                     <td>{format(new Date(tran.date), "MMM dd, yyyy")}</td>

@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { motion as m } from 'framer-motion';
 import { useState, useEffect, useContext } from 'react';
 import { FilterContext } from '../context/filter.context';
 import { AuthContext } from '../context/auth.context';
@@ -9,11 +10,20 @@ function Filters() {
     const { banks } = useContext(AuthContext);
     const [bankMenu, setBankMenu] = useState(false);
 
+    // Handle month selection 
+    const handleMonthSelection = (date) => {
+        if (date === selectedMonth) {
+            setSelectedMonth(null);
+        } else {
+            setSelectedMonth(date);
+        }
+    };
 
     // Date range menu toggle
     const toggleRangeMenu = () => {
-        if (!bankMenu) {
-            setDateRangeMenu(!dateRangeMenu);
+        setDateRangeMenu(!dateRangeMenu);
+        if (bankMenu) {
+            setBankMenu(!bankMenu);
         }
     };
 
@@ -26,8 +36,9 @@ function Filters() {
 
     // Toggle bank menu
     const toggleBankMenu = () => {
-        if (!dateRangeMenu) {
-            setBankMenu(!bankMenu);
+        setBankMenu(!bankMenu);
+        if (dateRangeMenu) {
+            setDateRangeMenu(!dateRangeMenu);
         }
     };
 
@@ -82,12 +93,12 @@ function Filters() {
                     px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                     dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer`}
                             key={uuidv4()}>
-                            <button onClick={() => setSelectedMonth(date)}>{date}</button>
+                            <button onClick={() => handleMonthSelection(date)}>{date}</button>
                         </li>);
                 })}
                 <li className={`px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  ${dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}>
-                    <button onClick={handleRangeClick}>
+                    <button onClick={(e) => handleRangeClick(e)}>
                         Custom
                         {dateRangeMenu ?
                             <i className="fa-solid fa-chevron-up  p-1"></i>
@@ -103,7 +114,8 @@ function Filters() {
                 </div>
             }
             {bankMenu &&
-                <div className='z-50 mb-4 h-28 w-40 text-lg pl-4 border-black dark:border-slate-300 rounded-md bg-black bg-opacity-30 flex items-center'>
+                <m.div
+                    className='z-50 mb-4 h-28 w-40 text-lg pl-4 border-black dark:border-slate-300 rounded-md bg-black bg-opacity-30 flex items-center'>
                     <ul className='list-none'>
                         {banks.length > 0 && banks.map(bank => {
                             return <li key={uuidv4()} className='hover:border-b'>
@@ -114,7 +126,7 @@ function Filters() {
                             <button className='hover:border-b' onClick={() => clearBankSelection()}>All</button>
                         </li>
                     </ul>
-                </div>
+                </m.div>
             }
         </div>
     );
