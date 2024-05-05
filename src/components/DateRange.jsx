@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { FilterContext } from '../context/filter.context';
 
 function DateRangeForm() {
-    const { startDate, setStartDate, endDate, setEndDate, dateRangeMenu, setDateRangeMenu, setSelectedMonth, setRangeSelected } = useContext(FilterContext);
+    const { startDate, setStartDate, endDate, setEndDate, setDateRangeMenu, setSelectedMonth } = useContext(FilterContext);
     const [errorMessage, setErrorMessage] = useState('');
 
 
@@ -20,15 +20,16 @@ function DateRangeForm() {
             setErrorMessage('Please select at least one of the dates');
         } else if (!startDate) {
             const earliestDate = new Date(0); // January 1, 1970
-            setStartDate(earliestDate);
-            setRangeSelected(true);
+            const formattedDate = earliestDate.toISOString();
+            setStartDate(formattedDate.slice(0, 10));
+            setSelectedMonth(null);
         } else if (!endDate) {
             const currentDate = new Date();
-            setEndDate(currentDate);
-            setRangeSelected(true);
+            const formattedDate = currentDate.toISOString();
+            setEndDate(formattedDate.slice(0, 10));
+            setSelectedMonth(null);
         }
         else {
-            setRangeSelected(true);
             setDateRangeMenu(false);
             setSelectedMonth(null);
         }
@@ -67,4 +68,4 @@ function DateRangeForm() {
     );
 }
 
-export default DateRangeForm;;
+export default DateRangeForm;

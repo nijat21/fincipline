@@ -9,14 +9,13 @@ import { getAllTransactions } from "../API/plaid.api";
 import { useNavigate } from "react-router-dom";
 import Filters from "./Filters";
 
+
 function TransactionsDetails() {
-    const { user, currBank } = useContext(AuthContext);
-    const { currMonth, setCurrMonth, selectedBank, setSelectedMonth } = useContext(FilterContext);
+    const { user } = useContext(AuthContext);
+    const { savedMonth, selectedBank, startDate, endDate } = useContext(FilterContext);
+    const [data, setData] = useState(null);
     const [allTransactions, setAllTransactions] = useState(null);
     const navigate = useNavigate();
-
-    const [banksTransactions, setBanksTransactions] = useState([]);
-
 
     // Retrieve all transactions
     const retrieveTransactions = async (id) => {
@@ -26,34 +25,89 @@ function TransactionsDetails() {
         try {
             const params = { user_id: id };
             const transactions = await getAllTransactions(params);
-
-            // If there's a bank selected, filter the array to show only that bank's transactions
-            // institution_id
-            if (selectedBank) {
-                const bankTran = transactions.data.sorted_transactions.filter(tran => {
-                    return tran.account_details.institution_id === selectedBank.institution_id;
-                });
-                setAllTransactions(bankTran);
-            } else {
-                setAllTransactions(transactions.data.sorted_transactions);
+            const result = transactions.data.sorted_transactions;
+            setData(result);
+            // If bank selected, filter it right away
+            if (result && result.length > 0) {
+                if (selectedBank) {
+                    const filtered = filterByBank(result);
+                    setAllTransactions(filtered);
+                } else {
+                    setAllTransactions(result);
+                }
             }
         } catch (error) {
             console.log('Error retrieving transactions', error);
         }
     };
 
-    // Sort transactions by bank
-
-
-    // Sort all transactions by month
-    // const sortTransactions = () => {
-
-    // };
-
     // Once user is available, load all transactions
     useEffect(() => {
         retrieveTransactions(user._id);
-    }, [user, selectedBank]);
+    }, [user]);
+
+
+    // Filter by bank
+    const filterByBank = (input) => {
+        // If Bank is selected
+        if (selectedBank && input && input.length > 0) {
+            const bankTran = input.filter(tran => {
+                return tran.account_details.institution_id === selectedBank.institution_id;
+            });
+            return bankTran;
+        }
+    };
+
+    // Filter by Month
+    const filterByMonth = (input) => {
+        // Mapping month format to numbers
+        const monthMap = {
+            Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6,
+            Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12
+        };
+
+        // If month is selected 
+        if (savedMonth) {
+            if (input && input.length > 0) {
+                const month = savedMonth.slice(0, 3);
+                const year = savedMonth.slice(4, 6);
+                // console.log(monthMap[month], "Year", year);
+                // console.log(input);
+
+                const monthTran = input.filter(tran => {
+                    const tranMonth = tran.authorized_date.slice(5, 7);
+                    if (tranMonth < 10) tranMonth.slice(1,);
+                    const tranYear = tran.authorized_date.slice(2, 4);
+                    return tranMonth == monthMap[month] && tranYear === year;
+                });
+
+                // console.log(monthTran);
+                return monthTran;
+            }
+        } else {
+            return input;
+        }
+    };
+
+    // Filter by range
+    const filterByRange = () => {
+        console.log(startDate, "--", endDate);
+    };
+
+    // Filter all
+    const filter = () => {
+        const rawData = JSON.parse(JSON.stringify(data));
+        const filteredForBank = filterByBank(rawData);
+        const filteredForMonth = filterByMonth(filteredForBank);
+        setAllTransactions(filteredForMonth);
+        filterByRange();
+    };
+
+
+    // If bank or month selected, filter the transactions
+    useEffect(() => {
+        filter();
+    }, [selectedBank, savedMonth, startDate, endDate]);
 
 
 
@@ -84,11 +138,10 @@ function TransactionsDetails() {
                                         </div>
                                         {tran.name}
                                     </td>
-                                    <td>{format(new Date(tran.date), "MMM dd, yyyy")}</td>
+                                    <td>{format(new Date(tran.authorized_date), "MMM dd, yyyy")}</td>
                                     <td>{tran.category[0]}</td>
                                     <td>{`${tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</td>
                                 </tr>);
-
                         })
                         }
                     </tbody>

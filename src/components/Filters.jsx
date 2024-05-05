@@ -14,13 +14,16 @@ function Filters() {
     const handleMonthSelection = (date) => {
         if (date === selectedMonth) {
             setSelectedMonth(null);
+            localStorage.removeItem('selectedMonth');
         } else {
             setSelectedMonth(date);
+            localStorage.setItem('selectedMonth', JSON.stringify(date));
         }
     };
 
     // Date range menu toggle
-    const toggleRangeMenu = () => {
+    const toggleRangeMenu = (e) => {
+        e.preventDefault();
         setDateRangeMenu(!dateRangeMenu);
         if (bankMenu) {
             setBankMenu(!bankMenu);
@@ -30,8 +33,8 @@ function Filters() {
     // Handle range selection 
     const handleRangeClick = (e) => {
         e.preventDefault();
-        toggleRangeMenu();
-        setSelectedMonth('custom');
+        toggleRangeMenu(e);
+        setSelectedMonth(null);
     };
 
     // Toggle bank menu
