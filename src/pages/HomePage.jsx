@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/auth.context';
 import { FilterContext } from '../context/filter.context';
 import { Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
+import Ad from '../components/Ad';
 import PlaidLink from './PlaidLink';
 import { v4 as uuidv4 } from 'uuid';
 import Balance from '../components/Balance';
@@ -12,15 +13,26 @@ import Transactions from '../components/Transactions';
 
 function HomePage() {
     const { isLoggedIn, user, setError, banks, bankReturned } = useContext(AuthContext);
-    const { selectedBank } = useContext(FilterContext);
+    const { setSelectedBank } = useContext(FilterContext);
+    const [currBank, setCurrBank] = useState(null);
     const [open, setOpen] = useState(false);
 
 
     // Handle bank select
     const handleSelect = (bank) => {
         localStorage.setItem('currBank', JSON.stringify(bank));
+        setCurrBank(bank);
+        setSelectedBank(bank);
     };
 
+    // Retrieving current bank
+    useEffect(() => {
+        const savedBank = localStorage.getItem('currBank');
+        if (savedBank) {
+            setCurrBank(JSON.parse(savedBank));
+            setSelectedBank(JSON.parse(savedBank));
+        }
+    }, []);
 
     return (
         <div className=' w-screen z-50 special-overflow-hidden'>
@@ -29,7 +41,7 @@ function HomePage() {
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box z-50
                 bg-gradient-to-r from-indigo-500 via-purple-500 to-white shadow-sm'>
 
-                    <Balance currBank={selectedBank} />
+                    <Balance currBank={currBank} />
 
                     {banks.length > 0 &&
                         <Menu style={{ zIndex: 50 }}>
@@ -46,8 +58,8 @@ function HomePage() {
                                 _expanded={{ bg: 'gray.400', color: '#0f172a' }}
                                 _focus={{ boxShadow: 'outline' }}
                             >
-                                {selectedBank ?
-                                    selectedBank.institution_name
+                                {currBank ?
+                                    currBank.institution_name
                                     :
                                     <>
                                         Select your bank
@@ -71,7 +83,7 @@ function HomePage() {
                 </div>
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box pb-10 bg-black bg-opacity-5'>
 
-                    <Transactions currBank={selectedBank} />
+                    <Transactions currBank={currBank} />
 
                     <div className='flex justify-center items-center mt-4'>
                         <Link to={'/transactions'}

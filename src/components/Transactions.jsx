@@ -29,7 +29,7 @@ function Transactions({ currBank }) {
 
     return (
         <div>
-            <h2 className="text-3xl py-10 text-center">{`${currBank && currBank.institution_name} Recent Transactions`}</h2>
+            <h2 className="text-3xl py-10 text-center">{`${currBank ? currBank.institution_name : ''} Recent Transactions`}</h2>
 
             <table className="box-border">
                 <thead className="text-lg h-10 bg-black bg-opacity-20">

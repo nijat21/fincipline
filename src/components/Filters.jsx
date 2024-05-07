@@ -10,6 +10,20 @@ function Filters() {
     const { banks } = useContext(AuthContext);
     const [bankMenu, setBankMenu] = useState(false);
 
+    // If there's a bank and/or month selected
+    useEffect(() => {
+        // retrieve the saved Bank
+        const savedBank = localStorage.getItem('currBank');
+        if (savedBank) {
+            setSelectedBank(JSON.parse(savedBank));
+        }
+        // retrieve the saved Month
+        const savedMonth = localStorage.getItem('selectedMonth');
+        if (savedMonth) {
+            setSelectedMonth((savedMonth));
+        }
+    }, []);
+
     // Handle month selection 
     const handleMonthSelection = (date) => {
         if (date === selectedMonth) {
@@ -17,7 +31,7 @@ function Filters() {
             localStorage.removeItem('selectedMonth');
         } else {
             setSelectedMonth(date);
-            localStorage.setItem('selectedMonth', JSON.stringify(date));
+            localStorage.setItem('selectedMonth', (date));
         }
     };
 
@@ -34,7 +48,9 @@ function Filters() {
     const handleRangeClick = (e) => {
         e.preventDefault();
         toggleRangeMenu(e);
+        // setSelectedMonth('custom');
         setSelectedMonth(null);
+        localStorage.removeItem('selectedMonth');
     };
 
     // Toggle bank menu
@@ -48,12 +64,14 @@ function Filters() {
     // Handle bank selection 
     const handleBankSelect = (bank) => {
         toggleBankMenu();
+        localStorage.setItem('currBank', JSON.stringify(bank));
         setSelectedBank(bank);
     };
 
     // Handle clear selection
     const clearBankSelection = () => {
         setSelectedBank(null);
+        localStorage.removeItem('currBank');
         toggleBankMenu();
     };
 

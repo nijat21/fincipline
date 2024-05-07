@@ -12,9 +12,11 @@ import Filters from "./Filters";
 
 function TransactionsDetails() {
     const { user } = useContext(AuthContext);
-    const { savedMonth, selectedBank, startDate, endDate } = useContext(FilterContext);
+    const { selectedMonth, selectedBank, startDate, endDate } = useContext(FilterContext);
     const [data, setData] = useState(null);
     const [allTransactions, setAllTransactions] = useState(null);
+    const [filterComplete, setFilterComplete] = useState(false);
+
     const navigate = useNavigate();
 
     // Retrieve all transactions
@@ -27,15 +29,11 @@ function TransactionsDetails() {
             const transactions = await getAllTransactions(params);
             const result = transactions.data.sorted_transactions;
             setData(result);
-            // If bank selected, filter it right away
-            if (result && result.length > 0) {
-                if (selectedBank) {
-                    const filtered = filterByBank(result);
-                    setAllTransactions(filtered);
-                } else {
-                    setAllTransactions(result);
-                }
+            // If bank or month is selected
+            if (selectedBank || selectedMonth) {
+                filter(result);
             }
+            console.log('test');
         } catch (error) {
             console.log('Error retrieving transactions', error);
         }
@@ -67,10 +65,10 @@ function TransactionsDetails() {
         };
 
         // If month is selected 
-        if (savedMonth) {
+        if (selectedMonth) {
             if (input && input.length > 0) {
-                const month = savedMonth.slice(0, 3);
-                const year = savedMonth.slice(4, 6);
+                const month = selectedMonth.slice(0, 3);
+                const year = selectedMonth.slice(4, 6);
                 // console.log(monthMap[month], "Year", year);
                 // console.log(input);
 
@@ -95,19 +93,26 @@ function TransactionsDetails() {
     };
 
     // Filter all
-    const filter = () => {
-        const rawData = JSON.parse(JSON.stringify(data));
-        const filteredForBank = filterByBank(rawData);
-        const filteredForMonth = filterByMonth(filteredForBank);
-        setAllTransactions(filteredForMonth);
-        filterByRange();
+    const filter = (data) => {
+        try {
+            const rawData = JSON.parse(JSON.stringify(data));
+            const filteredForBank = filterByBank(rawData);
+            const filteredForMonth = filterByMonth(filteredForBank);
+            setAllTransactions(filteredForMonth);
+            filterByRange();
+            // setFilterComplete(true);
+        } catch (error) {
+            console.log("Error occured filtering the transactions", error);
+            // setFilterComplete(false);
+        }
     };
 
 
     // If bank or month selected, filter the transactions
+    // Filter is called 4 times, maybe optimize
     useEffect(() => {
-        filter();
-    }, [selectedBank, savedMonth, startDate, endDate]);
+        filter(data);
+    }, [selectedBank, selectedMonth, startDate, endDate]);
 
 
 
