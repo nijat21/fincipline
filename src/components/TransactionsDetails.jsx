@@ -4,7 +4,6 @@ import { AuthContext } from "../context/auth.context";
 import { v4 as uuidv4 } from 'uuid';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { format } from 'date-fns';
-import { getBanks } from "../API/account.api";
 import { getAllTransactions } from "../API/plaid.api";
 import { useNavigate } from "react-router-dom";
 import Filters from "./Filters";
@@ -12,12 +11,11 @@ import Filters from "./Filters";
 
 function TransactionsDetails() {
     const { user } = useContext(AuthContext);
-    const { selectedMonth, selectedBank, startDate, endDate } = useContext(FilterContext);
+    const { selectedMonth, selectedBank, startDate, endDate, rangeSelected } = useContext(FilterContext);
     const [data, setData] = useState(null);
     const [allTransactions, setAllTransactions] = useState(null);
-    const [filterComplete, setFilterComplete] = useState(false);
-
     const navigate = useNavigate();
+
 
     // Retrieve all transactions
     const retrieveTransactions = async (id) => {
@@ -30,10 +28,12 @@ function TransactionsDetails() {
             const result = transactions.data.sorted_transactions;
             setData(result);
             // If bank or month is selected
-            if (selectedBank || selectedMonth) {
+            if (selectedBank || selectedMonth || rangeSelected) {
                 filter(result);
+            } else {
+                setAllTransactions(result);
             }
-            console.log('test');
+            console.log(user); // RetrieveTransactions runs more than once
         } catch (error) {
             console.log('Error retrieving transactions', error);
         }
@@ -42,7 +42,7 @@ function TransactionsDetails() {
     // Once user is available, load all transactions
     useEffect(() => {
         retrieveTransactions(user._id);
-    }, [user]);
+    }, []);
 
 
     // Filter by bank
@@ -95,10 +95,19 @@ function TransactionsDetails() {
     // Filter all
     const filter = (data) => {
         try {
+            // Ignore running steps if there's no input for a certain step
             const rawData = JSON.parse(JSON.stringify(data));
-            const filteredForBank = filterByBank(rawData);
-            const filteredForMonth = filterByMonth(filteredForBank);
-            setAllTransactions(filteredForMonth);
+            let filtered;
+            if (selectedBank && selectedMonth) {
+                filtered = filterByMonth(filterByBank(rawData));
+            } else if (selectedBank && !selectedMonth) {
+                filtered = filterByBank(rawData);
+            } else if (selectedMonth && !selectedBank) {
+                filtered = filterByMonth(rawData);
+            } else {
+                filtered = rawData;
+            }
+            setAllTransactions(filtered);
             filterByRange();
             // setFilterComplete(true);
         } catch (error) {

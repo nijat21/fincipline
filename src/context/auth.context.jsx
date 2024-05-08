@@ -31,7 +31,7 @@ const AuthProvider = props => {
                 console.log('Not able to authenticate the user', error);
                 setUser(null);
                 setIsLoggedIn(false);
-                removeCurrBank();
+                removeLSItems();
             }
         } else {
             // if token isn't available 
@@ -39,7 +39,7 @@ const AuthProvider = props => {
             setIsLoggedIn(false);
             setProfilePhoto(null);
             setBanks(null);
-            removeCurrBank();
+            removeLSItems();
         }
 
         setIsLoading(false);
@@ -49,13 +49,16 @@ const AuthProvider = props => {
         localStorage.removeItem('authToken');
     };
 
-    const removeCurrBank = () => {
+    const removeLSItems = () => {
         localStorage.removeItem('currBank');
+        localStorage.removeItem('selectedMonth');
+        localStorage.removeItem('startDate');
+        localStorage.removeItem('endDate');
     };
 
     const logoutUser = () => {
         removeToken();
-        removeCurrBank();
+        removeLSItems();
         authenticateUser();
     };
 

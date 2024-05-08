@@ -1,34 +1,21 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 
 
 const FilterContext = createContext();
 
 const FilterProvider = props => {
-    const [selectedMonth, setSelectedMonth] = useState(null);
-    const [selectedBank, setSelectedBank] = useState(null);
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [dateRangeMenu, setDateRangeMenu] = useState(false);
+    const [selectedMonth, setSelectedMonth] = useState(() => null);
+    const [selectedBank, setSelectedBank] = useState(() => null);
+    const [startDate, setStartDate] = useState(() => null);
+    const [endDate, setEndDate] = useState(() => null);
+    const [dateRangeMenu, setDateRangeMenu] = useState(() => false);
+    const [rangeSelected, setRangeSelected] = useState(() => false);
 
-
-    // // If there's a bank and/or month selected
-    // useEffect(() => {
-    //     // retrieve the saved Bank
-    //     const savedBank = localStorage.getItem('currBank');
-    //     if (savedBank) {
-    //         setSelectedBank(JSON.parse(savedBank));
-    //     }
-    //     // retrieve the saved Month
-    //     const savedMonth = localStorage.getItem('selectedMonth');
-    //     if (savedMonth) {
-    //         setSelectedMonth((savedMonth));
-    //     }
-    // }, []);
 
     return (
         <FilterContext.Provider value={{
             selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
-            endDate, setEndDate, dateRangeMenu, setDateRangeMenu
+            endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected
         }}>
             {props.children}
         </FilterContext.Provider>

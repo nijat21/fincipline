@@ -6,7 +6,8 @@ import { AuthContext } from '../context/auth.context';
 import DateRangeForm from './DateRange';
 
 function Filters() {
-    const { selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, dateRangeMenu, setDateRangeMenu } = useContext(FilterContext);
+    const { selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, dateRangeMenu, setDateRangeMenu,
+        startDate, endDate } = useContext(FilterContext);
     const { banks } = useContext(AuthContext);
     const [bankMenu, setBankMenu] = useState(false);
 
@@ -32,6 +33,7 @@ function Filters() {
         } else {
             setSelectedMonth(date);
             localStorage.setItem('selectedMonth', (date));
+            setDateRangeMenu(false);
         }
     };
 
@@ -94,6 +96,7 @@ function Filters() {
         formattedDates.push(formattedDate);
     }
 
+
     return (
         <div>
             <ul className="list-none flex justify-center">
@@ -120,7 +123,13 @@ function Filters() {
                 <li className={`px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  ${dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}>
                     <button onClick={(e) => handleRangeClick(e)}>
-                        Custom
+                        {startDate && endDate ?
+                            startDate + '  -  ' + endDate
+                            :
+                            <>
+                                Custom range
+                            </>
+                        }
                         {dateRangeMenu ?
                             <i className="fa-solid fa-chevron-up  p-1"></i>
                             :

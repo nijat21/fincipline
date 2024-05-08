@@ -27,12 +27,18 @@ React-scroll
 Currency Symbol Map
 <br/>
 
-<!-- Uuid -->
+Uuid
 <br/>
 Sonner
 <br/>
 
 <br>
+
+## Components
+
+DateRange => Regulates date range selection assignation to context states and storage in LocalStorage in TransactionsDetails.
+
+Filters => Regulates selection of other filters in TransactionsDetails and stores values in context states and in LocalStorage.
 
 ## Links
 
