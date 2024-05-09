@@ -8,11 +8,13 @@ function DateRangeForm() {
 
 
     const handleStartDateChange = (e) => {
+        e.preventDefault();
         setStartDate(e.target.value);
         localStorage.setItem('startDate', e.target.value);
     };
 
     const handleEndDateChange = (e) => {
+        e.preventDefault();
         setEndDate(e.target.value);
         localStorage.setItem('endDate', e.target.value);
     };
@@ -70,6 +72,7 @@ function DateRangeForm() {
         localStorage.removeItem('endDate');
         setStartDate(null);
         setEndDate(null);
+        setRangeSelected(false);
     };
 
 

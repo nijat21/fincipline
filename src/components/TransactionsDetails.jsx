@@ -33,7 +33,7 @@ function TransactionsDetails() {
             } else {
                 setAllTransactions(result);
             }
-            console.log(user); // RetrieveTransactions runs more than once
+            console.log("retrieveTransaction ran"); // RetrieveTransactions runs more than once
         } catch (error) {
             console.log('Error retrieving transactions', error);
         }
@@ -88,28 +88,44 @@ function TransactionsDetails() {
     };
 
     // Filter by range
-    const filterByRange = () => {
-        console.log(startDate, "--", endDate);
+    const filterByRange = (input) => {
+        if (input && startDate && endDate) {
+            const rangeFiltered = input.filter(tran => {
+                // Convert transaction date string to Date objects
+                const tranDate = new Date(tran.authorized_date);
+                const startDateObj = new Date(startDate);
+                const endDateObj = new Date(endDate);
+
+                // Check if transaction date is within the date range
+                return tranDate >= startDateObj && tranDate <= endDateObj;
+            });
+            return rangeFiltered;
+        }
     };
 
     // Filter all
     const filter = (data) => {
         try {
             // Ignore running steps if there's no input for a certain step
+            // Either month is selected or a custom range. They can't be selected together
             const rawData = JSON.parse(JSON.stringify(data));
             let filtered;
-            if (selectedBank && selectedMonth) {
+
+            if (selectedBank && selectedMonth && !rangeSelected) {
                 filtered = filterByMonth(filterByBank(rawData));
-            } else if (selectedBank && !selectedMonth) {
-                filtered = filterByBank(rawData);
-            } else if (selectedMonth && !selectedBank) {
+            } else if (selectedBank && !selectedMonth && rangeSelected) {
+                filtered = filterByRange(filterByBank(rawData));
+            } else if (!selectedBank && !selectedMonth && rangeSelected) {
+                filtered = filterByRange(rawData);
+            } else if (!selectedBank && selectedMonth && !rangeSelected) {
                 filtered = filterByMonth(rawData);
-            } else {
+            } else if (selectedBank && !selectedMonth && !rangeSelected) {
+                filtered = filterByBank(rawData);
+            } else if (!selectedBank && !selectedMonth && !rangeSelected) {
                 filtered = rawData;
             }
             setAllTransactions(filtered);
-            filterByRange();
-            // setFilterComplete(true);
+            console.log("Filter ran");
         } catch (error) {
             console.log("Error occured filtering the transactions", error);
             // setFilterComplete(false);
