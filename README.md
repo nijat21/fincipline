@@ -31,7 +31,7 @@ Uuid
 <br/>
 Sonner
 <br/>
-
+jspdf - for exporting the transactions as a pdf file
 <br>
 
 ## Components

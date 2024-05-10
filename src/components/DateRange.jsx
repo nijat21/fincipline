@@ -3,7 +3,7 @@ import { FilterContext } from '../context/filter.context';
 
 
 function DateRangeForm() {
-    const { startDate, setStartDate, endDate, setEndDate, setDateRangeMenu, setRangeSelected } = useContext(FilterContext);
+    const { startDate, setStartDate, endDate, setEndDate, setDateRangeMenu, setRangeSelected, setRangeSubmitClear } = useContext(FilterContext);
     const [errorMessage, setErrorMessage] = useState('');
 
 
@@ -20,10 +20,14 @@ function DateRangeForm() {
     };
 
     // When the selected range submitted
+    // If dependency of filter in TransactionDetails is rangeSelected, it won't work perfectly. 
+    // It's true if startDate and endDate are added meaning won't run useEffect.
     const handleSubmit = (e) => {
         e.preventDefault();
+        setRangeSubmitClear(prevValue => prevValue + 1);
         if (!startDate && !endDate) {
             setErrorMessage('Please select at least one of the dates');
+            setRangeSelected(false);
         } else if (!startDate) {
             const earliestDate = new Date(0); // January 1, 1970
             // Convert the automatically added date to selected date format
@@ -54,9 +58,6 @@ function DateRangeForm() {
         return today;
     };
 
-    // Get min date
-
-
     // In every page reload, get selected range from localStorage
     useEffect(() => {
         const sDate = localStorage.getItem('startDate');
@@ -72,7 +73,9 @@ function DateRangeForm() {
         localStorage.removeItem('endDate');
         setStartDate(null);
         setEndDate(null);
+        setDateRangeMenu(false);
         setRangeSelected(false);
+        setRangeSubmitClear(prevValue => prevValue + 1);
     };
 
 

@@ -43,8 +43,8 @@ function Transactions({ currBank }) {
                 <tbody className="text-xl text-center">
                     {recentTransactions && recentTransactions.map(tran => {
                         return (
-                            <tr key={uuidv4()} className="text-lg border-b min-h-">
-                                <td className="px-10 py-2 text-center flex items-center">
+                            <tr key={uuidv4()} className="text-lg border-b dark:hover:bg-blue-800 hover:bg-opacity-15 hover:bg-black cursor-pointer">
+                                <td className="px-10 py-2 text-center flex items-center ">
                                     {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 my-2" />}
                                     {tran.name}
                                 </td>

@@ -7,7 +7,7 @@ import DateRangeForm from './DateRange';
 
 function Filters() {
     const { selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, dateRangeMenu, setDateRangeMenu,
-        startDate, endDate } = useContext(FilterContext);
+        startDate, endDate, setExport, setPrint } = useContext(FilterContext);
     const { banks } = useContext(AuthContext);
     const [bankMenu, setBankMenu] = useState(false);
 
@@ -96,10 +96,26 @@ function Filters() {
         formattedDates.push(formattedDate);
     }
 
+    // Calculate the month and year for the current iteration
+    const formatDate = (input) => {
+        const date = new Date(input);
+
+        // Format the date to "Mar'24" format
+        const formattedDate = date.toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: 'short',
+            year: '2-digit',
+        });
+
+        return formattedDate;
+    };
+
 
     return (
         <div>
             <ul className="list-none flex justify-center">
+
+                {/* Bank */}
                 <li className={`px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  ${bankMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}>
                     <button onClick={toggleBankMenu}>
@@ -111,6 +127,8 @@ function Filters() {
                         }
                     </button>
                 </li>
+
+                {/* Months */}
                 {formattedDates.map(date => {
                     return (
                         <li className={`${date === selectedMonth && !dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} 
@@ -120,11 +138,13 @@ function Filters() {
                             <button onClick={() => handleMonthSelection(date)}>{date}</button>
                         </li>);
                 })}
+
+                {/* Date range */}
                 <li className={`px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  ${dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}>
                     <button onClick={(e) => handleRangeClick(e)}>
                         {startDate && endDate ?
-                            startDate + '  -  ' + endDate
+                            formatDate(startDate) + '  -  ' + formatDate(endDate)
                             :
                             <>
                                 Custom range
@@ -137,7 +157,23 @@ function Filters() {
                         }
                     </button>
                 </li>
+
+                {/* Print and Export */}
+                <li onClick={() => setPrint(prev => prev + 1)}
+                    className={`px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+            dark:hover:bg-white dark:hover:text-black hover:border-transparent cursor-pointer`}>
+                    <i className="fa-solid fa-print"></i>
+                    {/* Add a "Print" popup when hovered over */}
+                </li>
+                <li onClick={() => setExport(prev => prev + 1)}
+                    className='px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+            dark:hover:bg-white dark:hover:text-black hover:border-transparent cursor-pointer'>
+                    <i className="fa-solid fa-download"></i>
+                    {/* Add a "Export" popup when hovered over */}
+                </li>
             </ul>
+
+            {/* Logic for DateRangeMenu and BankMenu */}
             {dateRangeMenu &&
                 <div className='h-48 z-50 mb-4 text-lg rounded-md bg-black bg-opacity-30 flex justify-center'>
                     <DateRangeForm />
