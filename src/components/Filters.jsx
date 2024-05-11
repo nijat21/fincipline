@@ -3,11 +3,12 @@ import { motion as m } from 'framer-motion';
 import { useState, useEffect, useContext } from 'react';
 import { FilterContext } from '../context/filter.context';
 import { AuthContext } from '../context/auth.context';
+import { exportPDF, printPDF } from './PDF';
 import DateRangeForm from './DateRange';
 
-function Filters() {
+function Filters({ allTransactions }) {
     const { selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, dateRangeMenu, setDateRangeMenu,
-        startDate, endDate, setExport, setPrint } = useContext(FilterContext);
+        startDate, endDate, rangeSelected } = useContext(FilterContext);
     const { banks } = useContext(AuthContext);
     const [bankMenu, setBankMenu] = useState(false);
 
@@ -110,6 +111,26 @@ function Filters() {
         return formattedDate;
     };
 
+    // Create PDF's title
+    const bank = selectedBank ? selectedBank.institution_name : '';
+    const sMonth = selectedMonth ? selectedMonth : '';
+    const dRange = rangeSelected ? formatDate(startDate) + " - " + formatDate(endDate) : '';
+    const title = bank + " Transactions " + sMonth + dRange;
+
+    // Export the pdf
+    const handleExport = () => {
+        // only if the data exists
+        allTransactions && allTransactions.length > 0 && exportPDF(allTransactions, title);
+        // console.log("Export run");
+    };
+
+    // Print the pdf
+    const handlePrint = () => {
+        // only if the data exists
+        allTransactions && allTransactions.length > 0 && printPDF(allTransactions, title);
+        // console.log("Print run");
+    };
+
 
     return (
         <div>
@@ -159,13 +180,13 @@ function Filters() {
                 </li>
 
                 {/* Print and Export */}
-                <li onClick={() => setPrint(prev => prev + 1)}
+                <li onClick={handlePrint}
                     className={`px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
             dark:hover:bg-white dark:hover:text-black hover:border-transparent cursor-pointer`}>
                     <i className="fa-solid fa-print"></i>
                     {/* Add a "Print" popup when hovered over */}
                 </li>
-                <li onClick={() => setExport(prev => prev + 1)}
+                <li onClick={handleExport}
                     className='px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
             dark:hover:bg-white dark:hover:text-black hover:border-transparent cursor-pointer'>
                     <i className="fa-solid fa-download"></i>

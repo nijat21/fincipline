@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { format } from 'date-fns';
 import { useNavigate } from "react-router-dom";
-import { jsPDF } from "jspdf";
 import { getAllTransactions } from "../API/plaid.api";
 import Filters from "./Filters";
 
@@ -34,7 +33,7 @@ function TransactionsDetails() {
             } else {
                 setAllTransactions(result);
             }
-            console.log("retrieveTransaction ran"); // RetrieveTransactions runs more than once
+            // console.log("retrieveTransaction ran"); // RetrieveTransactions runs more than once
         } catch (error) {
             console.log('Error retrieving transactions', error);
         }
@@ -126,7 +125,7 @@ function TransactionsDetails() {
                 filtered = rawData;
             }
             setAllTransactions(filtered);
-            console.log("Filter ran");
+            // console.log("Filter ran");
         } catch (error) {
             console.log("Error occured filtering the transactions", error);
             // setFilterComplete(false);
@@ -141,40 +140,11 @@ function TransactionsDetails() {
     }, [selectedBank, selectedMonth, rangeSubmitClear]);
 
 
-    // Export PDF
-    const generatePDF = () => {
-        const doc = new jsPDF();
-        const tableRows = [];
-        if (allTransactions && allTransactions.length > 0) {
-
-            allTransactions.forEach((tran) => {
-                const rowData = [
-                    tran.name,
-                    format(new Date(tran.authorized_date), "MMM dd, yyyy"),
-                    tran.category[0],
-                    `${tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`,
-                ];
-                tableRows.push(rowData);
-            });
-
-            doc.autoTable({
-                head: [["Transaction", "Date", "Category", "Amount"]],
-                body: tableRows,
-            });
-
-            doc.save("transactions.pdf");
-        }
-    };
-
-    useEffect(() => {
-        generatePDF();
-    }, [Export]);
-
     return (
         <div className="h-screen w-screen-screen w-screen flex flex-col justify-start items-center box-border pb-10">
             <h2 className="text-3xl pt-10 pb-4 text-center">{`Recent Transactions`}</h2>
 
-            <Filters />
+            <Filters allTransactions={allTransactions} />
             <div className="overflow-y-auto h-half-screen">
                 <table className="box-border">
                     <thead className="text-lg h-10 bg-black bg-opacity-20">

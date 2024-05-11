@@ -11,8 +11,6 @@ const FilterProvider = props => {
     const [dateRangeMenu, setDateRangeMenu] = useState(() => false);
     const [rangeSelected, setRangeSelected] = useState(() => false);
     const [rangeSubmitClear, setRangeSubmitClear] = useState(0);
-    const [Export, setExport] = useState(0);
-    const [Print, setPrint] = useState(0);
 
 
 
@@ -22,7 +20,7 @@ const FilterProvider = props => {
         <FilterContext.Provider value={{
             selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
             endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
-            rangeSubmitClear, setRangeSubmitClear, Export, setExport, Print, setPrint
+            rangeSubmitClear, setRangeSubmitClear
         }}>
             {props.children}
         </FilterContext.Provider>
