@@ -1,12 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { getBankTransactions } from "../API/plaid.api";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { format } from 'date-fns';
 import getSymbolFromCurrency from 'currency-symbol-map';
 
 function Transactions({ currBank }) {
     const [recentTransactions, setRecentTransactions] = useState([]);
+    const navigate = useNavigate();
 
     // Retrieve transactions
     const retrieveTransactions = async (currBank) => {
@@ -15,6 +16,7 @@ function Transactions({ currBank }) {
                 const params = { user_id: currBank.user_id, bank_id: currBank._id };
                 const transactions = await getBankTransactions(params);
                 setRecentTransactions(transactions.data.added_transactions.slice(0, 5));
+                console.log(transactions.data.added_transactions.slice(0, 5));
             } catch (error) {
                 console.log('Error retrieving transactions', error);
             }
@@ -25,6 +27,12 @@ function Transactions({ currBank }) {
     useEffect(() => {
         retrieveTransactions(currBank);
     }, [currBank]);
+
+    // Redirect to SingleTransaction with props
+    const handleRowClick = (input) => {
+        navigate('/transaction', { state: { transaction: input } });
+        console.log(input);
+    };
 
 
     return (
@@ -43,15 +51,20 @@ function Transactions({ currBank }) {
                 <tbody className="text-xl text-center">
                     {recentTransactions && recentTransactions.map(tran => {
                         return (
-                            <tr key={uuidv4()} className="text-lg border-b dark:hover:bg-blue-800 hover:bg-opacity-15 hover:bg-black cursor-pointer">
-                                <td className="px-10 py-2 text-center flex items-center ">
-                                    {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 my-2" />}
+                            <tr key={uuidv4()} onClick={() => handleRowClick(tran)}
+                                className="text-lg border-b dark:hover:bg-blue-800 hover:bg-opacity-15 hover:bg-black cursor-pointer">
+                                {/* <td>{tran.account_details.institution_name}</td> */}
+                                <td className="px-10 py-2 text-center flex items-center">
+                                    <div className="h-10 my-1">
+                                        {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6" />}
+                                    </div>
                                     {tran.name}
                                 </td>
                                 <td>{format(new Date(tran.date), "MMM dd, yyyy")}</td>
                                 <td>{tran.category[0]}</td>
                                 <td>{`${tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</td>
-                            </tr>);
+                            </tr>
+                        );
                     })}
                 </tbody>
             </table>

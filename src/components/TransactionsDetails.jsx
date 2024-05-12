@@ -149,7 +149,6 @@ function TransactionsDetails() {
                 <table className="box-border">
                     <thead className="text-lg h-10 bg-black bg-opacity-20">
                         <tr>
-                            {/* <th className="px-10">Bank</th> */}
                             <th className="px-10">Transaction</th>
                             <th className="px-10">Date</th>
                             <th className="px-10">Category</th>
@@ -159,8 +158,8 @@ function TransactionsDetails() {
                     <tbody className="text-xl text-center">
                         {allTransactions && allTransactions.length > 0 && allTransactions.map(tran => {
                             return (
-                                <tr key={uuidv4()} className="text-lg border-b dark:hover:bg-blue-800 hover:bg-opacity-15 hover:bg-black cursor-pointer">
-                                    {/* <td>{tran.account_details.institution_name}</td> */}
+                                <tr key={uuidv4()}
+                                    className="text-lg border-b dark:hover:bg-blue-800 hover:bg-opacity-15 hover:bg-black cursor-pointer">
                                     <td className="px-10 py-2 text-center flex items-center">
                                         <div className="h-10 my-1">
                                             {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6" />}
@@ -169,7 +168,7 @@ function TransactionsDetails() {
                                     </td>
                                     <td>{format(new Date(tran.authorized_date), "MMM dd, yyyy")}</td>
                                     <td>{tran.category[0]}</td>
-                                    <td>{`${tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</td>
+                                    <td>{`${-tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</td>
                                 </tr>);
                         })
                         }
