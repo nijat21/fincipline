@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom';
 // import { Link as ScrollLink } from 'react-scroll';
 import { AuthContext } from '../context/auth.context';
 import { FilterContext } from '../context/filter.context';
-import { Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import Ad from '../components/Ad';
 import PlaidLink from './PlaidLink';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,17 +19,21 @@ import Analytics from '../components/Analytics';
 
 
 function HomePage() {
-    const { isLoggedIn, user, setError, banks, bankReturned } = useContext(AuthContext);
+    const { banks } = useContext(AuthContext);
     const { setSelectedBank } = useContext(FilterContext);
     const [currBank, setCurrBank] = useState(null);
-    const [open, setOpen] = useState(false);
 
 
     // Handle bank select
-    const handleSelect = (bank) => {
-        localStorage.setItem('currBank', JSON.stringify(bank));
-        setCurrBank(bank);
-        setSelectedBank(bank);
+    const handleSelect = (value) => {
+        // Find the selected bank object based on the value
+        const selectedBank = banks.find(bank => bank.institution_name === value);
+        if (selectedBank) {
+            localStorage.setItem('currBank', JSON.stringify(selectedBank));
+            setCurrBank(selectedBank);
+            setSelectedBank(selectedBank);
+            console.log(selectedBank);
+        }
     };
 
     // Retrieving current bank
@@ -40,43 +50,31 @@ function HomePage() {
             <div className='h-3screen w-screen flex flex-col items-center'>
                 {/* <GradientBackground /> */}
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
-
+                    {/* Balance section */}
                     <Balance currBank={currBank} />
 
                     {banks.length > 0 &&
-                        <Menu>
-                            <MenuButton onClick={() => setOpen(!open)}
-                                className='text-lg'
-                                px={4}
-                                py={2}
-                                m={4}
-                                minW={'188px'}
-                                transition='all 0.2s'
-                                borderRadius='md'
-                                borderWidth='1px'
-                                _hover={{ bg: 'gray.400', color: '#0f172a' }}
-                                _expanded={{ bg: 'gray.400', color: '#0f172a' }}
-                                _focus={{ boxShadow: 'outline' }}
-                            >
-                                {currBank ?
+                        <Select onValueChange={(value) => handleSelect(value)} className='w-[180px]'>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder={currBank ?
                                     currBank.institution_name
                                     :
                                     <>
                                         Select your bank
                                     </>
-                                }
-                                {open ?
-                                    <i className="fa-solid fa-x pl-2"></i>
-                                    :
-                                    <i className="fa-solid fa-chevron-down pl-2"></i>
-                                }
-                            </MenuButton>
-                            <MenuList color="#0f172a" bg="gray.400" minW='188px'>
+                                } />
+                            </SelectTrigger>
+                            <SelectContent>
                                 {banks.length > 0 && banks.map(bank => {
-                                    return <MenuItem key={uuidv4()} bg="gray.400" _hover={{ bg: 'gray.500' }} onClick={() => handleSelect(bank)}>{bank.institution_name}</MenuItem>;
+                                    return (
+                                        <SelectItem key={uuidv4()} value={bank.institution_name}>
+                                            {bank.institution_name}
+                                        </SelectItem>
+                                    );
                                 })}
-                            </MenuList>
-                        </Menu>
+
+                            </SelectContent>
+                        </Select>
                     }
 
                     <PlaidLink />

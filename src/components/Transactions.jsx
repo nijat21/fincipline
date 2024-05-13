@@ -18,7 +18,7 @@ function Transactions({ currBank }) {
                 const params = { user_id: currBank.user_id, bank_id: currBank._id };
                 const transactions = await getBankTransactions(params);
                 setRecentTransactions(transactions.data.added_transactions.slice(0, 5));
-                console.log(transactions.data.added_transactions.slice(0, 5));
+                // console.log(transactions.data.added_transactions.slice(0, 5));
             } catch (error) {
                 console.log('Error retrieving transactions', error);
             }

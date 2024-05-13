@@ -3,17 +3,7 @@ import { AuthContext } from "../context/auth.context";
 import { getAccounts, getBanks } from "../API/account.api";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
-import {
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
-    TableContainer,
-} from '@chakra-ui/react';
+
 
 function Accounts() {
     const { user, isLoading, setIsLoading, banks } = useContext(AuthContext);
