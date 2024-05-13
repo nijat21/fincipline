@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { useNavigate } from "react-router-dom";
 import { getAllTransactions } from "../API/plaid.api";
 import Filters from "./Filters";
+import SingleTransaction from "./SingleTransaction";
 
 
 function TransactionsDetails() {
@@ -15,7 +16,8 @@ function TransactionsDetails() {
     const [data, setData] = useState(null);
     const [allTransactions, setAllTransactions] = useState(null);
     const navigate = useNavigate();
-
+    const [showModal, setShowModal] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
 
     // Retrieve all transactions
     const retrieveTransactions = async (id) => {
@@ -140,6 +142,12 @@ function TransactionsDetails() {
     }, [selectedBank, selectedMonth, rangeSubmitClear]);
 
 
+    // Redirect to SingleTransaction with props
+    const handleRowClick = (input) => {
+        setShowModal(true);
+        setSelectedTransaction(input);
+    };
+
     return (
         <div className="h-screen w-screen-screen w-screen flex flex-col justify-start items-center box-border pb-10">
             <h2 className="text-3xl pt-10 pb-4 text-center">{`Recent Transactions`}</h2>
@@ -158,11 +166,11 @@ function TransactionsDetails() {
                     <tbody className="text-xl text-center">
                         {allTransactions && allTransactions.length > 0 && allTransactions.map(tran => {
                             return (
-                                <tr key={uuidv4()}
+                                <tr key={uuidv4()} onClick={() => handleRowClick(tran)}
                                     className="text-lg border-b dark:hover:bg-blue-800 hover:bg-opacity-15 hover:bg-black cursor-pointer">
                                     <td className="px-10 py-2 text-center flex items-center">
                                         <div className="h-10 my-1">
-                                            {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6" />}
+                                            {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 rounded-xl" />}
                                         </div>
                                         {tran.name}
                                     </td>
@@ -174,6 +182,10 @@ function TransactionsDetails() {
                         }
                     </tbody>
                 </table>
+                {/* SingleTransaction Modal */}
+                {showModal &&
+                    <SingleTransaction onClose={() => setShowModal(false)} transaction={selectedTransaction} />
+                }
             </div>
             <div className="flex justify-end">
                 <button onClick={() => navigate(-1)}

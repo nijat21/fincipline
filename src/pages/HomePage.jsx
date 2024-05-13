@@ -35,16 +35,16 @@ function HomePage() {
     }, []);
 
     return (
-        <div className=' w-screen z-50 special-overflow-hidden'>
+        <div className=' w-screen special-overflow-hidden'>
             <div className='h-2screen w-screen flex flex-col items-center'>
                 {/* <GradientBackground /> */}
-                <div className='h-screen w-screen flex flex-col justify-center items-center border-box z-50
+                <div className='h-screen w-screen flex flex-col justify-center items-center border-box
                 bg-gradient-to-r from-indigo-500 via-purple-500 to-white shadow-sm'>
 
                     <Balance currBank={currBank} />
 
                     {banks.length > 0 &&
-                        <Menu style={{ zIndex: 50 }}>
+                        <Menu>
                             <MenuButton onClick={() => setOpen(!open)}
                                 className='text-lg'
                                 px={4}

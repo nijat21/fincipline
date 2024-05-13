@@ -17,7 +17,7 @@ import Profile from "./pages/Profile";
 import Upload from "./pages/Upload";
 import TransactionsPage from "./pages/TransactionsPage";
 import IsHybrid from "./components/IsHybrid";
-import SingleTransaction from "./pages/SingleTransaction";
+import SingleTransaction from "./components/SingleTransaction";
 
 function App() {
   const { theme } = useContext(ThemeContext);

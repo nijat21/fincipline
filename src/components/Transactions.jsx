@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { getBankTransactions } from "../API/plaid.api";
-import { useNavigate } from "react-router-dom";
 import { format } from 'date-fns';
 import getSymbolFromCurrency from 'currency-symbol-map';
+import SingleTransaction from "./SingleTransaction";
 
 function Transactions({ currBank }) {
     const [recentTransactions, setRecentTransactions] = useState([]);
-    const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
+
 
     // Retrieve transactions
     const retrieveTransactions = async (currBank) => {
@@ -30,8 +32,8 @@ function Transactions({ currBank }) {
 
     // Redirect to SingleTransaction with props
     const handleRowClick = (input) => {
-        navigate('/transaction', { state: { transaction: input } });
-        console.log(input);
+        setShowModal(true);
+        setSelectedTransaction(input);
     };
 
 
@@ -56,7 +58,7 @@ function Transactions({ currBank }) {
                                 {/* <td>{tran.account_details.institution_name}</td> */}
                                 <td className="px-10 py-2 text-center flex items-center">
                                     <div className="h-10 my-1">
-                                        {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6" />}
+                                        {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 rounded-xl" />}
                                     </div>
                                     {tran.name}
                                 </td>
@@ -68,6 +70,12 @@ function Transactions({ currBank }) {
                     })}
                 </tbody>
             </table>
+            {/* SingleTransaction Modal */}
+            {showModal &&
+                <SingleTransaction onClose={() => setShowModal(false)} transaction={selectedTransaction} />
+            }
+
+
             {!currBank && (
                 <div className="flex justify-center">
                     <h1 className="text-lg pt-6">No bank selected.</h1>
