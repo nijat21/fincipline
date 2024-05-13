@@ -9,6 +9,7 @@ import PlaidLink from './PlaidLink';
 import { v4 as uuidv4 } from 'uuid';
 import Balance from '../components/Balance';
 import Transactions from '../components/Transactions';
+import Analytics from '../components/Analytics';
 
 
 function HomePage() {
@@ -36,10 +37,9 @@ function HomePage() {
 
     return (
         <div className=' w-screen special-overflow-hidden'>
-            <div className='h-2screen w-screen flex flex-col items-center'>
+            <div className='h-3screen w-screen flex flex-col items-center'>
                 {/* <GradientBackground /> */}
-                <div className='h-screen w-screen flex flex-col justify-center items-center border-box
-                bg-gradient-to-r from-indigo-500 via-purple-500 to-white shadow-sm'>
+                <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
 
                     <Balance currBank={currBank} />
 
@@ -92,6 +92,9 @@ function HomePage() {
                             See More
                         </Link>
                     </div>
+                </div>
+                <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
+                    <Analytics currBank={currBank} />
                 </div>
             </div>
         </div>

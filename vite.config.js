@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-
+import path from "path";
 import fs from 'fs';
 
 // Path to certificate and key
@@ -10,6 +10,11 @@ const Key = fs.readFileSync('cert.key');
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
   server: {
     https: {
       key: Key,
@@ -18,3 +23,6 @@ export default defineConfig({
     port: 5173,
   }
 });
+
+
+
