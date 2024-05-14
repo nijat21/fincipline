@@ -52,46 +52,41 @@ function HomePage() {
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
                     {/* Balance section */}
                     <Balance currBank={currBank} />
-
+                    {/* Bank selection drop-down */}
                     {banks.length > 0 &&
-                        <Select onValueChange={(value) => handleSelect(value)} className='w-[180px]'>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder={currBank ?
-                                    currBank.institution_name
-                                    :
-                                    <>
-                                        Select your bank
-                                    </>
-                                } />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {banks.length > 0 && banks.map(bank => {
-                                    return (
-                                        <SelectItem key={uuidv4()} value={bank.institution_name}>
-                                            {bank.institution_name}
-                                        </SelectItem>
-                                    );
-                                })}
+                        <div className='w-[188px] flex justify-center py-2'>
+                            <Select onValueChange={(value) => handleSelect(value)}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder={currBank ?
+                                        currBank.institution_name
+                                        :
+                                        <>
+                                            Select your bank
+                                        </>
+                                    } />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {banks.length > 0 && banks.map(bank => {
+                                        return (
+                                            <SelectItem key={uuidv4()} value={bank.institution_name}>
+                                                {bank.institution_name}
+                                            </SelectItem>
+                                        );
+                                    })}
 
-                            </SelectContent>
-                        </Select>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     }
-
+                    {/* Adding new bank account */}
                     <PlaidLink />
                 </div>
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box pb-10 bg-black bg-opacity-5'>
-
+                    {/* Showing recent transactions */}
                     <Transactions currBank={currBank} />
-
-                    <div className='flex justify-center items-center mt-4'>
-                        <Link to={'/transactions'}
-                            className="p-2 py-[10px] my-4 mx-2 px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-                            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
-                            See More
-                        </Link>
-                    </div>
                 </div>
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
+                    {/* Last 30 days analytics */}
                     <Analytics currBank={currBank} />
                 </div>
             </div>

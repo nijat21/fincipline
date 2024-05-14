@@ -1,14 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { FilterContext } from "@/context/filter.context";
 import { v4 as uuidv4 } from 'uuid';
 import { getBankTransactions } from "../API/plaid.api";
 import { format } from 'date-fns';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import SingleTransaction from "./SingleTransaction";
+import { Link } from "react-router-dom";
 
 function Transactions({ currBank }) {
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const { setTransactionsLTD } = useContext(FilterContext);
+
+
+    // Get last 30 days
+    const filterLTD = (input) => {
+        const today = new Date();
+        const thirtyDaysAgo = new Date(new Date().setDate(today.getDate() - 30)).toISOString().split('T')[0];
+        const tranLTD = input.filter(tran => tran.authorized_date >= thirtyDaysAgo && tran.amount > 0);
+        // console.log(tranLTD);
+        setTransactionsLTD(tranLTD);
+    };
 
 
     // Retrieve transactions
@@ -18,7 +31,7 @@ function Transactions({ currBank }) {
                 const params = { user_id: currBank.user_id, bank_id: currBank._id };
                 const transactions = await getBankTransactions(params);
                 setRecentTransactions(transactions.data.added_transactions.slice(0, 5));
-                // console.log(transactions.data.added_transactions.slice(0, 5));
+                filterLTD(transactions.data.added_transactions);
             } catch (error) {
                 console.log('Error retrieving transactions', error);
             }
@@ -81,6 +94,14 @@ function Transactions({ currBank }) {
                     <h1 className="text-lg pt-6">No bank selected.</h1>
                 </div>
             )}
+
+            <div className='flex justify-center items-center mt-4'>
+                <Link to={'/transactions'}
+                    className="p-2 py-[10px] my-4 mx-2 px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
+                    See More
+                </Link>
+            </div>
         </div>
     );
 }
