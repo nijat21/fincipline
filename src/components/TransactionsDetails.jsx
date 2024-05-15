@@ -150,7 +150,7 @@ function TransactionsDetails() {
 
     return (
         <div className="h-screen w-screen-screen w-screen flex flex-col justify-start items-center box-border pb-10">
-            <h2 className="text-3xl pt-10 pb-4 text-center">{`Recent Transactions`}</h2>
+            <h1 className="text-3xl pt-10 pb-4 text-center">{`Transactions`}</h1>
 
             <Filters allTransactions={allTransactions} />
             <div className="overflow-y-auto h-half-screen">

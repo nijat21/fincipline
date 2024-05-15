@@ -18,6 +18,7 @@ import Upload from "./pages/Upload";
 import TransactionsPage from "./pages/TransactionsPage";
 import IsHybrid from "./components/IsHybrid";
 import SingleTransaction from "./components/SingleTransaction";
+import Analytics from "./pages/Analytics";
 
 function App() {
   const { theme } = useContext(ThemeContext);
@@ -39,6 +40,7 @@ function App() {
             <Route path="/profile/upload" element={<IsPrivate><Upload /></IsPrivate>} />
             <Route path="/transactions" element={<IsPrivate><TransactionsPage /></IsPrivate>} />
             <Route path="/transaction" element={<IsPrivate><SingleTransaction /></IsPrivate>} />
+            <Route path="/analytics" element={<IsPrivate><Analytics /></IsPrivate>} />
           </Routes>
         </div>
       </AnimatePresence>

@@ -15,7 +15,7 @@ import PlaidLink from './PlaidLink';
 import { v4 as uuidv4 } from 'uuid';
 import Balance from '../components/Balance';
 import Transactions from '../components/Transactions';
-import Analytics from '../components/Analytics';
+import HomeBarChart from '../components/charts/HomeBarChart';
 
 
 function HomePage() {
@@ -87,7 +87,7 @@ function HomePage() {
                 </div>
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
                     {/* Last 30 days analytics */}
-                    <Analytics currBank={currBank} />
+                    <HomeBarChart currBank={currBank} />
                 </div>
             </div>
         </div>
