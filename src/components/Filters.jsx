@@ -3,14 +3,16 @@ import { motion as m } from 'framer-motion';
 import { useState, useEffect, useContext } from 'react';
 import { FilterContext } from '../context/filter.context';
 import { AuthContext } from '../context/auth.context';
-import { exportPDF, printPDF } from './PDF';
 import DateRangeForm from './DateRange';
 
 function Filters({ allTransactions }) {
     const { selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, dateRangeMenu, setDateRangeMenu,
-        startDate, endDate, rangeSelected } = useContext(FilterContext);
+        startDate, endDate, rangeSelected, bankMenu, setBankMenu,
+
+        formatDate
+    } = useContext(FilterContext);
     const { banks } = useContext(AuthContext);
-    const [bankMenu, setBankMenu] = useState(false);
+
 
     // If there's a bank and/or month selected
     useEffect(() => {
@@ -97,43 +99,9 @@ function Filters({ allTransactions }) {
         formattedDates.push(formattedDate);
     }
 
-    // Calculate the month and year for the current iteration
-    const formatDate = (input) => {
-        const date = new Date(input);
-
-        // Format the date to "Mar'24" format
-        const formattedDate = date.toLocaleDateString('en-US', {
-            day: '2-digit',
-            month: 'short',
-            year: '2-digit',
-        });
-
-        return formattedDate;
-    };
-
-    // Create PDF's title
-    const bank = selectedBank ? selectedBank.institution_name : '';
-    const sMonth = selectedMonth ? selectedMonth : '';
-    const dRange = rangeSelected ? formatDate(startDate) + " - " + formatDate(endDate) : '';
-    const title = bank + " Transactions " + sMonth + dRange;
-
-    // Export the pdf
-    const handleExport = () => {
-        // only if the data exists
-        allTransactions && allTransactions.length > 0 && exportPDF(allTransactions, title);
-        // console.log("Export run");
-    };
-
-    // Print the pdf
-    const handlePrint = () => {
-        // only if the data exists
-        allTransactions && allTransactions.length > 0 && printPDF(allTransactions, title);
-        // console.log("Print run");
-    };
-
 
     return (
-        <div>
+        <div className='max-w-3/5'>
             <ul className="list-none flex justify-center">
 
                 {/* Bank */}
@@ -178,31 +146,18 @@ function Filters({ allTransactions }) {
                         }
                     </button>
                 </li>
-
-                {/* Print and Export */}
-                <li onClick={handlePrint}
-                    className={`px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-            dark:hover:bg-white dark:hover:text-black hover:border-transparent cursor-pointer`}>
-                    <i className="fa-solid fa-print"></i>
-                    {/* Add a "Print" popup when hovered over */}
-                </li>
-                <li onClick={handleExport}
-                    className='px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-            dark:hover:bg-white dark:hover:text-black hover:border-transparent cursor-pointer'>
-                    <i className="fa-solid fa-download"></i>
-                    {/* Add a "Export" popup when hovered over */}
-                </li>
             </ul>
 
             {/* Logic for DateRangeMenu and BankMenu */}
             {dateRangeMenu &&
-                <div className='h-48 z-50 mb-4 text-lg rounded-md bg-black bg-opacity-30 flex justify-center'>
+                <div className='h-48 z-50 mb-4 text-lg text-slate-300 rounded-md bg-slate-700 dark:bg-blue-800 flex justify-center absolute w-auto '>
                     <DateRangeForm />
                 </div>
             }
             {bankMenu &&
                 <m.div
-                    className='z-50 mb-4 h-28 w-40 text-lg pl-4 border-black dark:border-slate-300 rounded-md bg-black bg-opacity-30 flex items-center'>
+                    className='z-50 mb-4 h-28 w-40 text-lg text-slate-300 pl-4 border-black dark:border-slate-300 rounded-md flex items-center
+                    bg-slate-700 dark:bg-blue-800 absolute'>
                     <ul className='list-none'>
                         {banks.length > 0 && banks.map(bank => {
                             return <li key={uuidv4()} className='hover:border-b'>

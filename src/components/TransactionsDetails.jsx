@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { FilterContext } from "../context/filter.context";
 import { AuthContext } from "../context/auth.context";
 import { v4 as uuidv4 } from 'uuid';
@@ -12,12 +12,16 @@ import SingleTransaction from "./SingleTransaction";
 
 function TransactionsDetails() {
     const { user } = useContext(AuthContext);
-    const { selectedMonth, selectedBank, startDate, endDate, rangeSelected, rangeSubmitClear, Export, Print } = useContext(FilterContext);
+    const { selectedMonth, selectedBank, startDate, endDate, rangeSelected, rangeSubmitClear, setDateRangeMenu, setBankMenu,
+        allTransactions, setAllTransactions,
+
+        handleOutsideClick, handleExport, handlePrint
+    } = useContext(FilterContext);
     const [data, setData] = useState(null);
-    const [allTransactions, setAllTransactions] = useState(null);
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const filterRef = useRef();
 
     // Retrieve all transactions
     const retrieveTransactions = async (id) => {
@@ -146,10 +150,14 @@ function TransactionsDetails() {
     const handleRowClick = (input) => {
         setShowModal(true);
         setSelectedTransaction(input);
+        setDateRangeMenu(false);
+        setBankMenu(false);
     };
 
+
     return (
-        <div className="h-screen w-screen-screen w-screen flex flex-col justify-start items-center box-border pb-10">
+        <div className="h-screen w-screen-screen w-screen flex flex-col justify-start items-center box-border pb-10"
+            ref={filterRef} onClick={(e) => handleOutsideClick(e, filterRef)}>
             <h1 className="text-3xl pt-10 pb-4 text-center">{`Transactions`}</h1>
 
             <Filters allTransactions={allTransactions} />
@@ -189,9 +197,24 @@ function TransactionsDetails() {
             </div>
             <div className="flex justify-end">
                 <button onClick={() => navigate(-1)}
-                    className="p-2 px-4 m-10 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                    className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                     dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
                     Back
+                </button>
+                {/* Print and Export */}
+                <button onClick={handlePrint}
+                    className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                    dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
+                    <i className="fa-solid fa-print mr-1"></i>
+                    Print
+                    {/* Add a "Print" popup when hovered over */}
+                </button>
+                <button onClick={handleExport}
+                    className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                    dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
+                    <i className="fa-solid fa-download mr-1"></i>
+                    Export
+                    {/* Add a "Export" popup when hovered over */}
                 </button>
             </div>
         </div>

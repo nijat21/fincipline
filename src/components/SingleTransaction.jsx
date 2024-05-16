@@ -1,12 +1,14 @@
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { X } from 'lucide-react';
+import { FilterContext } from '@/context/filter.context';
 
 
 function SingleTransaction({ onClose, transaction }) {
     const modalRef = useRef();
 
-    // If user click's somewhere other than the Modal, close it
+
+    // If user clicks somewhere other than the Modal, close it
     const closeModal = (e) => {
         if (modalRef.current === e.target) {
             onClose();

@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from 'react';
 import { FilterContext } from '../context/filter.context';
+import { useRef } from 'react';
 
 
 function DateRangeForm() {
     const { startDate, setStartDate, endDate, setEndDate, setDateRangeMenu, setRangeSelected, setRangeSubmitClear } = useContext(FilterContext);
     const [errorMessage, setErrorMessage] = useState('');
-
 
     const handleStartDateChange = (e) => {
         e.preventDefault();
@@ -52,6 +52,7 @@ function DateRangeForm() {
     };
 
 
+
     // Future dates can't be selected / define max date
     const getMaxDate = () => {
         const today = new Date().toISOString().split('T')[0];
@@ -80,10 +81,10 @@ function DateRangeForm() {
 
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col items-center text-lg">
+        <form onSubmit={handleSubmit} className="flex flex-col items-center text-lg w-full">
             <div className='flex'>
                 <div className='flex flex-col items-center mx-2'>
-                    <label htmlFor="startDate" className="mt-4 mb-2 font-semibold">Starting on</label>
+                    <label htmlFor="startDate" className="mt-4 mb-2">Starting on</label>
                     <input
                         type="date"
                         id="startDate"
@@ -94,7 +95,7 @@ function DateRangeForm() {
                         max={endDate ? endDate : getMaxDate()}
                     />
                 </div>
-                <div className='flex flex-col items-center mx-2  font-semibold'>
+                <div className='flex flex-col items-center mx-2 '>
                     <label htmlFor="endDate" className="mt-4 mb-2">Ending on</label>
                     <input
                         type="date"
