@@ -1,6 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { exportPDF, printPDF } from '../components/PDF';
-
+import { getAllTransactions } from "../API/plaid.api";
+import { AuthContext } from "./auth.context";
 
 const FilterContext = createContext();
 
@@ -18,6 +19,139 @@ const FilterProvider = props => {
     // Data
     const [transactionsLTD, setTransactionsLTD] = useState(null);
     const [allTransactions, setAllTransactions] = useState(null);
+    const [data, setData] = useState(null);
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
+    // User
+    // const { user } = useContext(AuthContext);
+
+    // Retrieve all transactions
+    const retrieveTransactions = async (id) => {
+        if (!id) {
+            console.log('User ID is not present');
+        }
+        try {
+            const params = { user_id: id };
+            const transactions = await getAllTransactions(params);
+            const result = transactions.data.sorted_transactions;
+            setData(result);
+            // If bank or month is selected
+            if (selectedBank || selectedMonth || rangeSelected) {
+                filter(result);
+            } else {
+                setAllTransactions(result);
+            }
+            // console.log("retrieveTransaction ran"); // RetrieveTransactions runs more than once
+        } catch (error) {
+            console.log('Error retrieving transactions', error);
+        }
+    };
+
+
+    // // Once user is available, load all transactions
+    // useEffect(() => {
+    //     retrieveTransactions(user._id);
+    // }, []);
+
+
+    // Filter by bank
+    const filterByBank = (input) => {
+        // If Bank is selected
+        if (selectedBank && input && input.length > 0) {
+            const bankTran = input.filter(tran => {
+                return tran.account_details.institution_id === selectedBank.institution_id;
+            });
+            return bankTran;
+        }
+    };
+
+    // Filter by Month
+    const filterByMonth = (input) => {
+        // Mapping month format to numbers
+        const monthMap = {
+            Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6,
+            Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12
+        };
+
+        // If month is selected 
+        if (selectedMonth) {
+            if (input && input.length > 0) {
+                const month = selectedMonth.slice(0, 3);
+                const year = selectedMonth.slice(4, 6);
+                // console.log(monthMap[month], "Year", year);
+                // console.log(input);
+
+                const monthTran = input.filter(tran => {
+                    const tranMonth = tran.authorized_date.slice(5, 7);
+                    if (tranMonth < 10) tranMonth.slice(1,);
+                    const tranYear = tran.authorized_date.slice(2, 4);
+                    return tranMonth == monthMap[month] && tranYear === year;
+                });
+
+                // console.log(monthTran);
+                return monthTran;
+            }
+        } else {
+            return input;
+        }
+    };
+
+    // Filter by range
+    const filterByRange = (input) => {
+        if (input && startDate && endDate) {
+            const rangeFiltered = input.filter(tran => {
+                // Convert transaction date string to Date objects
+                const tranDate = new Date(tran.authorized_date);
+                const startDateObj = new Date(startDate);
+                const endDateObj = new Date(endDate);
+
+                // Check if transaction date is within the date range
+                return tranDate >= startDateObj && tranDate <= endDateObj;
+            });
+            return rangeFiltered;
+        }
+    };
+
+    // Filter all
+    const filter = (data) => {
+        try {
+            // Ignore running steps if there's no input for a certain step
+            // Either month is selected or a custom range. They can't be selected together
+            const rawData = JSON.parse(JSON.stringify(data));
+            let filtered;
+
+            if (selectedBank && selectedMonth && !rangeSelected) {
+                filtered = filterByMonth(filterByBank(rawData));
+            } else if (selectedBank && !selectedMonth && rangeSelected) {
+                filtered = filterByRange(filterByBank(rawData));
+            } else if (!selectedBank && !selectedMonth && rangeSelected) {
+                filtered = filterByRange(rawData);
+            } else if (!selectedBank && selectedMonth && !rangeSelected) {
+                filtered = filterByMonth(rawData);
+            } else if (selectedBank && !selectedMonth && !rangeSelected) {
+                filtered = filterByBank(rawData);
+            } else if (!selectedBank && !selectedMonth && !rangeSelected) {
+                filtered = rawData;
+            }
+            setAllTransactions(filtered);
+            // console.log("Filter ran");
+        } catch (error) {
+            console.log("Error occured filtering the transactions", error);
+            // setFilterComplete(false);
+        }
+    };
+
+
+    // Clear date range selection
+    const handleClear = () => {
+        localStorage.removeItem('startDate');
+        localStorage.removeItem('endDate');
+        setStartDate(null);
+        setEndDate(null);
+        setDateRangeMenu(false);
+        setRangeSelected(false);
+        setRangeSubmitClear(prevValue => prevValue + 1);
+    };
+
 
     // Close DateRange menu when mouse clicked somewhere else
     const handleOutsideClick = (e, filterRef) => {
@@ -27,6 +161,7 @@ const FilterProvider = props => {
             setBankMenu(false);
         }
     };
+
 
     // Calculate the month and year for the current iteration
     const formatDate = (input) => {
@@ -65,12 +200,14 @@ const FilterProvider = props => {
 
     return (
         <FilterContext.Provider value={{
+            // States
             selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
             endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
             rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
-            bankMenu, setBankMenu, allTransactions, setAllTransactions,
-
-            handleOutsideClick, formatDate, handleExport, handlePrint
+            bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction
+            ,
+            // Functions
+            handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear
         }}>
             {props.children}
         </FilterContext.Provider>

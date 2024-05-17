@@ -37,9 +37,13 @@ const data = [
 
 
 
-function AreaChartAnalytics() {
+function AreaChartAnalytics({ allTransactions }) {
+    // console.log(allTransactions); // Check for filters
+    // Convert the AllTransactions into something usable in Area Chart
+
+
     return (
-        <div className='h-full w-full'>
+        <div className='h-full w-full mx-1 px-1 pt-4 bg-black bg-opacity-30 rounded-lg'>
             <ResponsiveContainer width="100%" height="100%" >
                 <AreaChart
                     width={500}
@@ -47,8 +51,8 @@ function AreaChartAnalytics() {
                     data={data}
                     margin={{
                         top: 10,
-                        right: 30,
-                        left: 0,
+                        right: 40,
+                        left: 4,
                         bottom: 0,
                     }}
                 >

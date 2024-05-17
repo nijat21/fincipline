@@ -4,7 +4,7 @@ import { useRef } from 'react';
 
 
 function DateRangeForm() {
-    const { startDate, setStartDate, endDate, setEndDate, setDateRangeMenu, setRangeSelected, setRangeSubmitClear } = useContext(FilterContext);
+    const { startDate, setStartDate, endDate, setEndDate, setDateRangeMenu, setRangeSelected, setRangeSubmitClear, handleClear } = useContext(FilterContext);
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleStartDateChange = (e) => {
@@ -67,17 +67,6 @@ function DateRangeForm() {
         setEndDate(eDate || null);
     }, []);
 
-
-    // Clear range button
-    const handleClear = () => {
-        localStorage.removeItem('startDate');
-        localStorage.removeItem('endDate');
-        setStartDate(null);
-        setEndDate(null);
-        setDateRangeMenu(false);
-        setRangeSelected(false);
-        setRangeSubmitClear(prevValue => prevValue + 1);
-    };
 
 
     return (

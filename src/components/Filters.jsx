@@ -5,11 +5,11 @@ import { FilterContext } from '../context/filter.context';
 import { AuthContext } from '../context/auth.context';
 import DateRangeForm from './DateRange';
 
-function Filters({ allTransactions }) {
+function Filters() {
     const { selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, dateRangeMenu, setDateRangeMenu,
-        startDate, endDate, rangeSelected, bankMenu, setBankMenu,
-
-        formatDate
+        startDate, endDate, bankMenu, setBankMenu
+        ,
+        formatDate, handleClear
     } = useContext(FilterContext);
     const { banks } = useContext(AuthContext);
 
@@ -36,7 +36,7 @@ function Filters({ allTransactions }) {
         } else {
             setSelectedMonth(date);
             localStorage.setItem('selectedMonth', (date));
-            setDateRangeMenu(false);
+            handleClear();
         }
     };
 

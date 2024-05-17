@@ -3,15 +3,37 @@ import Filters from '../components/Filters';
 import AreaChartAnalytics from '@/components/charts/AreaChartAnalytics';
 import BarChartAnalytics from '@/components/charts/BarChartAnalytics';
 import LineChartAnalytics from '@/components/charts/LineChartAnalytics';
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useEffect } from 'react';
 import { FilterContext } from '@/context/filter.context';
+import { AuthContext } from '@/context/auth.context';
 
 
 function Analytics() {
     const navigate = useNavigate();
     const analyticsRef = useRef();
     const analyticsRef2 = useRef();
-    const { handleOutsideClick } = useContext(FilterContext);
+    const { data, allTransactions, selectedBank, selectedMonth, rangeSubmitClear
+        ,
+        // Functions
+        handleOutsideClick, retrieveTransactions, filter
+    } = useContext(FilterContext);
+    const { user } = useContext(AuthContext);
+
+
+
+    // Once user is available, load all transactions
+    useEffect(() => {
+        // console.log(user);
+        retrieveTransactions(user._id);
+    }, []);
+
+
+    // If bank or month selected, filter the transactions
+    // Filter is called 4 times, maybe optimize
+    useEffect(() => {
+        filter(data);
+    }, [selectedBank, selectedMonth, rangeSubmitClear]);
+
 
     return (
         <div className="h-screen w-screen flex flex-col justify-start items-center box-border pb-10"
@@ -19,10 +41,10 @@ function Analytics() {
             <h1 className="text-3xl pt-10 pb-4 text-center">Analytics</h1>
             <div className='w-full h-full flex flex-col items-center' ref={analyticsRef2} onClick={(e) => handleOutsideClick(e, analyticsRef2)}>
                 <Filters />
-                <div className='w-4/5 h-1/2 flex mt-10'>
-                    <AreaChartAnalytics />
+                <div className='w-4/5 h-1/2 flex mt-4'>
+                    <AreaChartAnalytics allTransactions={allTransactions} />
                 </div>
-                <div className='w-4/5 h-1/2 flex mt-10'>
+                <div className='w-4/5 h-1/2 flex mt-2'>
                     <BarChartAnalytics />
                     <LineChartAnalytics />
                 </div>

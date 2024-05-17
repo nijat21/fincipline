@@ -49,7 +49,7 @@ const data = [
 
 function BarChartAnalytics() {
     return (
-        <div className='w-full h-full'>
+        <div className='w-full h-full mx-1 bg-black bg-opacity-30 rounded-lg'>
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                     width={500}
@@ -57,8 +57,8 @@ function BarChartAnalytics() {
                     data={data}
                     margin={{
                         top: 5,
-                        right: 30,
-                        left: 20,
+                        right: 40,
+                        left: 0,
                         bottom: 20,
                     }}
                 >
@@ -69,8 +69,9 @@ function BarChartAnalytics() {
                     <YAxis />
                     <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} />
                     <Legend verticalAlign='top' />
-                    <Bar dataKey="pv" fill="#8884d8" />
-                    <Bar dataKey="uv" fill="#82ca9d" />
+                    <Bar dataKey="pv" fill="#82c" />
+                    <Bar dataKey="uv" fill="#8884d8" />
+                    <Bar dataKey="amt" fill="#82ca9d" />
                 </BarChart>
             </ResponsiveContainer>
         </div>

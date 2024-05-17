@@ -5,139 +5,28 @@ import { v4 as uuidv4 } from 'uuid';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { format } from 'date-fns';
 import { useNavigate } from "react-router-dom";
-import { getAllTransactions } from "../API/plaid.api";
 import Filters from "./Filters";
 import SingleTransaction from "./SingleTransaction";
 
 
 function TransactionsDetails() {
-    const { user } = useContext(AuthContext);
-    const { selectedMonth, selectedBank, startDate, endDate, rangeSelected, rangeSubmitClear, setDateRangeMenu, setBankMenu,
-        allTransactions, setAllTransactions,
-
-        handleOutsideClick, handleExport, handlePrint
+    const { selectedMonth, selectedBank, rangeSubmitClear, setDateRangeMenu, setBankMenu,
+        allTransactions, data, selectedTransaction, setSelectedTransaction
+        ,
+        // Functions
+        handleOutsideClick, handleExport, handlePrint, retrieveTransactions, filter
     } = useContext(FilterContext);
-    const [data, setData] = useState(null);
+    const filterRef = useRef();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
-    const [selectedTransaction, setSelectedTransaction] = useState(null);
-    const filterRef = useRef();
+    const { user } = useContext(AuthContext);
 
-    // Retrieve all transactions
-    const retrieveTransactions = async (id) => {
-        if (!id) {
-            console.log('User ID is not present');
-        }
-        try {
-            const params = { user_id: id };
-            const transactions = await getAllTransactions(params);
-            const result = transactions.data.sorted_transactions;
-            setData(result);
-            // If bank or month is selected
-            if (selectedBank || selectedMonth || rangeSelected) {
-                filter(result);
-            } else {
-                setAllTransactions(result);
-            }
-            // console.log("retrieveTransaction ran"); // RetrieveTransactions runs more than once
-        } catch (error) {
-            console.log('Error retrieving transactions', error);
-        }
-    };
 
     // Once user is available, load all transactions
     useEffect(() => {
+        // console.log(user);
         retrieveTransactions(user._id);
     }, []);
-
-
-    // Filter by bank
-    const filterByBank = (input) => {
-        // If Bank is selected
-        if (selectedBank && input && input.length > 0) {
-            const bankTran = input.filter(tran => {
-                return tran.account_details.institution_id === selectedBank.institution_id;
-            });
-            return bankTran;
-        }
-    };
-
-    // Filter by Month
-    const filterByMonth = (input) => {
-        // Mapping month format to numbers
-        const monthMap = {
-            Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6,
-            Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12
-        };
-
-        // If month is selected 
-        if (selectedMonth) {
-            if (input && input.length > 0) {
-                const month = selectedMonth.slice(0, 3);
-                const year = selectedMonth.slice(4, 6);
-                // console.log(monthMap[month], "Year", year);
-                // console.log(input);
-
-                const monthTran = input.filter(tran => {
-                    const tranMonth = tran.authorized_date.slice(5, 7);
-                    if (tranMonth < 10) tranMonth.slice(1,);
-                    const tranYear = tran.authorized_date.slice(2, 4);
-                    return tranMonth == monthMap[month] && tranYear === year;
-                });
-
-                // console.log(monthTran);
-                return monthTran;
-            }
-        } else {
-            return input;
-        }
-    };
-
-    // Filter by range
-    const filterByRange = (input) => {
-        if (input && startDate && endDate) {
-            const rangeFiltered = input.filter(tran => {
-                // Convert transaction date string to Date objects
-                const tranDate = new Date(tran.authorized_date);
-                const startDateObj = new Date(startDate);
-                const endDateObj = new Date(endDate);
-
-                // Check if transaction date is within the date range
-                return tranDate >= startDateObj && tranDate <= endDateObj;
-            });
-            return rangeFiltered;
-        }
-    };
-
-    // Filter all
-    const filter = (data) => {
-        try {
-            // Ignore running steps if there's no input for a certain step
-            // Either month is selected or a custom range. They can't be selected together
-            const rawData = JSON.parse(JSON.stringify(data));
-            let filtered;
-
-            if (selectedBank && selectedMonth && !rangeSelected) {
-                filtered = filterByMonth(filterByBank(rawData));
-            } else if (selectedBank && !selectedMonth && rangeSelected) {
-                filtered = filterByRange(filterByBank(rawData));
-            } else if (!selectedBank && !selectedMonth && rangeSelected) {
-                filtered = filterByRange(rawData);
-            } else if (!selectedBank && selectedMonth && !rangeSelected) {
-                filtered = filterByMonth(rawData);
-            } else if (selectedBank && !selectedMonth && !rangeSelected) {
-                filtered = filterByBank(rawData);
-            } else if (!selectedBank && !selectedMonth && !rangeSelected) {
-                filtered = rawData;
-            }
-            setAllTransactions(filtered);
-            // console.log("Filter ran");
-        } catch (error) {
-            console.log("Error occured filtering the transactions", error);
-            // setFilterComplete(false);
-        }
-    };
-
 
     // If bank or month selected, filter the transactions
     // Filter is called 4 times, maybe optimize
@@ -160,7 +49,7 @@ function TransactionsDetails() {
             ref={filterRef} onClick={(e) => handleOutsideClick(e, filterRef)}>
             <h1 className="text-3xl pt-10 pb-4 text-center">{`Transactions`}</h1>
 
-            <Filters allTransactions={allTransactions} />
+            <Filters />
             <div className="overflow-y-auto h-half-screen">
                 <table className="box-border">
                     <thead className="text-lg h-10 bg-black bg-opacity-20">
