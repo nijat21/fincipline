@@ -30,6 +30,7 @@ function Transactions({ currBank }) {
             try {
                 const params = { user_id: currBank.user_id, bank_id: currBank._id };
                 const transactions = await getBankTransactions(params);
+                console.log('Transactions', transactions.data.added_transactions);
                 setRecentTransactions(transactions.data.added_transactions.slice(0, 5));
                 filterLTD(transactions.data.added_transactions);
             } catch (error) {

@@ -10,7 +10,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import Ad from '../components/Ad';
 import PlaidLink from './PlaidLink';
 import { v4 as uuidv4 } from 'uuid';
 import Balance from '../components/Balance';

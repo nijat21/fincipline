@@ -12,7 +12,7 @@ function Analytics() {
     const navigate = useNavigate();
     const analyticsRef = useRef();
     const analyticsRef2 = useRef();
-    const { data, allTransactions, selectedBank, selectedMonth, rangeSubmitClear
+    const { data, selectedBank, selectedMonth, rangeSubmitClear
         ,
         // Functions
         handleOutsideClick, retrieveTransactions, filter
@@ -42,7 +42,7 @@ function Analytics() {
             <div className='w-full h-full flex flex-col items-center' ref={analyticsRef2} onClick={(e) => handleOutsideClick(e, analyticsRef2)}>
                 <Filters />
                 <div className='w-4/5 h-1/2 flex mt-4'>
-                    <AreaChartAnalytics allTransactions={allTransactions} />
+                    <AreaChartAnalytics />
                 </div>
                 <div className='w-4/5 h-1/2 flex mt-2'>
                     <BarChartAnalytics />

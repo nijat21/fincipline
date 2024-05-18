@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { FilterContext } from '@/context/filter.context';
 import {
-    BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Label, CartesianGrid, Legend, Tooltip, LabelList,
+    BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Label, CartesianGrid, Legend, Tooltip,
 
 } from 'recharts';
 import { Link } from 'react-router-dom';
