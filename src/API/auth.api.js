@@ -51,6 +51,11 @@ export const updatePassword = (reqBody) => {
     return axios.put(`${baseUrl}/updatePassword`, reqBody);
 };
 
+// Update user details
+export const updateUserDetails = (reqBody) => {
+    return axios.put(`${baseUrl}/updateUserDetails`, reqBody);
+};
+
 // Delete user and all bank accounts
 export const deleteUser = async (user_id) => {
     return axios.delete(`${baseUrl}/deleteUser/${user_id}`);

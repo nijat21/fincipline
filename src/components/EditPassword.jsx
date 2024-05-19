@@ -39,7 +39,7 @@ function EditPassword({ onClose }) {
                     setError('');
                     onClose();
                 } catch (error) {
-                    console.log('Error singing up', error);
+                    console.log('Error updating password!', error);
                     // Error message comes from the backend when we do the "res.json({message:'adsgasg'})"
                     toast.error(error.response?.data?.message);
                     setError(error.response?.data?.message);

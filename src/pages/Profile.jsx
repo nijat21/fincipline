@@ -4,6 +4,7 @@ import { AuthContext } from "../context/auth.context";
 import { deleteUser } from "../API/auth.api";
 import { Pencil } from 'lucide-react';
 import EditPassword from "@/components/EditPassword";
+import EditUserDetails from "@/components/EditUserDetails";
 
 function Profile() {
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ function Profile() {
     const [imgUrl, setImgUrl] = useState(user.imgUrl);
     const [name, setName] = useState(user.name);
     const [showPasswordEdit, setShowPasswordEdit] = useState(false);
+    const [showDetailsEdit, setShowDetailsEdit] = useState(false);
 
 
     // Handle delete
@@ -25,6 +27,12 @@ function Profile() {
             console.log('Error deleting the user', error);
         }
     };
+
+    // Display new name in Profile
+    const handleUserDetailsUpdate = (updatedName) => {
+        setName(updatedName);
+    };
+
 
     useEffect(() => {
         if (profilePhoto) {
@@ -54,7 +62,7 @@ function Profile() {
                         }
                     </div>
 
-                    <h1 className="font-medium text-xl h-16 flex items-center ">{user.name.toUpperCase()}</h1>
+                    <h1 className="font-medium text-xl h-16 flex items-center ">{name.toUpperCase()}</h1>
                     {/* <div className="relative group flex justify-center items-center w-full p-2 m-2 group border rounded-sm border-black dark:border-slate-300 cursor-pointer">
                         <input type="text" value={name.toUpperCase()} className="text-center bg-transparent" onChange={(e) => setName(e.target.value)} />
                         <div className="relative w-full flex justify-end">
@@ -62,18 +70,23 @@ function Profile() {
                         </div>
                     </div> */}
                     <button className="w-full p-2 m-2 border rounded-sm border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-                    dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
-                        Change name</button>
+                    dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer"
+                        onClick={() => setShowDetailsEdit(true)}>
+                        Name & email</button>
+                    {/* Add some edit icon to make obvious */}
                     <button className="w-full p-2 m-2 border border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                     dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer"
                         onClick={() => setShowPasswordEdit(true)}>
-                        Change password</button>
+                        Update password</button>
                     <button className="w-full p-2 m-2 border border-black bg-neutral-500 text-white dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                     dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer"
                         onClick={handleDelete}>Delete account</button>
                 </div>
                 {showPasswordEdit &&
                     <EditPassword onClose={() => setShowPasswordEdit(false)} />
+                }
+                {showDetailsEdit &&
+                    <EditUserDetails onClose={() => setShowDetailsEdit(false)} onUpdate={handleUserDetailsUpdate} />
                 }
             </div>
         </div>
