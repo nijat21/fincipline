@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import { upload, updateImg } from "../API/user.api";
+import { uploadImg, updateImg } from "../API/user.api";
 
 function Upload() {
     const { user, profilePhoto, setProfilePhoto } = useContext(AuthContext);
@@ -10,6 +10,18 @@ function Upload() {
 
     const handleImage = ({ target }) => {
         setImage(target.files[0]);
+    };
+
+    // Update user's image
+    const updateUserImg = async (input) => {
+        if (input) {
+            try {
+                const reqBody = { user_id: user._id, imgUrl: input };
+                await updateImg(reqBody);
+            } catch (error) {
+                console.log('Error updating the image', error);
+            }
+        }
     };
 
     // Upload image to Cloudinary
@@ -22,8 +34,9 @@ function Upload() {
                 // Attach image to this new form
                 uploadData.append('file', image);
                 // Request to endpoint
-                const response = await upload(uploadData);
+                const response = await uploadImg(uploadData);
                 updateUserImg(response.data.imgUrl);
+                setProfilePhoto(response.data.imgUrl);
                 console.log('Photo is updated successfully');
             }
             navigate('/profile');
@@ -32,17 +45,7 @@ function Upload() {
         }
     };
 
-    // Update user's image
-    const updateUserImg = async () => {
-        if (profilePhoto) {
-            try {
-                const reqBody = { user_id: user._id, imgUrl: profilePhoto };
-                await updateImg(reqBody);
-            } catch (error) {
-                console.log('Error updating the image', error);
-            }
-        }
-    };
+
 
 
     return (
@@ -53,7 +56,7 @@ function Upload() {
                 <form onSubmit={handleSubmit} className="flex flex-col items-center">
                     <div className="flex justify-center p-6">
                         <label htmlFor="image"></label>
-                        <input type="file" onChange={handleImage} className="" />
+                        <input type="file" onChange={handleImage} id="image" className="" />
                     </div>
                     <div className="flex justify-center">
                         <button type="submit" className="min-w-44 p-2 m-2 border rounded-sm border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white

@@ -20,7 +20,7 @@ setAuthorizationHeaders();
 
 
 // uploading profile photo
-export const upload = async (image) => {
+export const uploadImg = async (image) => {
     return axios.post(`${baseUrl}/upload`, image);
 };
 

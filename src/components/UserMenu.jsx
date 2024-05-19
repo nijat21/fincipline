@@ -4,11 +4,16 @@ import { AnimatePresence, motion as m } from 'framer-motion';
 import { AuthContext } from "../context/auth.context";
 
 function UserMenu() {
+    const { user } = useContext(AuthContext);
 
     return (
-        <div>
-            <FlyoutLink href="#" FlyoutContent={userContent}>
-                <i className="fa-regular fa-user fa-xl"></i>
+        <div className="relative">
+            <FlyoutLink href="#" FlyoutContent={UserContent}>
+                {user.imgUrl ?
+                    <img src={user.imgUrl} alt="" className="rounded-xl h-full w-full" />
+                    :
+                    <i className="fa-regular fa-user fa-xl"></i>
+                }
             </FlyoutLink>
         </div>
     );
@@ -50,10 +55,9 @@ const FlyoutLink = ({ children, href, FlyoutContent }) => {
     );
 };
 
-const userContent = () => {
-    const { user } = useContext(AuthContext);
+const UserContent = () => {
+    const { user, logoutUser } = useContext(AuthContext);
 
-    const { logoutUser } = useContext(AuthContext);
     return (
         <div className="h-28 w-40 p-4 text-lg  bg-white border border-zinc-500 dark:border-gray-300 dark:text-slate-300 dark:bg-slate-800 shadow-xl rounded-md
         flex flex-col items-center justify-center">
