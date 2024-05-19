@@ -25,7 +25,7 @@ function Signup() {
             } catch (error) {
                 console.log('Error singing up', error);
                 // Error message comes from the backend when we do the "res.json({message:'adsgasg'})"
-                setError(error.response.data.message);
+                setError(error.response?.data?.message);
             }
         }
     };

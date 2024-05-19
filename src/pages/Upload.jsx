@@ -1,10 +1,10 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import { uploadImg, updateImg } from "../API/user.api";
+import { uploadImg, updateImg } from "../API/auth.api";
 
 function Upload() {
-    const { user, profilePhoto, setProfilePhoto } = useContext(AuthContext);
+    const { user, setProfilePhoto } = useContext(AuthContext);
     const [image, setImage] = useState();
     const navigate = useNavigate();
 

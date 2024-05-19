@@ -1,5 +1,5 @@
 import { useState, useContext, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { login } from "../API/auth.api";
 import { AuthContext } from "../context/auth.context";
 
@@ -7,7 +7,6 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
     const { storeToken, authenticateUser } = useContext(AuthContext);
     const uRef = useRef(null);
 

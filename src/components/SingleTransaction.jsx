@@ -40,7 +40,7 @@ function SingleTransaction({ onClose, transaction }) {
                     <p className="">Status: {transaction.pending ? "Pending" : "Complete"}</p>
                 </div>
             }
-        </div >
+        </div>
     );
 }
 
