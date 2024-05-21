@@ -6,6 +6,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from './context/auth.context.jsx';
 import { ThemeProvider } from './context/theme.context.jsx';
 import { FilterProvider } from './context/filter.context.jsx';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -13,7 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <ThemeProvider>
         <FilterProvider>
           <Router>
-            <App />
+            <GoogleOAuthProvider clientId="<your_client_id>">
+              <App />
+            </GoogleOAuthProvider>
           </Router>
         </FilterProvider>
       </ThemeProvider>

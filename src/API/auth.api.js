@@ -10,6 +10,16 @@ export const login = user => {
     return axios.post(`${baseUrl}/login`, user);
 };
 
+// Google auth
+export const googleAuth = code => {
+    return axios.post(`${baseUrl}/googleAuth`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code: code })
+    });
+};
+
 
 export const verify = storedToken => {
     return axios.get(`${baseUrl}/verify`, {

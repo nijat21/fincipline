@@ -20,6 +20,7 @@ import IsHybrid from "./components/IsHybrid";
 import SingleTransaction from "./components/SingleTransaction";
 import Analytics from "./pages/Analytics";
 
+
 function App() {
   const { theme } = useContext(ThemeContext);
 
