@@ -1,8 +1,11 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { googleAuth } from '@/API/auth.api';
-const clientId = import.meta.env.CLIENT_ID;
+import { useEffect } from 'react';
+const clientId = import.meta.env.VITE_CLIENT_ID;
+
 
 const GoogleSignIn = () => {
+
     // 
     const onSuccess = async (res) => {
         // On successful login we receive a code that will be exchanged to access token
@@ -14,7 +17,6 @@ const GoogleSignIn = () => {
             console.log('Error logging in!', error);
         }
 
-
         console.log("Login successful! Current user ", res.profileObj);
     };
 
@@ -22,6 +24,9 @@ const GoogleSignIn = () => {
         console.log('Login failed! Error: ', res);
     };
 
+    useEffect(() => {
+        console.log("Client id", clientId);
+    });
 
     return (
         <div>

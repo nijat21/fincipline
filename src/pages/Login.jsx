@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { login } from "../API/auth.api";
 import { AuthContext } from "../context/auth.context";
 import GoogleSignIn from "@/components/GoogleSignIn";
-const clientId = import.meta.env.CLIENT_ID;
 
 function Login() {
     const [email, setEmail] = useState('');

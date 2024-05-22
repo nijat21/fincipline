@@ -13,10 +13,11 @@ export const login = user => {
 // Google auth
 export const googleAuth = code => {
     return axios.post(`${baseUrl}/googleAuth`, {
+        code: code
+    }, {
         headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ code: code })
+        }
     });
 };
 
