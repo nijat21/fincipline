@@ -1,32 +1,26 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { googleAuth } from '@/API/auth.api';
-import { useEffect } from 'react';
 const clientId = import.meta.env.VITE_CLIENT_ID;
 
 
 const GoogleSignIn = () => {
-
-    // 
-    const onSuccess = async (res) => {
-        // On successful login we receive a code that will be exchanged to access token
-        const authCode = res.code;
+    // On successful login we receive a code that will be exchanged to access token
+    const onSuccess = async (credentialResponse) => {
+        const authCode = credentialResponse;
+        console.log('Auth code', authCode);
         try {
-            const response = await googleAuth(authCode);
-            console.log(response);
+            const response = await googleAuth({ code: authCode });
+            console.log("Google Auth run", response);
         } catch (error) {
             console.log('Error logging in!', error);
         }
 
-        console.log("Login successful! Current user ", res.profileObj);
+        console.log("Login successful! Current user ", credentialResponse.profileObj);
     };
 
     const onError = (res) => {
         console.log('Login failed! Error: ', res);
     };
-
-    useEffect(() => {
-        console.log("Client id", clientId);
-    });
 
     return (
         <div>

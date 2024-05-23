@@ -21,7 +21,7 @@ export const googleAuth = code => {
     });
 };
 
-
+// Verify the token 
 export const verify = storedToken => {
     return axios.get(`${baseUrl}/verify`, {
         headers: {
