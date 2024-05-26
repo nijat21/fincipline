@@ -52,7 +52,7 @@ function HomePage() {
                     {/* Balance section */}
                     <Balance currBank={currBank} />
                     {/* Bank selection drop-down */}
-                    {banks.length > 0 &&
+                    {banks && banks.length > 0 &&
                         <div className='w-[188px] flex justify-center py-2'>
                             <Select onValueChange={(value) => handleSelect(value)}>
                                 <SelectTrigger className="w-[180px]">

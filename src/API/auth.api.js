@@ -11,13 +11,9 @@ export const login = user => {
 };
 
 // Google auth
-export const googleAuth = code => {
+export const googleAuth = token => {
     return axios.post(`${baseUrl}/googleAuth`, {
-        code: code
-    }, {
-        headers: {
-            'Content-Type': 'application/json',
-        }
+        google_token: token
     });
 };
 

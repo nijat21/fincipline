@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'sonner';
 import { signup } from '../API/auth.api.js';
+import { AuthContext } from "@/context/auth.context.jsx";
 
 
 function Signup() {
@@ -11,6 +12,7 @@ function Signup() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const uRef = useRef(null);
+    const { storeToken, authenticateUser } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,9 +21,11 @@ function Signup() {
             setError('All fields must be filled!');
         } else {
             try {
-                await signup(user);
+                const response = await signup(user);
+                storeToken(response.data.authToken);
+                authenticateUser();
                 toast.success('You have successfully created your profile!');
-                navigate('/login');
+                navigate('/');
             } catch (error) {
                 console.log('Error singing up', error);
                 // Error message comes from the backend when we do the "res.json({message:'adsgasg'})"

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion as m } from 'framer-motion';
 import { AuthContext } from "../context/auth.context";
@@ -9,7 +9,7 @@ function UserMenu() {
     return (
         <div className="relative">
             <FlyoutLink href="#" FlyoutContent={UserContent}>
-                {user.imgUrl ?
+                {user && user.imgUrl ?
                     <img src={user.imgUrl} alt="" className="rounded-xl h-full w-full" />
                     :
                     <i className="fa-regular fa-user fa-xl"></i>
@@ -61,7 +61,7 @@ const UserContent = () => {
     return (
         <div className="h-28 w-40 p-4 text-lg  bg-white border border-zinc-500 dark:border-gray-300 dark:text-slate-300 dark:bg-slate-800 shadow-xl rounded-md
         flex flex-col items-center justify-center">
-            <h5 className="font-semibold border-b mb-2">{`${user.name[0].toUpperCase()}${user.name.slice(1)}`}</h5>
+            <h5 className="font-semibold border-b mb-2">{`${user && user.name[0].toUpperCase()}${user && user.name.slice(1)}`}</h5>
             <Link to={'/profile'} className="hover:border-b hover:text-xl">Profile</Link>
             <Link onClick={logoutUser} className="hover:border-b hover:text-xl">Log out</Link>
         </div>
