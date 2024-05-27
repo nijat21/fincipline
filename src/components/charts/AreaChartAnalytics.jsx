@@ -1,50 +1,18 @@
-import React, { PureComponent, useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { FilterContext } from '@/context/filter.context';
 
-// const dataDefault = [
-//     {
-//         name: 'Month A',
-//         uv: 4000,
-//         pv: 2400,
-//     },
-//     {
-//         name: 'Month B',
-//         uv: 3000,
-//         pv: 1398,
-//     },
-//     {
-//         name: 'Month C',
-//         uv: 2000,
-//         pv: 9800,
-//     },
-//     {
-//         name: 'Month D',
-//         uv: 2780,
-//         pv: 3908,
-//     },
-//     {
-//         name: 'Month E',
-//         uv: 1890,
-//         pv: 4800,
-//     },
-//     {
-//         name: 'Month F',
-//         uv: 2390,
-//         pv: 3800,
-//     }
-// ];
 
+// Notes:
+// 1. Numbers should be reflected as negative
+// 2. Reverse the order
+// 3. Currency sign
+// 4. Maybe add a year to month format "Mar, 24"
 
 
 function AreaChartAnalytics() {
     const { selectedMonth, rangeSelected, allTransactions } = useContext(FilterContext);
     const [data, setData] = useState([]);
-    // Notes:
-    // 1. Numbers should be reflected as negative
-    // 2. Reverse the order
-    // 3. Currency sign
-    // 4. Maybe add a year to month format "Mar, 24"
 
     // Group spending by month
     const groupByMonth = (newData) => {
@@ -106,7 +74,10 @@ function AreaChartAnalytics() {
 
         // Group spending by month
         const dataTemp = groupByMonth(newData);
-        setData(prevData => [...prevData, ...JSON.parse(JSON.stringify(dataTemp))]);
+        // localStorage.setItem('areaChartData', JSON.stringify(dataTemp));
+        // const areaChartData = localStorage.getItem('areaChartData');
+        // setData(JSON.parse(areaChartData));
+        setData(JSON.parse(JSON.stringify(dataTemp)));
     };
 
     // Convert the AllTransactions into something usable in Area Chart
@@ -126,8 +97,9 @@ function AreaChartAnalytics() {
 
     // 
     useEffect(() => {
+        // console.log(allTransactions); //Checking if bank changes are reflected in input data
         formData();
-    }, [data]);
+    }, [allTransactions]);
 
 
     return (
@@ -146,10 +118,10 @@ function AreaChartAnalytics() {
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
+                        <XAxis dataKey="month" />
                         <YAxis />
                         <Tooltip />
-                        <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
+                        <Area type="monotone" dataKey="amount" stroke="#8884d8" fill="#8884d8" />
                     </AreaChart>
                 </ResponsiveContainer>
             }
