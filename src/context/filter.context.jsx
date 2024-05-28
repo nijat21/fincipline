@@ -21,6 +21,8 @@ const FilterProvider = props => {
     const [allTransactions, setAllTransactions] = useState(null);
     const [data, setData] = useState(null);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const [analyticsTransactions, setAnalyticsTransactions] = useState(null);
+
     // User
     // const { user } = useContext(AuthContext);
 

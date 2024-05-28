@@ -11,41 +11,57 @@ import { FilterContext } from '@/context/filter.context';
 
 
 function AreaChartAnalytics() {
-    const { selectedMonth, rangeSelected, allTransactions } = useContext(FilterContext);
+    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate } = useContext(FilterContext);
     const [data, setData] = useState([]);
+    const [monthsList, setMonthsList] = useState(null);
 
-    // Group spending by month
-    const groupByMonth = (newData) => {
-        const dataTemp = [];
-        let temp = { month: '', amount: 0 };
-        let month = newData[0].month;
-        let agg = 0;
 
-        for (let i = 0; i < newData.length; i++) {
-            if (month === newData[i].month) {
-                agg += newData[i].amount;
-                temp.month = newData[i].month;
-                temp.amount = agg;
-            } else {
-                // console.log('Temp', temp);
-                dataTemp.push(JSON.parse(JSON.stringify(temp)));
-                month = newData[i].month;
-                agg = 0;
-                agg = newData[i].amount;
-                temp.month = month;
-                temp.amount = agg;
+    // Loop to generate 6 months of formatted dates
+    const listLastSixMonths = (monthSelectedInFilter) => {
+        const formattedDates = [];
+        // If range isn't selected, show last six month either from today or from selected month
+        if (!startDate && !endDate) {
+            const end = monthSelectedInFilter ? new Date(monthSelectedInFilter) : new Date();
+            for (let i = 5; i >= 0; i--) {
+                // Calculate the month and year for the current iteration
+                const month = end.getMonth() - i;
+                const year = end.getFullYear();
+                const date = new Date(year, month + 1, 0);
+
+                // Format the date to "Mar'24" format
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    year: '2-digit',
+                });
+                const monthAmount = { month: formattedDate, amount: '' };
+                formattedDates.push(monthAmount);
+            }
+        } else {
+            // If there's range selected, only show those months in the range
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            // Iterate from startDate to endDate by month
+            for (let date = start; date <= end; date.setMonth(date.getMonth() + 1)) {
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    year: '2-digit',
+                });
+                const monthAmount = { month: formattedDate, amount: '' };
+                formattedDates.push(monthAmount);
             }
         }
-        dataTemp.push(JSON.parse(JSON.stringify(temp)));
-        console.log('Data Temp', dataTemp);
-        return dataTemp;
+        setMonthsList(JSON.parse(JSON.stringify(formattedDates)));
+        return formattedDates;
     };
 
-    // Filter last 6 months
-    const filterLastSixMonth = (input) => {
-        const today = new Date();
-        const sixMonthAgo = new Date(today.getFullYear(), today.getMonth() - 5, 1).toISOString().split('T')[0];
-        const tranLSM = input.filter(tran => tran.authorized_date >= sixMonthAgo && tran.amount > 0);
+
+    // Filter input data for the last 6 months from today or selected endDate
+    // Only if the range is not selected
+    const filterLastSixMonth = (input, endDate) => {
+        const end = endDate ? new Date(endDate) : new Date();
+        const sixMonthAgo = new Date(end.getFullYear(), end.getMonth() - 5, 1).toISOString().split('T')[0];
+        const tranLSM = input.filter(tran => tran.authorized_date >= sixMonthAgo && tran.authorized_date <= end && tran.amount > 0);
         return tranLSM;
     };
 
@@ -58,6 +74,35 @@ function AreaChartAnalytics() {
 
     // Format date
     const formatDate = ((input) => input.toLocaleDateString('en-US', { month: 'short', year: "2-digit" }));
+
+    // Group spending by month
+    const groupByMonth = (newData) => {
+        if (newData && newData.length > 0 && newData.month) {
+            const dataTemp = [];
+            let temp = { month: '', amount: 0 };
+            let month = newData[0].month;
+            let agg = 0;
+
+            for (let i = 0; i < newData.length; i++) {
+                if (month === newData[i].month) {
+                    agg += newData[i].amount || 0;
+                    temp.month = newData[i].month;
+                    temp.amount = agg;
+                } else {
+                    // console.log('Temp', temp);
+                    dataTemp.push(JSON.parse(JSON.stringify(temp)));
+                    month = newData[i].month;
+                    agg = 0;
+                    agg = newData[i].amount || 0;
+                    temp.month = month;
+                    temp.amount = agg;
+                }
+            }
+            dataTemp.push(JSON.parse(JSON.stringify(temp)));
+            console.log('Data Temp', dataTemp);
+            return dataTemp;
+        }
+    };
 
     // Sort, shape and save data
     const sortShapeSave = (input) => {
@@ -83,7 +128,7 @@ function AreaChartAnalytics() {
     // Convert the AllTransactions into something usable in Area Chart
     const formData = () => {
         if (allTransactions && allTransactions.length > 0) {
-            if (!selectedMonth || !rangeSelected) {
+            if (!rangeSelected) {
                 // If no period is selected, show last 6 months
                 // Filter allTransactions last 6 months
                 const transactionsLastSixMonths = filterLastSixMonth(allTransactions);
@@ -98,7 +143,9 @@ function AreaChartAnalytics() {
     // 
     useEffect(() => {
         // console.log(allTransactions); //Checking if bank changes are reflected in input data
-        formData();
+        // formData();
+        const formattedDates = listLastSixMonths();
+        console.log(formattedDates);
     }, [allTransactions]);
 
 
