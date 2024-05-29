@@ -21,7 +21,6 @@ const FilterProvider = props => {
     const [allTransactions, setAllTransactions] = useState(null);
     const [data, setData] = useState(null);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
-    const [analyticsTransactions, setAnalyticsTransactions] = useState(null);
 
     // User
     // const { user } = useContext(AuthContext);
@@ -207,12 +206,13 @@ const FilterProvider = props => {
             endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
             rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
             bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction
+
             ,
             // Functions
             handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear
         }}>
             {props.children}
-        </FilterContext.Provider>
+        </FilterContext.Provider >
     );
 };
 
