@@ -1,6 +1,6 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { googleAuth } from '@/API/auth.api';
-const clientId = import.meta.env.VITE_CLIENT_ID;
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 import { useContext } from 'react';
 import { AuthContext } from '@/context/auth.context';
 

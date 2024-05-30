@@ -13,23 +13,15 @@ import { AuthContext } from '@/context/auth.context';
 
 function AreaChartAnalytics() {
     const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, data,
-
-        retrieveTransactions
     } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
-    const { user } = useContext(AuthContext);
 
-    // Once user is available, load all transactions
-    useEffect(() => {
-        // console.log(user);
-        retrieveTransactions(user._id);
-    }, []);
 
     // Format date
     const formatDate = ((input) => input.toLocaleDateString('en-US', { month: 'short', year: "2-digit" }));
 
     // Function to parse monthSelectedInFilter in "MMM 'YY" format
-    const parseMonthSelectedInFilter = (dateStr) => {
+    const parseMonthSelected = (dateStr) => {
         const [month, year] = dateStr.split(' ');
         const monthIndex = new Date(Date.parse(month + " 1, 2020")).getMonth();
         const fullYear = `20${year}`;
@@ -38,11 +30,11 @@ function AreaChartAnalytics() {
 
 
     // Loop to generate 6 months of formatted dates
-    const listLastSixMonths = (monthSelectedInFilter) => {
+    const listLastSixMonths = () => {
         const formattedDates = [];
         // If range isn't selected, show last six month either from today or from selected month
         if (!startDate && !endDate) {
-            const end = monthSelectedInFilter ? parseMonthSelectedInFilter(monthSelectedInFilter) : new Date();
+            const end = selectedMonth ? parseMonthSelected(selectedMonth) : new Date();
             for (let i = 5; i >= 0; i--) {
                 // Calculate the month and year for the current iteration
                 const month = end.getMonth() - i;
@@ -77,7 +69,7 @@ function AreaChartAnalytics() {
             // In date range, it's fine but if Month selected, allTransactions include only that month
             const rawTransactions = !rangeSelected ? JSON.parse(JSON.stringify(data)) : JSON.parse(JSON.stringify(allTransactions));
             // console.log('Raw Transactions', rawTransactions);
-            let datesList = listLastSixMonths(selectedMonth);
+            let datesList = listLastSixMonths();
             console.log('Dates list', datesList);
             {
                 rawTransactions && rawTransactions.length > 0 &&
@@ -85,8 +77,8 @@ function AreaChartAnalytics() {
                         const tranMonth = new Date(tran.authorized_date);
                         const formattedTranMonth = formatDate(tranMonth);
                         datesList.forEach(object => {
-                            if (formattedTranMonth === object.month) {
-                                object.amount += tran.amount;
+                            if (formattedTranMonth === object.month && tran.amount > 0) {
+                                object.amount += Math.round(tran.amount);
                             }
                         });
                     });
@@ -100,9 +92,10 @@ function AreaChartAnalytics() {
     useEffect(() => {
         // console.log(allTransactions); //Checking if bank changes are reflected in input data
         // formData();
+        console.log('All transactions', allTransactions);
         const formattedDates = addData();
         setFinalData(formattedDates);
-    }, [selectedMonth, startDate, endDate]);
+    }, [allTransactions, selectedMonth, startDate, endDate]);
 
 
     return (
