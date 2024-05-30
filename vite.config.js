@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from "path";
-// import fs from 'fs';
+import fs from 'fs';
 // const baseUrl = `https://localhost:5005`;
 
 // Path to certificate and key
@@ -17,10 +17,10 @@ export default defineConfig({
     },
   },
   server: {
-    // https: {
-    //   key: Key,
-    //   cert: Cert
-    // },
+    https: {
+      key: Key,
+      cert: Cert
+    },
     port: 5173,
   }
 });
