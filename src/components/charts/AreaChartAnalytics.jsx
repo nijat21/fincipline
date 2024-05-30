@@ -12,9 +12,14 @@ import { AuthContext } from '@/context/auth.context';
 
 
 function AreaChartAnalytics() {
-    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, data,
+    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate
+        ,
+
+        filteredByBank
     } = useContext(FilterContext);
+
     const [finalData, setFinalData] = useState(null);
+
 
 
     // Format date
@@ -63,11 +68,11 @@ function AreaChartAnalytics() {
 
     // Add data for the list of dates to be presented
     const addData = () => {
-        if (data) {
+        if (filteredByBank) {
             // If range is selected, use allTransactions, if not, use the copy of data
             // The reason is allTransactions are modified by the filter selection
             // In date range, it's fine but if Month selected, allTransactions include only that month
-            const rawTransactions = !rangeSelected ? JSON.parse(JSON.stringify(data)) : JSON.parse(JSON.stringify(allTransactions));
+            const rawTransactions = !rangeSelected ? JSON.parse(JSON.stringify(filteredByBank)) : JSON.parse(JSON.stringify(allTransactions));
             // console.log('Raw Transactions', rawTransactions);
             let datesList = listLastSixMonths();
             console.log('Dates list', datesList);
@@ -84,11 +89,15 @@ function AreaChartAnalytics() {
                     });
             }
             return datesList;
+        } else {
+            // If no data, show some dummy empty table
+            const noData = listLastSixMonths();
+            return noData;
         }
     };
 
 
-    // 
+    // Run every time filter updated or reloaded
     useEffect(() => {
         // console.log(allTransactions); //Checking if bank changes are reflected in input data
         // formData();

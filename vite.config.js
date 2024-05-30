@@ -5,8 +5,8 @@ import fs from 'fs';
 // const baseUrl = `https://localhost:5005`;
 
 // Path to certificate and key
-// const Cert = fs.readFileSync('cert.crt');
-// const Key = fs.readFileSync('cert.key');
+const Cert = fs.readFileSync('cert.crt');
+const Key = fs.readFileSync('cert.key');
 
 // https://vitejs.dev/config/
 export default defineConfig({

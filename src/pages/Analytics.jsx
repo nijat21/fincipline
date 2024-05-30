@@ -12,10 +12,10 @@ function Analytics() {
     const navigate = useNavigate();
     const analyticsRef = useRef();
     const analyticsRef2 = useRef();
-    const { data, selectedBank, selectedMonth, rangeSubmitClear
+    const { data, selectedBank, selectedMonth, rangeSubmitClear, setFilteredByBank
         ,
         // Functions
-        handleOutsideClick, retrieveTransactions, filter
+        handleOutsideClick, retrieveTransactions, filter, filterByBank,
     } = useContext(FilterContext);
     const { user } = useContext(AuthContext);
 
@@ -26,6 +26,18 @@ function Analytics() {
         // console.log(user);
         retrieveTransactions(user._id);
     }, []);
+
+
+    // Filter by bank when loaded and bank changes
+    useEffect(() => {
+        // console.log(user);
+        if (selectedBank) {
+            const result = filterByBank(data);
+            setFilteredByBank(result);
+        } else {
+            setFilteredByBank(data);
+        }
+    }, [selectedBank, data]);
 
 
     // If bank or month selected, filter the transactions

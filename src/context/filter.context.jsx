@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { exportPDF, printPDF } from '../components/PDF';
 import { getAllTransactions } from "../API/plaid.api";
-import { AuthContext } from "./auth.context";
+
 
 const FilterContext = createContext();
 
@@ -20,6 +20,7 @@ const FilterProvider = props => {
     const [transactionsLTD, setTransactionsLTD] = useState(null);
     const [allTransactions, setAllTransactions] = useState(null);
     const [data, setData] = useState(null);
+    const [filteredByBank, setFilteredByBank] = useState(null);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
 
     // User
@@ -57,7 +58,7 @@ const FilterProvider = props => {
     // Filter by bank
     const filterByBank = (input) => {
         // If Bank is selected
-        if (selectedBank && input && input.length > 0) {
+        if (input && input.length > 0) {
             const bankTran = input.filter(tran => {
                 return tran.account_details.institution_id === selectedBank.institution_id;
             });
@@ -115,26 +116,28 @@ const FilterProvider = props => {
     // Filter all
     const filter = (data) => {
         try {
-            // Ignore running steps if there's no input for a certain step
-            // Either month is selected or a custom range. They can't be selected together
-            const rawData = JSON.parse(JSON.stringify(data));
-            let filtered;
+            if (data && data.length > 0) {
+                // Ignore running steps if there's no input for a certain step
+                // Either month is selected or a custom range. They can't be selected together
+                const rawData = JSON.parse(JSON.stringify(data));
+                let filtered;
 
-            if (selectedBank && selectedMonth && !rangeSelected) {
-                filtered = filterByMonth(filterByBank(rawData));
-            } else if (selectedBank && !selectedMonth && rangeSelected) {
-                filtered = filterByRange(filterByBank(rawData));
-            } else if (!selectedBank && !selectedMonth && rangeSelected) {
-                filtered = filterByRange(rawData);
-            } else if (!selectedBank && selectedMonth && !rangeSelected) {
-                filtered = filterByMonth(rawData);
-            } else if (selectedBank && !selectedMonth && !rangeSelected) {
-                filtered = filterByBank(rawData);
-            } else if (!selectedBank && !selectedMonth && !rangeSelected) {
-                filtered = rawData;
+                if (selectedBank && selectedMonth && !rangeSelected) {
+                    filtered = filterByMonth(filterByBank(rawData));
+                } else if (selectedBank && !selectedMonth && rangeSelected) {
+                    filtered = filterByRange(filterByBank(rawData));
+                } else if (!selectedBank && !selectedMonth && rangeSelected) {
+                    filtered = filterByRange(rawData);
+                } else if (!selectedBank && selectedMonth && !rangeSelected) {
+                    filtered = filterByMonth(rawData);
+                } else if (selectedBank && !selectedMonth && !rangeSelected) {
+                    filtered = filterByBank(rawData);
+                } else if (!selectedBank && !selectedMonth && !rangeSelected) {
+                    filtered = rawData;
+                }
+                setAllTransactions(filtered);
+                // console.log("Filter ran");
             }
-            setAllTransactions(filtered);
-            // console.log("Filter ran");
         } catch (error) {
             console.log("Error occured filtering the transactions", error);
             // setFilterComplete(false);
@@ -205,11 +208,12 @@ const FilterProvider = props => {
             selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
             endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
             rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
-            bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction
+            bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
+            filteredByBank, setFilteredByBank
 
             ,
             // Functions
-            handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear
+            handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear, filterByBank
         }}>
             {props.children}
         </FilterContext.Provider >
