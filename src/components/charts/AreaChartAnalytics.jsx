@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
 import { FilterContext } from '@/context/filter.context';
 import { AuthContext } from '@/context/auth.context';
 
@@ -11,19 +11,12 @@ import { AuthContext } from '@/context/auth.context';
 // 4. Maybe add a year to month format "Mar, 24"
 
 
-function AreaChartAnalytics() {
-    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate
+function AreaChartAnalytics({ formatDate }) {
+    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, analyticsInput
         ,
 
-        filteredByBank
     } = useContext(FilterContext);
-
     const [finalData, setFinalData] = useState(null);
-
-
-
-    // Format date
-    const formatDate = ((input) => input.toLocaleDateString('en-US', { month: 'short', year: "2-digit" }));
 
     // Function to parse monthSelectedInFilter in "MMM 'YY" format
     const parseMonthSelected = (dateStr) => {
@@ -32,7 +25,6 @@ function AreaChartAnalytics() {
         const fullYear = `20${year}`;
         return new Date(fullYear, monthIndex);
     };
-
 
     // Loop to generate 6 months of formatted dates
     const listLastSixMonths = () => {
@@ -65,14 +57,13 @@ function AreaChartAnalytics() {
         return formattedDates;
     };
 
-
     // Add data for the list of dates to be presented
     const addData = () => {
-        if (filteredByBank) {
+        if (analyticsInput) {
             // If range is selected, use allTransactions, if not, use the copy of data
             // The reason is allTransactions are modified by the filter selection
             // In date range, it's fine but if Month selected, allTransactions include only that month
-            const rawTransactions = !rangeSelected ? JSON.parse(JSON.stringify(filteredByBank)) : JSON.parse(JSON.stringify(allTransactions));
+            const rawTransactions = !rangeSelected ? JSON.parse(JSON.stringify(analyticsInput)) : JSON.parse(JSON.stringify(allTransactions));
             // console.log('Raw Transactions', rawTransactions);
             let datesList = listLastSixMonths();
             console.log('Dates list', datesList);
@@ -119,11 +110,13 @@ function AreaChartAnalytics() {
                             top: 10,
                             right: 40,
                             left: 4,
-                            bottom: 0,
+                            bottom: 25,
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month" />
+                        <XAxis dataKey="month">
+                            <Label position={'insideBottom'} dy={17}>Total Spending</Label>
+                        </XAxis>
                         <YAxis />
                         <Tooltip />
                         <Area type="monotone" dataKey="amount" stroke="#8884d8" fill="#8884d8" />

@@ -12,7 +12,7 @@ function Analytics() {
     const navigate = useNavigate();
     const analyticsRef = useRef();
     const analyticsRef2 = useRef();
-    const { data, selectedBank, selectedMonth, rangeSubmitClear, setFilteredByBank
+    const { data, selectedBank, selectedMonth, rangeSubmitClear, setAnalyticsInput
         ,
         // Functions
         handleOutsideClick, retrieveTransactions, filter, filterByBank,
@@ -27,15 +27,19 @@ function Analytics() {
         retrieveTransactions(user._id);
     }, []);
 
+    // Format date
+    const formatDate = ((input) => input.toLocaleDateString('en-US', { month: 'short', year: "2-digit" }));
+
+
 
     // Filter by bank when loaded and bank changes
     useEffect(() => {
         // console.log(user);
         if (selectedBank) {
             const result = filterByBank(data);
-            setFilteredByBank(result);
+            setAnalyticsInput(result);
         } else {
-            setFilteredByBank(data);
+            setAnalyticsInput(data);
         }
     }, [selectedBank, data]);
 
@@ -54,11 +58,11 @@ function Analytics() {
             <div className='w-full h-full flex flex-col items-center' ref={analyticsRef2} onClick={(e) => handleOutsideClick(e, analyticsRef2)}>
                 <Filters />
                 <div className='w-4/5 h-1/2 flex mt-4'>
-                    <AreaChartAnalytics />
+                    <AreaChartAnalytics formatDate={formatDate} />
                 </div>
                 <div className='w-4/5 h-1/2 flex mt-2'>
-                    <BarChartAnalytics />
-                    <LineChartAnalytics />
+                    <BarChartAnalytics formatDate={formatDate} />
+                    <LineChartAnalytics formatDate={formatDate} />
                 </div>
             </div>
             <div className="flex justify-end">

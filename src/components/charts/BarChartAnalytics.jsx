@@ -1,78 +1,55 @@
-import React, { PureComponent } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
+import { FilterContext } from '@/context/filter.context';
 
-const data = [
-    {
-        name: 'Page A',
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
-    },
-    {
-        name: 'Page B',
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
-    },
-    {
-        name: 'Page C',
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
-    },
-    {
-        name: 'Page D',
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
-    },
-    {
-        name: 'Page E',
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
-    },
-    {
-        name: 'Page F',
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
-    },
-    {
-        name: 'Page G',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
-    },
-];
+// Input data format => {
+//     month: 'Jan',
+//     travel: 2390,
+//     shopping: 3800,
+//     other: 2500,
+// }
 
 
-function BarChartAnalytics() {
+function BarChartAnalytics({ formatDate }) {
+    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, analyticsInput
+        ,
+
+    } = useContext(FilterContext);
+    const [finalData, setFinalData] = useState(null);
+
+
+    useEffect(() => {
+
+    }, []);
+
+
     return (
         <div className='w-full h-full mx-1 bg-black bg-opacity-30 rounded-lg'>
             <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                    width={500}
-                    height={300}
-                    data={data}
-                    margin={{
-                        top: 5,
-                        right: 40,
-                        left: 0,
-                        bottom: 20,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name">
-                        <Label position={'insideBottom'} dy={15}>Something here</Label>
-                    </XAxis>
-                    <YAxis />
-                    <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} />
-                    <Legend verticalAlign='top' />
-                    <Bar dataKey="pv" fill="#82c" />
-                    <Bar dataKey="uv" fill="#8884d8" />
-                    <Bar dataKey="amt" fill="#82ca9d" />
-                </BarChart>
+                {finalData && finalData.length > 0 &&
+                    <BarChart
+                        width={500}
+                        height={300}
+                        data={finalData}
+                        margin={{
+                            top: 5,
+                            right: 40,
+                            left: 0,
+                            bottom: 25,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="month">
+                            <Label position={'insideBottom'} dy={17}>Spending Categories</Label>
+                        </XAxis>
+                        <YAxis />
+                        <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} />
+                        <Legend verticalAlign='top' />
+                        <Bar dataKey="in_store" fill="#82c" />
+                        <Bar dataKey="online" fill="#8884d8" />
+                        <Bar dataKey="other" fill="#82ca9d" />
+                    </BarChart>
+                }
             </ResponsiveContainer>
         </div>
     );
