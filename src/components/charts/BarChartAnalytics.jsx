@@ -1,16 +1,15 @@
 import { useState, useContext, useEffect } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
 import { FilterContext } from '@/context/filter.context';
-
-// Input data format => {
-//     month: 'Jan',
-//     travel: 2390,
-//     shopping: 3800,
-//     other: 2500,
-// }
+import { v4 as uuidv4 } from 'uuid';
 
 
-function BarChartAnalytics({ formatDate }) {
+const categories = [];
+const colors = { 'Travel': '#82c', 'Payment': "#8884d8", 'Food and Drink': "#82ca9d" };
+
+// Notes: If no month or range selected, should display last 6 month (using analyticsInput)
+// If month or range is selected, show that month or range (using allTransactions)
+function BarChartAnalytics({ formatDate, parseMonthSelected }) {
     const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, analyticsInput
         ,
 
@@ -18,9 +17,90 @@ function BarChartAnalytics({ formatDate }) {
     const [finalData, setFinalData] = useState(null);
 
 
-    useEffect(() => {
+    // Create an array of categories
+    // Form the data
+    // An array of previous 6 months since today
+    const listLastSixMonths = () => {
+        const formattedDates = [];
+        // If range and month aren't selected, add prev six months from today
+        if (!startDate && !endDate && !selectedMonth) {
+            const end = new Date();
+            for (let i = 5; i >= 0; i--) {
+                // Calculate the month and year for the current iteration
+                const month = end.getMonth() - i;
+                const year = end.getFullYear();
+                const date = new Date(year, month + 1, 0);
+                // Format the date to "Mar'24" format
+                const formattedDate = formatDate(date);
+                const object = { month: formattedDate };
+                formattedDates.push(object);
+            }
+        }
+        // If month is selected, only show that month 
+        else if (!startDate && !endDate && selectedMonth) {
+            const formattedDate = parseMonthSelected(selectedMonth);
+            const object = { month: formattedDate };
+            formattedDates.push(object);
+        }
+        // If range is selected, only show that range 
+        else {
+            // If there's range selected, only show those months in the range
+            const start = new Date(startDate);
+            const end = new Date(endDate);
 
-    }, []);
+            // Iterate from startDate to endDate by month
+            for (let date = start; date <= end; date.setMonth(date.getMonth() + 1)) {
+                const formattedDate = formatDate(date);
+                const object = { month: formattedDate };
+                formattedDates.push(object);
+            }
+        }
+        return formattedDates;
+    };
+
+    // Input data format => {
+    //     month: 'Jan',
+    //     travel: 2390,
+    //     shopping: 3800,
+    //     other: 2500,
+    // }
+
+    // Added Data
+    // {month: 'May 24', Travel: 23.46, Payment: 50, Food and Drink: 211.46}
+    // Form the data
+    const addData = () => {
+        const datesList = listLastSixMonths();
+        if (analyticsInput) {
+            datesList.forEach(date => {
+                console.log('Transactions', date.month, analyticsInput);
+                analyticsInput.forEach(tran => {
+                    const tranMonth = new Date(tran.authorized_date);
+                    const formattedTranMonth = formatDate(tranMonth);
+                    if (date.month === formattedTranMonth && tran.amount > 0) {
+                        if (date[tran.category[0]]) {
+                            date[tran.category[0]] += Math.round(tran.amount);
+                        } else {
+                            date[tran.category[0]] = Math.round(tran.amount);
+                            // If category is new, add to the categories array to refer to the bars
+                            if (!categories.includes(tran.category[0])) {
+                                categories.push(tran.category[0]);
+                            }
+                        }
+                    }
+                });
+                console.log("Categories", categories);
+            });
+            return datesList;
+        }
+        return datesList;
+    };
+
+
+    useEffect(() => {
+        const addedData = addData();
+        console.log('Input', addedData);
+        setFinalData(addedData);
+    }, [allTransactions, selectedMonth, startDate, endDate]);
 
 
     return (
@@ -45,9 +125,10 @@ function BarChartAnalytics({ formatDate }) {
                         <YAxis />
                         <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} />
                         <Legend verticalAlign='top' />
-                        <Bar dataKey="in_store" fill="#82c" />
-                        <Bar dataKey="online" fill="#8884d8" />
-                        <Bar dataKey="other" fill="#82ca9d" />
+                        {/* Loop for each category and add a bar for each */}
+                        {categories.map(cat => {
+                            return <Bar key={uuidv4()} dataKey={cat} fill={colors[cat]} />;
+                        })}
                     </BarChart>
                 }
             </ResponsiveContainer>
@@ -60,18 +141,17 @@ const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
             <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
-                <p className='text-medium text-slate-300 text-lg'>{label}</p>
+                <p className=''>{label}</p>
+                {/* {console.log("Payload", payload)} */}
 
-                {payload[0].value &&
-                    <p className='text-sm text-indigo-400'>
-                        Online:
-                        <span className='ml-2'>${payload[0].value}</span>
-                    </p>}
-                {payload[1].value &&
-                    <p className='text-sm text-green-300'>
-                        In store:
-                        <span className='ml-2'>${payload[1].value}</span>
-                    </p>}
+                {payload.map(p => {
+                    return (
+                        <p key={uuidv4()} style={{ 'color': `${p.fill}` }}>
+                            {p.dataKey}:
+                            <span className='ml-2'>${p.value}</span>
+                        </p>
+                    );
+                })}
             </div>
         );
     }

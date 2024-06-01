@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
 import { FilterContext } from '@/context/filter.context';
-import { AuthContext } from '@/context/auth.context';
 
 
 // Notes:
@@ -11,20 +10,13 @@ import { AuthContext } from '@/context/auth.context';
 // 4. Maybe add a year to month format "Mar, 24"
 
 
-function AreaChartAnalytics({ formatDate }) {
+function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
     const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, analyticsInput
         ,
 
     } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
 
-    // Function to parse monthSelectedInFilter in "MMM 'YY" format
-    const parseMonthSelected = (dateStr) => {
-        const [month, year] = dateStr.split(' ');
-        const monthIndex = new Date(Date.parse(month + " 1, 2020")).getMonth();
-        const fullYear = `20${year}`;
-        return new Date(fullYear, monthIndex);
-    };
 
     // Loop to generate 6 months of formatted dates
     const listLastSixMonths = () => {
@@ -59,14 +51,13 @@ function AreaChartAnalytics({ formatDate }) {
 
     // Add data for the list of dates to be presented
     const addData = () => {
+        let datesList = listLastSixMonths();
         if (analyticsInput) {
             // If range is selected, use allTransactions, if not, use the copy of data
             // The reason is allTransactions are modified by the filter selection
             // In date range, it's fine but if Month selected, allTransactions include only that month
             const rawTransactions = !rangeSelected ? JSON.parse(JSON.stringify(analyticsInput)) : JSON.parse(JSON.stringify(allTransactions));
-            // console.log('Raw Transactions', rawTransactions);
-            let datesList = listLastSixMonths();
-            console.log('Dates list', datesList);
+            // console.log('Dates list', datesList);
             {
                 rawTransactions && rawTransactions.length > 0 &&
                     rawTransactions.forEach(tran => {
@@ -80,11 +71,8 @@ function AreaChartAnalytics({ formatDate }) {
                     });
             }
             return datesList;
-        } else {
-            // If no data, show some dummy empty table
-            const noData = listLastSixMonths();
-            return noData;
         }
+        return datesList;
     };
 
 
@@ -92,7 +80,7 @@ function AreaChartAnalytics({ formatDate }) {
     useEffect(() => {
         // console.log(allTransactions); //Checking if bank changes are reflected in input data
         // formData();
-        console.log('All transactions', allTransactions);
+        // console.log('All transactions', allTransactions);
         const formattedDates = addData();
         setFinalData(formattedDates);
     }, [allTransactions, selectedMonth, startDate, endDate]);

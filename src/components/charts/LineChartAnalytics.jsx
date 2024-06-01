@@ -37,13 +37,7 @@ const data = [
         online: 2390,
         in_store: 3800,
         other: 2500,
-    },
-    {
-        month: 'Page G',
-        online: 3490,
-        in_store: 4300,
-        other: 2100,
-    },
+    }
 ];
 
 function LineChartAnalytics() {

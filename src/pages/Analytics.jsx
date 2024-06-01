@@ -30,6 +30,13 @@ function Analytics() {
     // Format date
     const formatDate = ((input) => input.toLocaleDateString('en-US', { month: 'short', year: "2-digit" }));
 
+    // Function to parse monthSelectedInFilter in "MMM 'YY" format
+    const parseMonthSelected = (dateStr) => {
+        const [month, year] = dateStr.split(' ');
+        const monthIndex = new Date(Date.parse(month + " 1, 2020")).getMonth();
+        const fullYear = `20${year}`;
+        return new Date(fullYear, monthIndex);
+    };
 
 
     // Filter by bank when loaded and bank changes
@@ -58,11 +65,11 @@ function Analytics() {
             <div className='w-full h-full flex flex-col items-center' ref={analyticsRef2} onClick={(e) => handleOutsideClick(e, analyticsRef2)}>
                 <Filters />
                 <div className='w-4/5 h-1/2 flex mt-4'>
-                    <AreaChartAnalytics formatDate={formatDate} />
+                    <AreaChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} />
                 </div>
                 <div className='w-4/5 h-1/2 flex mt-2'>
-                    <BarChartAnalytics formatDate={formatDate} />
-                    <LineChartAnalytics formatDate={formatDate} />
+                    <BarChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} />
+                    <LineChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} />
                 </div>
             </div>
             <div className="flex justify-end">
