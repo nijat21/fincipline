@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
 import { FilterContext } from '@/context/filter.context';
+import { v4 as uuidv4 } from 'uuid';
 
 
 // Notes:
@@ -31,7 +32,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
                 const date = new Date(year, month + 1, 0);
                 // Format the date to "Mar'24" format
                 const formattedDate = formatDate(date);
-                const monthAmount = { month: formattedDate, amount: 0 };
+                const monthAmount = { month: formattedDate, Amount: 0 };
                 formattedDates.push(monthAmount);
             }
         } else {
@@ -42,7 +43,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
             // Iterate from startDate to endDate by month
             for (let date = start; date <= end; date.setMonth(date.getMonth() + 1)) {
                 const formattedDate = formatDate(date);
-                const monthAmount = { month: formattedDate, amount: 0 };
+                const monthAmount = { month: formattedDate, Amount: 0 };
                 formattedDates.push(monthAmount);
             }
         }
@@ -65,7 +66,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
                         const formattedTranMonth = formatDate(tranMonth);
                         datesList.forEach(object => {
                             if (formattedTranMonth === object.month && tran.amount > 0) {
-                                object.amount += Math.round(tran.amount);
+                                object.Amount += Math.round(tran.amount);
                             }
                         });
                     });
@@ -106,14 +107,37 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
                             <Label position={'insideBottom'} dy={17}>Total Spending</Label>
                         </XAxis>
                         <YAxis />
-                        <Tooltip />
-                        <Area type="monotone" dataKey="amount" stroke="#8884d8" fill="#8884d8" />
+                        <Tooltip content={CustomTooltip} />
+                        <Area type="monotone" dataKey="Amount" stroke="#8884d8" fill="#8884d8" />
                     </AreaChart>
                 </ResponsiveContainer>
             }
         </div>
     );
 }
+
+
+// Custom ToolTip
+const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
+                <p className=''>{label}</p>
+                {/* {console.log("Payload", payload)} */}
+                {payload.map(p => {
+                    if (p.value > 0) {
+                        return (
+                            <p key={uuidv4()} style={{ 'color': `${p.fill}` }}>
+                                {p.dataKey}:
+                                <span className='ml-2'>${p.value}</span>
+                            </p>
+                        );
+                    }
+                })}
+            </div>
+        );
+    }
+};
 
 
 export default AreaChartAnalytics;
