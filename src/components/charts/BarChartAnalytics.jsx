@@ -92,12 +92,12 @@ function BarChartAnalytics({ formatDate, parseMonthSelected }) {
         return datesList;
     };
 
-
+    // Loading and updating data 
     useEffect(() => {
         const addedData = addData();
         // console.log('Input', addedData);
         setFinalData(addedData);
-    }, [allTransactions, selectedMonth, startDate, endDate]);
+    }, [allTransactions]);
 
 
     return (

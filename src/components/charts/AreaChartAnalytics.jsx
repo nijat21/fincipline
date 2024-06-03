@@ -82,9 +82,9 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
         // console.log(allTransactions); //Checking if bank changes are reflected in input data
         // formData();
         // console.log('All transactions', allTransactions);
-        const formattedDates = addData();
-        setFinalData(formattedDates);
-    }, [allTransactions, selectedMonth, startDate, endDate]);
+        const formedData = addData();
+        setFinalData(formedData);
+    }, [allTransactions]);
 
 
     return (

@@ -42,17 +42,12 @@ const FilterProvider = props => {
             } else {
                 setAllTransactions(result);
             }
+            return result;
             // console.log("retrieveTransaction ran"); // RetrieveTransactions runs more than once
         } catch (error) {
             console.log('Error retrieving transactions', error);
         }
     };
-
-
-    // // Once user is available, load all transactions
-    // useEffect(() => {
-    //     retrieveTransactions(user._id);
-    // }, []);
 
 
     // Filter by bank

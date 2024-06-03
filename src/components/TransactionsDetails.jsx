@@ -24,14 +24,15 @@ function TransactionsDetails() {
 
     // Once user is available, load all transactions
     useEffect(() => {
-        // console.log(user);
         retrieveTransactions(user._id);
+        // console.log('Retrieve transactions run');
     }, []);
 
     // If bank or month selected, filter the transactions
     // Filter is called 4 times, maybe optimize
     useEffect(() => {
         filter(data);
+        // console.log('Filter data run');
     }, [selectedBank, selectedMonth, rangeSubmitClear]);
 
 

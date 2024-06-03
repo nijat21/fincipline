@@ -4,48 +4,9 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { v4 as uuidv4 } from 'uuid';
 
 
-const data = [
-    {
-        month: 'Page A',
-        Online: 4000,
-        'In store': 2400,
-        Other: 2400,
-    },
-    {
-        month: 'Page B',
-        Online: 3000,
-        'In store': 1398,
-        Other: 2210,
-    },
-    {
-        month: 'Page C',
-        Online: 2000,
-        'In store': 9800,
-        Other: 2290,
-    },
-    {
-        month: 'Page D',
-        Online: 2780,
-        'In store': 3908,
-        Other: 2000,
-    },
-    {
-        month: 'Page E',
-        Online: 1890,
-        'In store': 4800,
-        Other: 2181,
-    },
-    {
-        month: 'Page F',
-        Online: 2390,
-        'In store': 3800,
-        Other: 2500,
-    }
-];
-
 const channels = [];
 const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57', '#8dd1e1', '#ff8042', '#ffbb28', '#a5a5a5'];
-const colors = { 'online': baseColors[0], 'in store': baseColors[1], 'other': baseColors[2] };
+const colors = { 'Online': baseColors[0], 'In store': baseColors[1], 'Other': baseColors[2] };
 
 function LineChartAnalytics({ formatDate, parseMonthSelected }) {
     const { selectedMonth, allTransactions, startDate, endDate, analyticsInput } = useContext(FilterContext);
@@ -64,7 +25,7 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
                 const date = new Date(year, month + 1, 0);
                 // Format the date to "Mar'24" format
                 const formattedDate = formatDate(date);
-                const object = { month: formattedDate, online: 0, 'in store': 0, 'other': 0 };
+                const object = { month: formattedDate, Online: 0, 'In store': 0, 'Other': 0 };
                 formattedDates.push(object);
             }
         }
@@ -77,7 +38,7 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
             // Iterate from startDate to endDate by month
             for (let date = start; date <= end; date.setMonth(date.getMonth() + 1)) {
                 const formattedDate = formatDate(date);
-                const object = { month: formattedDate, online: 0, 'in store': 0, 'other': 0 };
+                const object = { month: formattedDate, Online: 0, 'In store': 0, 'Other': 0 };
                 formattedDates.push(object);
             }
         }
@@ -92,6 +53,8 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
         }
     };
 
+    // Capitalize the first letter of the channels
+    const capitalize = (str) => str[0].toUpperCase() + str.slice(1);
 
     // Added Data
     // {month: 'May 24', Online: 23.46, In store: 50, Other: 211.46}
@@ -104,20 +67,20 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
                     const tranMonth = new Date(tran.authorized_date);
                     const formattedTranMonth = formatDate(tranMonth);
                     if (date.month === formattedTranMonth && tran.amount > 0) {
-                        if (date[tran.payment_channel]) {
-                            date[tran.payment_channel] += Math.round(tran.amount);
+                        if (date[capitalize(tran.payment_channel)]) {
+                            date[capitalize(tran.payment_channel)] += Math.round(tran.amount);
                         } else {
-                            date[tran.payment_channel] = Math.round(tran.amount);
+                            date[capitalize(tran.payment_channel)] = Math.round(tran.amount);
                             // If category is new, add to the channels array to refer to the bars
-                            if (!channels.includes(tran.payment_channel)) {
-                                channels.push(tran.payment_channel);
-                                assignColors(tran.payment_channel);
+                            if (!channels.includes(capitalize(tran.payment_channel))) {
+                                channels.push(capitalize(tran.payment_channel));
+                                assignColors(capitalize(tran.payment_channel));
                             }
                         }
                     }
                 });
             });
-            console.log('channels', channels);
+            // console.log('channels', channels);
             return datesList;
         }
         return datesList;
@@ -126,9 +89,9 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
 
     useEffect(() => {
         const addedData = addData();
-        console.log('Input', addedData);
+        // console.log('Input', addedData);
         setFinalData(addedData);
-    }, [allTransactions, selectedMonth, startDate, endDate]);
+    }, [allTransactions]);
 
     return (
         <div className='h-full w-full mx-1 bg-black bg-opacity-15 rounded-lg'>
@@ -151,7 +114,7 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
                         </XAxis>
                         <YAxis />
                         <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} />
-                        <Legend content={CustomLegend} verticalAlign='top' />
+                        <Legend verticalAlign='top' />
                         {channels.map(ch => {
                             return <Line type="monotone" key={uuidv4()} dataKey={ch} stroke={colors[ch]} />;
                         })}
@@ -172,7 +135,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                     if (p.value > 0) {
                         return (
                             <p key={uuidv4()} style={{ 'color': `${p.stroke}` }}>
-                                {p.dataKey[0].toUpperCase() + p.dataKey.slice(1)}:
+                                {p.dataKey}:
                                 <span className='ml-2'>${p.value}</span>
                             </p>
                         );
@@ -182,23 +145,5 @@ const CustomTooltip = ({ active, payload, label }) => {
         );
     }
 };
-
-
-// Custom legend
-const CustomLegend = ({ payload }) => {
-    return (
-        <div className="custom-legend">
-            {payload.map(p => {
-                const formattedValue = p.value.charAt(0).toUpperCase() + p.value.slice(1);
-                return (
-                    <span key={uuidv4()} style={{ color: p.color }}>
-                        {formattedValue}
-                    </span>
-                );
-            })}
-        </div>
-    );
-};
-
 
 export default LineChartAnalytics;

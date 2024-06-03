@@ -22,10 +22,27 @@ function Analytics() {
 
 
     // Once user is available, load all transactions
+    // useEffect(() => {
+    //     const result = retrieveTransactions(user._id);
+    //     setAnalyticsInput(data);
+    //     console.log('Retrieve transactions run', result);
+    // }, []);
+
     useEffect(() => {
-        // console.log(user);
-        retrieveTransactions(user._id);
-    }, []);
+        const fetchTransactions = async () => {
+            try {
+                const transactions = await retrieveTransactions(user._id);
+                setAnalyticsInput(transactions); // Set the transactions to analyticsInput
+                console.log('Retrieve transactions run', transactions);
+            } catch (error) {
+                console.error('Error retrieving transactions:', error);
+            }
+        };
+
+        if (user._id) {
+            fetchTransactions();
+        }
+    }, [user._id]);
 
     // Format date
     const formatDate = ((input) => input.toLocaleDateString('en-US', { month: 'short', year: "2-digit" }));
@@ -41,19 +58,18 @@ function Analytics() {
 
     // Filter by bank when loaded and bank changes
     useEffect(() => {
-        // console.log(user);
-        if (selectedBank) {
+        if (data && selectedBank) {
+            console.log('Filter by bank');
             const result = filterByBank(data);
             setAnalyticsInput(result);
-        } else {
-            setAnalyticsInput(data);
         }
-    }, [selectedBank, data]);
+    }, [selectedBank]);
 
 
     // If bank or month selected, filter the transactions
     // Filter is called 4 times, maybe optimize
     useEffect(() => {
+        console.log('Filter data run');
         filter(data);
     }, [selectedBank, selectedMonth, rangeSubmitClear]);
 
