@@ -97,7 +97,7 @@ function BarChartAnalytics({ formatDate, parseMonthSelected }) {
         const addedData = addData();
         // console.log('Input', addedData);
         setFinalData(addedData);
-    }, [allTransactions]);
+    }, [analyticsInput]);
 
 
     return (

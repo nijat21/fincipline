@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { FilterContext } from '../context/filter.context';
 import { useRef } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 
 function DateRangeForm() {
@@ -24,7 +25,7 @@ function DateRangeForm() {
     // It's true if startDate and endDate are added meaning won't run useEffect.
     const handleSubmit = (e) => {
         e.preventDefault();
-        setRangeSubmitClear(prevValue => prevValue + 1);
+        setRangeSubmitClear(uuidv4());
         if (!startDate && !endDate) {
             setErrorMessage('Please select at least one of the dates');
             setRangeSelected(false);

@@ -1,7 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { exportPDF, printPDF } from '../components/PDF';
 import { getAllTransactions } from "../API/plaid.api";
-
+import { v4 as uuidv4 } from 'uuid';
 
 const FilterContext = createContext();
 
@@ -15,7 +15,7 @@ const FilterProvider = props => {
     const [dateRangeMenu, setDateRangeMenu] = useState(() => false);
     const [rangeSelected, setRangeSelected] = useState(() => false);
     const [bankMenu, setBankMenu] = useState(false);
-    const [rangeSubmitClear, setRangeSubmitClear] = useState(0);
+    const [rangeSubmitClear, setRangeSubmitClear] = useState(null);
     // Data
     const [transactionsLTD, setTransactionsLTD] = useState(null);
     const [allTransactions, setAllTransactions] = useState(null);
@@ -43,7 +43,6 @@ const FilterProvider = props => {
                 setAllTransactions(result);
             }
             return result;
-            // console.log("retrieveTransaction ran"); // RetrieveTransactions runs more than once
         } catch (error) {
             console.log('Error retrieving transactions', error);
         }
@@ -131,13 +130,24 @@ const FilterProvider = props => {
                     filtered = rawData;
                 }
                 setAllTransactions(filtered);
-                // console.log("Filter ran");
+                return filtered;
+                // console.log("Filter ran", filtered);
             }
         } catch (error) {
             console.log("Error occured filtering the transactions", error);
             // setFilterComplete(false);
         }
     };
+
+
+    // If bank or month selected, filter the transactions
+    // Filter is called 4 times, maybe optimize
+    useEffect(() => {
+        if (data) {
+            console.log('Filter data run');
+            filter(data);
+        }
+    }, [selectedBank, selectedMonth, rangeSubmitClear]);
 
 
     // Clear date range selection
@@ -148,7 +158,7 @@ const FilterProvider = props => {
         setEndDate(null);
         setDateRangeMenu(false);
         setRangeSelected(false);
-        setRangeSubmitClear(prevValue => prevValue + 1);
+        setRangeSubmitClear(uuidv4());
     };
 
 
