@@ -55,15 +55,10 @@ function Navbar() {
                             {isLoggedIn &&
                                 <>
                                     <li className="font-semibold my-7 md:my-0 md:ml-8 flex justify-center" onClick={() => setIsOpen(false)}>
-                                        {/* <Link to={'/accounts'}>Accounts</Link> */}
-                                        <LinkLayout href={'/accounts'}>Accounts</LinkLayout>
-                                    </li>
-                                    <li className="font-semibold my-7 md:my-0 md:ml-8 flex justify-center" onClick={() => setIsOpen(false)}>
                                         {/* <Link to={'/transactions'}>Transactions</Link> */}
                                         <LinkLayout href={'/transactions'}>Transactions</LinkLayout>
                                     </li>
                                     <li className="font-semibold my-7 md:my-0 md:ml-8 flex justify-center" onClick={() => setIsOpen(false)}>
-                                        {/* <Link to={'/accounts'}>Accounts</Link> */}
                                         <LinkLayout href={'/analytics'}>Analytics</LinkLayout>
                                     </li>
                                 </>

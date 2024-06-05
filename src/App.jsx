@@ -12,7 +12,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Signup from './pages/Signup';
 import Login from "./pages/Login";
-import Accounts from "./pages/Accounts";
 import Profile from "./pages/Profile";
 import Upload from "./pages/Upload";
 import TransactionsPage from "./pages/TransactionsPage";
@@ -36,7 +35,6 @@ function App() {
             <Route path="/signup" element={<IsAnon><Signup /></IsAnon>} />
             <Route path="/login" element={<IsAnon><Login /></IsAnon>} />
             <Route path="/plaid_link" element={<IsPrivate><PlaidLink /></IsPrivate>} />
-            <Route path="/accounts" element={<IsPrivate><Accounts /></IsPrivate>} />
             <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
             <Route path="/profile/upload" element={<IsPrivate><Upload /></IsPrivate>} />
             <Route path="/transactions" element={<IsPrivate><TransactionsPage /></IsPrivate>} />

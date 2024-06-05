@@ -69,7 +69,9 @@ function Balance({ currBank }) {
                                         })}
                                     </tbody>
                                 </table>
-                                <Link to={'/accounts'} className="mt-6 opacity-50">See all accounts</Link>
+                                <button className="mt-6 opacity-50 hover:opacity-100">
+                                    Delete the bank
+                                </button>
                             </>
                         }
                     </div>
