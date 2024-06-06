@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import Loader from './Loader';
+import { Trash2 } from 'lucide-react';
+import { deleteAccount } from "@/API/account.api";
+import { toast } from 'sonner';
 
 
-function Balance({ currBank }) {
+
+function Balance({ currBank, setCurrBank }) {
     const [accounts, setAccounts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -27,11 +31,28 @@ function Balance({ currBank }) {
         }
     };
 
-
+    // When bank selected, retrieve and assign current bank
     useEffect(() => {
         setAccounts([]);
         getAccounts(currBank);
     }, [currBank]);
+
+
+    // Deleting the bank connection 
+    const handleDeleteBank = async () => {
+        if (currBank) {
+            try {
+                const messageResponse = await deleteAccount({ bank_id: currBank._id });
+                toast.success(messageResponse.data.message);
+                setAccounts([]);
+                setCurrBank(null);
+            } catch (error) {
+                console.log('Error deleting the bank account', error);
+            }
+        } else {
+            console.log('No bank selected!');
+        }
+    };
 
 
     return (
@@ -44,7 +65,7 @@ function Balance({ currBank }) {
                 :
                 <div className='min-h-3/5 text-xl flex items-center justify-center mb-[-50px]'>
                     <div className="flex flex-col items-center justify-center my-20">
-                        {currBank &&
+                        {currBank ?
                             <>
                                 <table>
                                     <thead className="text-lg h-10 bg-black bg-opacity-20">
@@ -69,10 +90,15 @@ function Balance({ currBank }) {
                                         })}
                                     </tbody>
                                 </table>
-                                <button className="mt-6 opacity-50 hover:opacity-100">
-                                    Delete the bank
+                                <button className="mt-6 opacity-50 hover:opacity-100 flex text-lg" onClick={handleDeleteBank}>
+                                    <Trash2 className="pr-1" />
+                                    Delete connection
                                 </button>
                             </>
+                            :
+                            <div>
+                                No Bank Registered
+                            </div>
                         }
                     </div>
                 </div>

@@ -50,7 +50,7 @@ function HomePage() {
                 {/* <GradientBackground /> */}
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
                     {/* Balance section */}
-                    <Balance currBank={currBank} />
+                    <Balance currBank={currBank} setCurrBank={setCurrBank} />
                     {/* Bank selection drop-down */}
                     {banks && banks.length > 0 &&
                         <div className='w-[188px] flex justify-center py-2'>

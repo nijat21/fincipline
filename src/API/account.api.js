@@ -24,21 +24,20 @@ export const getBanks = async (params) => {
     return axios.get(`${baseUrl}/banks/${user_id}`);
 };
 
-
-
-
-// Get all accounts of a specific bank
-export const getAccounts = async (params) => {
-    const { bank_id } = params;
-    return axios.get(`${baseUrl}/accounts/${bank_id}`);
-};
-
-// Get a specific account
-export const getAccount = async (params) => {
-    const { _id } = params;
-    return axios.get(`${baseUrl}/accounts/${_id}`);
-};
-
 // Delete specific bank 
+export const deleteAccount = async (params) => {
+    const { bank_id } = params;
+    return axios.delete(`${baseUrl}/banks/${bank_id}`);
+};
 
-// Delete specific account
+// // Get all accounts of a specific bank
+// export const getAccounts = async (params) => {
+//     const { bank_id } = params;
+//     return axios.get(`${baseUrl}/accounts/${bank_id}`);
+// };
+
+// // Get a specific account
+// export const getAccount = async (params) => {
+//     const { _id } = params;
+//     return axios.get(`${baseUrl}/accounts/${_id}`);
+// };

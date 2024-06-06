@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { toast } from 'sonner';
 import { AuthContext } from '../context/auth.context.jsx';
-import { getAccounts } from '../API/account.api.js';
 import { createLinkToken, setAccessToken } from '../API/plaid.api';
 import { usePlaidLink } from 'react-plaid-link';
 
