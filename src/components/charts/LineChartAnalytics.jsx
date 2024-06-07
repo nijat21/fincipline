@@ -80,7 +80,7 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
                     }
                 });
             });
-            // console.log('channels', channels);
+            console.log('channels', channels);
             return datesList;
         }
         return datesList;
