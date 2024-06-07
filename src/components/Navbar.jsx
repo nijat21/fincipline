@@ -9,7 +9,7 @@ import LinkLayout from "./LinkLayout";
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const { theme, toggleTheme } = useContext(ThemeContext);
-    const { isLoggedIn, logoutUser } = useContext(AuthContext);
+    const { isLoggedIn } = useContext(AuthContext);
     const ref = useRef();
 
     useEffect(() => {

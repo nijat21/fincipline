@@ -26,12 +26,21 @@ const ThemeProvider = props => {
 
     // Toggle optionally
     const toggleTheme = () => {
+        let themePref = '';
         if (theme === 'dark') {
+            themePref = 'light';
             setTheme('light');
         } else {
+            themePref = 'dark';
             setTheme('dark');
         }
+        localStorage.setItem('theme', themePref);
     };
+
+    useEffect(() => {
+        const themePref = localStorage.getItem('theme');
+        setTheme(themePref);
+    }, []);
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme, spinnerColor, setSpinnerColor }}>
