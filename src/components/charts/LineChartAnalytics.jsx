@@ -80,7 +80,7 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
                     }
                 });
             });
-            console.log('channels', channels);
+            // console.log('channels', channels);
             return datesList;
         }
         return datesList;
@@ -91,7 +91,7 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
         const addedData = addData();
         // console.log('Input', addedData);
         setFinalData(addedData);
-    }, [allTransactions]);
+    }, [analyticsInput]);
 
     return (
         <div className='h-full w-full mx-1 bg-black bg-opacity-15 rounded-lg'>

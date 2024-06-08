@@ -31,7 +31,7 @@ function HomeBarChart({ currBank }) {
     // [{'category':'Something', ...}]
     // Looping and adding all the data shortly
     const formGroupData = (transactionsLTD) => {
-        console.log("Transactions", transactionsLTD);
+        // console.log("Transactions", transactionsLTD);
         const dt = [];
         transactionsLTD.forEach(tran => {
             if (dt.length === 0) {
@@ -72,7 +72,7 @@ function HomeBarChart({ currBank }) {
                 }
             }
         });
-        console.log("New data", dt);
+        // console.log("New data", dt);
         setData(dt);
         return dt;
     };

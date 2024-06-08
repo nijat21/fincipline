@@ -24,7 +24,7 @@ function Analytics() {
     // Once user is available, load all transactions
     useEffect(() => {
         retrieveTransactions(user._id);
-        console.log('Retrieve transactions run');
+        // console.log('Retrieve transactions run');
     }, []);
 
     // Format date
@@ -42,7 +42,7 @@ function Analytics() {
     // Filter by bank when loaded and bank changes
     useEffect(() => {
         if (data) {
-            console.log('Filter by bank');
+            // console.log('Filter by bank');
             if (selectedBank) {
                 const result = filterByBank(data);
                 setAnalyticsInput(result);
@@ -50,7 +50,7 @@ function Analytics() {
                 setAnalyticsInput(data);
             }
         }
-    }, [selectedBank, data, setAnalyticsInput]);
+    }, [selectedBank, data]);
 
 
     return (

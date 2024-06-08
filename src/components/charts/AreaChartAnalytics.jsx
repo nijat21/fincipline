@@ -79,12 +79,9 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
 
     // Run every time filter updated or reloaded
     useEffect(() => {
-        // console.log(allTransactions); //Checking if bank changes are reflected in input data
-        // formData();
-        // console.log('All transactions', allTransactions);
         const formedData = addData();
         setFinalData(formedData);
-    }, [allTransactions]);
+    }, [analyticsInput, allTransactions]);
 
 
     return (

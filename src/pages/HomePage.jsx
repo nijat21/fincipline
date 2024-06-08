@@ -31,7 +31,7 @@ function HomePage() {
             localStorage.setItem('currBank', JSON.stringify(selectedBank));
             setCurrBank(selectedBank);
             setSelectedBank(selectedBank);
-            console.log(selectedBank);
+            // console.log(selectedBank);
         }
     };
 
