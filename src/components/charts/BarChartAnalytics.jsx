@@ -66,7 +66,7 @@ function BarChartAnalytics({ formatDate, parseMonthSelected }) {
     // Added Data
     // {month: 'May 24', Travel: 23.46, Payment: 50, Food and Drink: 211.46}
     // Form the data
-    const addData = () => {
+    const addData = (analyticsInput) => {
         const datesList = listLastSixMonths();
         if (analyticsInput) {
             datesList.forEach(date => {
@@ -94,7 +94,7 @@ function BarChartAnalytics({ formatDate, parseMonthSelected }) {
 
     // Loading and updating data 
     useEffect(() => {
-        const addedData = addData();
+        const addedData = addData(analyticsInput);
         // console.log('Input', addedData);
         setFinalData(addedData);
     }, [analyticsInput]);

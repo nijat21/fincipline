@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useMemo } from "react";
 import { exportPDF, printPDF } from '../components/PDF';
 import { getAllTransactions } from "../API/plaid.api";
 import { v4 as uuidv4 } from 'uuid';
@@ -36,6 +36,7 @@ const FilterProvider = props => {
             const transactions = await getAllTransactions(params);
             const result = transactions.data.sorted_transactions;
             setData(result);
+            // console.log('Data retrieved');
             // If bank or month is selected
             if (selectedBank || selectedMonth || rangeSelected) {
                 filter(result);
@@ -108,12 +109,12 @@ const FilterProvider = props => {
     };
 
     // Filter all
-    const filter = (data) => {
+    const filter = (input) => {
         try {
-            if (data && data.length > 0) {
+            if (input && input.length > 0) {
                 // Ignore running steps if there's no input for a certain step
                 // Either month is selected or a custom range. They can't be selected together
-                const rawData = JSON.parse(JSON.stringify(data));
+                const rawData = JSON.parse(JSON.stringify(input));
                 let filtered;
 
                 if (selectedBank && selectedMonth && !rangeSelected) {
@@ -129,7 +130,6 @@ const FilterProvider = props => {
                 } else if (!selectedBank && !selectedMonth && !rangeSelected) {
                     filtered = rawData;
                 }
-                setAllTransactions(filtered);
                 return filtered;
                 // console.log("Filter ran", filtered);
             }
@@ -145,7 +145,8 @@ const FilterProvider = props => {
     useEffect(() => {
         if (data) {
             console.log('Filter data run');
-            filter(data);
+            const filteredData = filter(data);
+            setAllTransactions(filteredData);
         }
     }, [selectedBank, selectedMonth, rangeSubmitClear]);
 
@@ -206,23 +207,30 @@ const FilterProvider = props => {
         // console.log("Print run");
     };
 
+    // Memoizing the context variables and functions
+    const filterContextValue = useMemo(() => ({
+        // States
+        selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
+        endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
+        rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
+        bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
+        analyticsInput, setAnalyticsInput
 
+        ,
+        // Functions
+        handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear, filterByBank
+    }), [
+        selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
+        endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
+        rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
+        bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
+        analyticsInput, setAnalyticsInput, handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear, filterByBank
+    ]);
 
     return (
-        <FilterContext.Provider value={{
-            // States
-            selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
-            endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
-            rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
-            bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
-            analyticsInput, setAnalyticsInput
-
-            ,
-            // Functions
-            handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear, filterByBank
-        }}>
+        <FilterContext.Provider value={filterContextValue}>
             {props.children}
-        </FilterContext.Provider >
+        </FilterContext.Provider>
     );
 };
 

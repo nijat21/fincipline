@@ -15,16 +15,17 @@ function Analytics() {
     const { data, selectedBank, selectedMonth, rangeSubmitClear, setAnalyticsInput
         ,
         // Functions
-        handleOutsideClick, retrieveTransactions, filter, filterByBank,
-    } = useContext(FilterContext);
+        handleOutsideClick, retrieveTransactions, filter, filterByBank, } = useContext(FilterContext);
     const { user } = useContext(AuthContext);
 
 
 
     // Once user is available, load all transactions
     useEffect(() => {
-        retrieveTransactions(user._id);
-        // console.log('Retrieve transactions run');
+        if (user && user._id) {
+            retrieveTransactions(user._id);
+            console.log('Retrieve in analytics');
+        }
     }, []);
 
     // Format date
@@ -38,19 +39,14 @@ function Analytics() {
         return new Date(fullYear, monthIndex);
     };
 
-
     // Filter by bank when loaded and bank changes
     useEffect(() => {
         if (data) {
-            // console.log('Filter by bank');
-            if (selectedBank) {
-                const result = filterByBank(data);
-                setAnalyticsInput(result);
-            } else {
-                setAnalyticsInput(data);
-            }
+            const result = selectedBank ? filterByBank(data) : data;
+            setAnalyticsInput(result);
+            console.log('UseEffect in Analytics page');
         }
-    }, [selectedBank, data]);
+    }, [data]);
 
 
     return (

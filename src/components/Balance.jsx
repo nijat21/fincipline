@@ -7,12 +7,14 @@ import Loader from './Loader';
 import { Trash2 } from 'lucide-react';
 import { deleteAccount } from "@/API/account.api";
 import { toast } from 'sonner';
+import { AuthContext } from "@/context/auth.context";
 
 
 
 function Balance({ currBank, setCurrBank }) {
     const [accounts, setAccounts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const { banks } = useContext(AuthContext);
 
 
     // Get balance info for selected bank
@@ -97,7 +99,7 @@ function Balance({ currBank, setCurrBank }) {
                             </>
                             :
                             <div>
-                                No Bank Registered
+                                {banks && banks.length > 0 ? 'No Bank Selected' : 'No Bank Registered'}
                             </div>
                         }
                     </div>
