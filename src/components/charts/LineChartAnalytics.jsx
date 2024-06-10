@@ -89,9 +89,8 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
 
     useEffect(() => {
         const addedData = addData();
-        // console.log('Input', addedData);
         setFinalData(addedData);
-    }, [analyticsInput]);
+    }, [analyticsInput, allTransactions]);
 
     return (
         <div className='h-full w-full mx-1 bg-black bg-opacity-15 rounded-lg'>
@@ -116,7 +115,7 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
                         <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} />
                         <Legend verticalAlign='top' />
                         {channels.map(ch => {
-                            return <Line type="monotone" key={uuidv4()} dataKey={ch} stroke={colors[ch]} />;
+                            return <Line type="monotone" key={ch} dataKey={ch} stroke={colors[ch]} />;
                         })}
                     </LineChart>
                 }

@@ -12,7 +12,7 @@ function Analytics() {
     const navigate = useNavigate();
     const analyticsRef = useRef();
     const analyticsRef2 = useRef();
-    const { data, selectedBank, selectedMonth, rangeSubmitClear, setAnalyticsInput
+    const { data, selectedBank, setAnalyticsInput
         ,
         // Functions
         handleOutsideClick, retrieveTransactions, filter, filterByBank, } = useContext(FilterContext);
@@ -24,7 +24,7 @@ function Analytics() {
     useEffect(() => {
         if (user && user._id) {
             retrieveTransactions(user._id);
-            console.log('Retrieve in analytics');
+            // console.log('Retrieve in analytics');
         }
     }, []);
 
@@ -44,9 +44,8 @@ function Analytics() {
         if (data) {
             const result = selectedBank ? filterByBank(data) : data;
             setAnalyticsInput(result);
-            console.log('UseEffect in Analytics page');
         }
-    }, [data]);
+    }, [data, filterByBank, setAnalyticsInput, selectedBank]);
 
 
     return (

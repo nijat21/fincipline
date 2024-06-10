@@ -12,9 +12,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
-    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, analyticsInput
+    const { selectedMonth, selectedBank, rangeSelected, allTransactions, startDate, endDate, analyticsInput
         ,
-
     } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
 
@@ -81,7 +80,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
     useEffect(() => {
         const formedData = addData();
         setFinalData(formedData);
-    }, [analyticsInput, allTransactions]);
+    }, [allTransactions, analyticsInput]);
 
 
     return (

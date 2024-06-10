@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
 import { FilterContext } from '@/context/filter.context';
 import { v4 as uuidv4 } from 'uuid';
@@ -6,13 +6,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 const categories = [];
 const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57', '#8dd1e1', '#ff8042', '#ffbb28', '#a5a5a5'];
-const colors = { 'Travel': baseColors[0], 'Payment': baseColors[1], 'Food and Drink': baseColors[2] };
+const initialColors = { 'Travel': baseColors[0], 'Payment': baseColors[1], 'Food and Drink': baseColors[2] };
 
 // Notes: If no month or range selected, should display last 6 month (using analyticsInput)
 // If month or range is selected, show that month or range (using allTransactions)
 function BarChartAnalytics({ formatDate, parseMonthSelected }) {
     const { selectedMonth, allTransactions, startDate, endDate, analyticsInput } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
+    const [colors, setColors] = useState(initialColors);
+
 
     // An array of previous 6 months since today
     const listLastSixMonths = () => {
@@ -59,14 +61,14 @@ function BarChartAnalytics({ formatDate, parseMonthSelected }) {
     const assignColors = (category) => {
         if (!colors[category]) {
             const nextColorIndex = Object.keys(colors).length % baseColors.length;
-            colors[category] = baseColors[nextColorIndex];
+            setColors(prevColors => ({ ...prevColors, [category]: baseColors[nextColorIndex] }));
         }
     };
 
     // Added Data
     // {month: 'May 24', Travel: 23.46, Payment: 50, Food and Drink: 211.46}
     // Form the data
-    const addData = (analyticsInput) => {
+    const addData = () => {
         const datesList = listLastSixMonths();
         if (analyticsInput) {
             datesList.forEach(date => {
@@ -94,10 +96,9 @@ function BarChartAnalytics({ formatDate, parseMonthSelected }) {
 
     // Loading and updating data 
     useEffect(() => {
-        const addedData = addData(analyticsInput);
-        // console.log('Input', addedData);
+        const addedData = addData();
         setFinalData(addedData);
-    }, [analyticsInput]);
+    }, [analyticsInput, allTransactions]);
 
 
     return (
@@ -123,8 +124,8 @@ function BarChartAnalytics({ formatDate, parseMonthSelected }) {
                         <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} />
                         <Legend verticalAlign='top' />
                         {/* Loop for each category and add a bar for each */}
-                        {categories.map(cat => {
-                            return <Bar type="monotone" key={uuidv4()} dataKey={cat} fill={colors[cat]} />;
+                        {Object.keys(colors).map(cat => {
+                            return <Bar type="monotone" key={cat} dataKey={cat} fill={colors[cat]} />;
                         })}
                     </BarChart>
                 }

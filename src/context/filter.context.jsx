@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useMemo } from "react";
+import { createContext, useState, useEffect, useMemo, useCallback } from "react";
 import { exportPDF, printPDF } from '../components/PDF';
 import { getAllTransactions } from "../API/plaid.api";
 import { v4 as uuidv4 } from 'uuid';
@@ -51,7 +51,7 @@ const FilterProvider = props => {
 
 
     // Filter by bank
-    const filterByBank = (input) => {
+    const filterByBank = useCallback((input) => {
         // If Bank is selected
         if (input && input.length > 0) {
             const bankTran = input.filter(tran => {
@@ -59,7 +59,7 @@ const FilterProvider = props => {
             });
             return bankTran;
         }
-    };
+    }, [selectedBank]);
 
     // Filter by Month
     const filterByMonth = (input) => {
@@ -144,7 +144,7 @@ const FilterProvider = props => {
     // Filter is called 4 times, maybe optimize
     useEffect(() => {
         if (data) {
-            console.log('Filter data run');
+            // console.log('Filter data run');
             const filteredData = filter(data);
             setAllTransactions(filteredData);
         }
@@ -207,28 +207,20 @@ const FilterProvider = props => {
         // console.log("Print run");
     };
 
-    // Memoizing the context variables and functions
-    const filterContextValue = useMemo(() => ({
-        // States
-        selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
-        endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
-        rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
-        bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
-        analyticsInput, setAnalyticsInput
-
-        ,
-        // Functions
-        handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear, filterByBank
-    }), [
-        selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
-        endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
-        rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
-        bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
-        analyticsInput, setAnalyticsInput, handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear, filterByBank
-    ]);
 
     return (
-        <FilterContext.Provider value={filterContextValue}>
+        <FilterContext.Provider value={{
+            // States
+            selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
+            endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
+            rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
+            bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
+            analyticsInput, setAnalyticsInput
+
+            ,
+            // Functions
+            handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear, filterByBank
+        }}>
             {props.children}
         </FilterContext.Provider>
     );
