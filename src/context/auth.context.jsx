@@ -8,7 +8,7 @@ const AuthContext = createContext();
 const AuthProvider = props => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [isBankLoading, setIsBankLoading] = useState(true);
+    const [isBankLoading, setIsBankLoading] = useState(false);
 
     const [profilePhoto, setProfilePhoto] = useState('');
     const [user, setUser] = useState(null);
@@ -67,7 +67,6 @@ const AuthProvider = props => {
     // Authenticate user every time reloaded
     useEffect(() => {
         // setIsLoading(true);
-        setIsBankLoading(true);
         authenticateUser();
         renderBanks();
     }, []);
@@ -76,6 +75,7 @@ const AuthProvider = props => {
     // Show banks
     const renderBanks = async () => {
         if (user) {
+            setIsBankLoading(true);
             try {
                 const response = await getBanks({ user_id: user._id });
                 setBanks(response.data);
