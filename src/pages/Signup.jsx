@@ -41,7 +41,7 @@ function Signup() {
     return (
         <div className="flex flex-col h-screen items-center justify-center">
             <div className="flex flex-col items-center justify-center text-xl px-8 py-10 max-w-1/3 rounded-md shadow-2xl">
-                <h1 className="font-medium text-3xl h-16">Sign up</h1>
+                <h2 className="font-medium h-16">Sign up</h2>
                 <form onSubmit={handleSubmit} className="min-w-1/5">
                     <div className=" flex flex-col">
                         <label htmlFor="" className="py-2">Name</label>

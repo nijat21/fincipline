@@ -90,16 +90,16 @@ function HomeBarChart({ currBank }) {
     return (
         <div className='h-screen w-full flex flex-col justify-center items-center'>
             <div className='grid grid-cols-1 w-2/4 h-1/2 '>
-                <h2 className="text-3xl py-10 text-center">{`${currBank ? currBank.institution_name : ''} Spending Analytics`}</h2>
+                <h2 className="text-3xl py-10 text-center">{`Spending Analytics`}</h2>
                 <p className='w-full text-center py-2 opacity-50'>Last 30 days</p>
                 {/* <GridItem> */}
                 {data && data.length > 0 &&
                     <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={data} margin={{ right: 30, bottom: 20 }}>
-                            <XAxis dataKey="category" stroke='#cbd5e1'>
+                        <BarChart data={data} margin={{ bottom: 20 }}>
+                            <XAxis dataKey="category" stroke='#cbd5e1' angle={'30'} textAnchor='center'>
                                 <Label value="Spending categories" position="insideBottom" offset={0} dy={15} />
                             </XAxis>
-                            <YAxis stroke='#cbd5e1' />
+                            {/* <YAxis stroke='#cbd5e1' /> */}
                             <CartesianGrid strokeDasharray='3 3' />
                             <Legend verticalAlign='top' />
                             {/* Fill -the color of the highlight of the bar area */}
@@ -118,7 +118,7 @@ function HomeBarChart({ currBank }) {
                             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
                 See More
             </Link>
-        </div>
+        </div >
     );
 }
 

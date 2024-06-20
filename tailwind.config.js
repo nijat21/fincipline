@@ -18,6 +18,10 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['YourSansFont', 'ui-sans-serif', 'system-ui'],
+        serif: ['YourSerifFont', 'ui-serif', 'Georgia'],
+      },
       grayscale: {
         '50': '50%', // Custom grayscale value
       },

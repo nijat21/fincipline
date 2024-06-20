@@ -60,7 +60,7 @@ function Balance({ currBank, setCurrBank }) {
     return (
         <>
             <div className='flex flex-col justify-start'>
-                <h1 className='text-5xl text-center'>{currBank ? currBank.institution_name : 'Accounts'}</h1>
+                <h1 className='text-center'>{currBank ? currBank.institution_name : 'Accounts'}</h1>
             </div>
             {isLoading ?
                 <Loader />

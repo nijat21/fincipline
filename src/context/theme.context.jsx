@@ -3,7 +3,7 @@ import { createContext, useState, useEffect } from "react";
 const ThemeContext = createContext();
 
 const ThemeProvider = props => {
-    const [theme, setTheme] = useState('light');
+    const [theme, setTheme] = useState(null);
     const [spinnerColor, setSpinnerColor] = useState("");
 
     // Check preferred color scheme

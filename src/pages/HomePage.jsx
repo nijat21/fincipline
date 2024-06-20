@@ -55,7 +55,7 @@ function HomePage() {
                     {banks && banks.length > 0 &&
                         <div className='w-[188px] flex justify-center py-2'>
                             <Select onValueChange={(value) => handleSelect(value)}>
-                                <SelectTrigger className="w-[180px]">
+                                <SelectTrigger className="">
                                     <SelectValue placeholder={currBank ?
                                         currBank.institution_name
                                         :
