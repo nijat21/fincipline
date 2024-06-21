@@ -29,7 +29,7 @@ function App() {
       <Navbar />
       <Toaster richColors position='bottom-right' />
       <AnimatePresence>
-        <div className="pt-[68px]">
+        <div className="pt-[64px]">
           <Toaster richColors position='bottom-right' />
           <Routes>
             <Route path="/" element={<IsHybrid><HomePage /></IsHybrid>} />

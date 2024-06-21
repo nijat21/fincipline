@@ -96,7 +96,7 @@ function HomeBarChart({ currBank }) {
                 {data && data.length > 0 &&
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={data} margin={{ bottom: 20 }}>
-                            <XAxis dataKey="category" stroke='#cbd5e1' angle={'30'} textAnchor='center'>
+                            <XAxis dataKey="category" stroke='#cbd5e1' angle={'30'} textAnchor='start'>
                                 <Label value="Spending categories" position="insideBottom" offset={0} dy={15} />
                             </XAxis>
                             {/* <YAxis stroke='#cbd5e1' /> */}
