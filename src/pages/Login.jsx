@@ -33,18 +33,20 @@ function Login() {
 
     return (
         <div className=" h-screen flex justify-center items-center">
-            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 rounded-md shadow-2xl max-w-1/3 dark:bg-gradient-to-r dark:from-indigo-500 dark:via-purple-500 dark:to-pink-500 ">
+            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 rounded-md shadow-2xl max-w-1/3 
+            bg-gradient-to-r from-slate-400 to-slate-300
+            dark:from-indigo-800 dark:to-indigo-500">
                 <h2 className="font-medium h-16">Log in</h2>
                 <form onSubmit={handleSubmit} className="min-w-1/5">
                     <div className=" flex flex-col">
                         <label htmlFor="" className="py-2">Email</label>
                         <input type="email" name="email" value={email} onChange={({ target }) => setEmail(target.value)}
-                            className="p-1 mb-1 rounded-sm text-black bg-black bg-opacity-10 dark:bg-white" ref={uRef}
+                            className="p-1 mb-1 rounded-sm text-black  bg-opacity-60 bg-white" ref={uRef}
                         />
 
                         <label htmlFor="" className="py-2">Password</label>
                         <input type="password" name="password" value={password} onChange={({ target }) => setPassword(target.value)}
-                            className="p-1 mb-1 rounded-sm text-black bg-black bg-opacity-10 dark:bg-white"
+                            className="p-1 mb-1 rounded-sm text-black bg-opacity-60 bg-white"
                         />
                     </div>
                     <div className="h-20 mt-2 flex justify-center items-center">
