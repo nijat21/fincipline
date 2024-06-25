@@ -5,6 +5,8 @@ import { ThemeContext } from "../context/theme.context";
 import { AuthContext } from "../context/auth.context";
 import UserMenu from "./UserMenu";
 import LinkLayout from "./LinkLayout";
+import { Sun } from 'lucide-react';
+import { Moon } from 'lucide-react';
 
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +71,7 @@ function Navbar() {
                             </li>
                             {isLoggedIn ?
                                 <>
-                                    <li className="mt-7 md:my-0 md:ml-8 flex justify-center py-1 w-[30px] rounded md:static">
+                                    <li className="mt-7 md:my-0 md:ml-8 flex items-center justify-center py-1 w-[30px] rounded md:static">
                                         <UserMenu />
                                     </li>
 
@@ -77,11 +79,11 @@ function Navbar() {
 
                                 :
                                 <>
-                                    <li className="mt-7 md:my-0 md:ml-8 flex justify-center" onClick={() => setIsOpen(false)}>
-                                        <button className="btn border border-black text-black dark:border-white dark:text-white py-1  w-28 md:ml-8 rounded md:static">
+                                    <li className="mt-7 md:my-0 md:ml-8 flex flex-col md:flex-row items-center md:justify-center" onClick={() => setIsOpen(false)}>
+                                        <button className="btn py-1 my-1 border border-black text-black dark:border-white dark:text-white w-28 md:ml-8 rounded md:static">
                                             <Link to={'/login'}>Log In</Link>
                                         </button>
-                                        <button className="btn border border-black bg-black dark:border-white dark:bg-white dark:text-black text-white w-28  py-1 md:ml-3 rounded md:static">
+                                        <button className="btn py-1 my-1 border border-black bg-black dark:border-white dark:bg-white dark:text-black text-white w-28 md:ml-3 rounded md:static">
                                             <Link to={'/signup'}>Sign Up</Link>
                                         </button>
                                     </li>
@@ -91,9 +93,9 @@ function Navbar() {
                             <li className="my-7 md:my-0 md:ml-6 flex justify-center" onClick={() => setIsOpen(false)}>
                                 <button onClick={toggleTheme}>
                                     {theme === "light" ?
-                                        <i className="w-6 fa-solid fa-circle-half-stroke fa-xl" style={{ color: "#232323" }}></i>
+                                        <Moon size={'32'} />
                                         :
-                                        <i className="w-6 fa-solid fa-lightbulb fa-xl" style={{ color: "#FFf995" }}></i>
+                                        <Sun size={'32'} />
                                     }
                                 </button>
                             </li>
