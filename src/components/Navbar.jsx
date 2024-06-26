@@ -5,8 +5,8 @@ import { ThemeContext } from "../context/theme.context";
 import { AuthContext } from "../context/auth.context";
 import UserMenu from "./UserMenu";
 import LinkLayout from "./LinkLayout";
-import { Sun } from 'lucide-react';
-import { Moon } from 'lucide-react';
+import { Sun, Moon, Menu, X } from 'lucide-react';
+
 
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -39,9 +39,9 @@ function Navbar() {
                 <div onClick={() => setIsOpen(!isOpen)} className="absolute right-8 top-4 cursor-pointer md:hidden">
                     {
                         isOpen ?
-                            <i className="fa-solid fa-x fa-2x"></i>
+                            <X size='35' />
                             :
-                            <i className="fa-solid fa-bars-staggered fa-2x"></i>
+                            <Menu size='35' />
                     }
                 </div>
 
@@ -71,7 +71,7 @@ function Navbar() {
                             </li>
                             {isLoggedIn ?
                                 <>
-                                    <li className="mt-7 md:my-0 md:ml-8 flex items-center justify-center py-1 w-[30px] rounded md:static">
+                                    <li className="mt-7 md:my-0 md:ml-8 py-1 w-[30px] rounded md:static">
                                         <UserMenu />
                                     </li>
 
