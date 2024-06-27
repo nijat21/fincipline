@@ -40,7 +40,7 @@ function Signup() {
 
     return (
         <div className="flex flex-col h-screen items-center justify-center">
-            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 max-w-1/3 rounded-md shadow-2xl
+            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 max-w-1/3 rounded-md shadow-2xl box-border
             bg-gradient-to-r from-slate-400 to-slate-300
             dark:from-indigo-800 dark:to-indigo-500">
                 <h2 className="font-medium h-16">Sign up</h2>
@@ -69,7 +69,7 @@ function Signup() {
 
                 <GoogleSignIn />
 
-                {error && (<p className="opacity-60 text-center py-2">{error}</p>)}
+                {error && (<p className="opacity-60 text-center py-2  max-w-56">{error}</p>)}
 
                 <Link to={'/login'} >Already have an account? <p className='text-blue-400 hover:text-blue-600 inline'>Log in</p></Link>
             </div>

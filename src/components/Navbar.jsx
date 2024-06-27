@@ -1,9 +1,7 @@
 import { useState, useContext, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { easeOut, motion as m } from 'framer-motion';
-import { ThemeContext } from "../context/theme.context";
+import { motion as m } from 'framer-motion';
 import { AuthContext } from "../context/auth.context";
-import UserMenu from "./UserMenu";
 import LinkLayout from "./LinkLayout";
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import ProfileMenu from "./ProfileMenu";
@@ -11,9 +9,19 @@ import ProfileMenu from "./ProfileMenu";
 
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const { theme, toggleTheme } = useContext(ThemeContext);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
     const { isLoggedIn } = useContext(AuthContext);
     const ref = useRef();
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 900);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -32,6 +40,13 @@ function Navbar() {
         };
     }, [ref, isOpen]);
 
+    // Toggle Navbar
+    const toggleNav = () => {
+        setIsOpen(!isOpen);
+    };
+
+
+
     return (
         <div className="shadow-sm w-full border-box fixed top-0 left-0 z-[1000] text-black  bg-white dark:text-slate-300 dark:bg-slate-900">
             <div ref={ref} className="px-10 p-4 md:flex justify-between items-center">
@@ -41,7 +56,7 @@ function Navbar() {
                 </div>
 
                 {/* Menu icon */}
-                <div onClick={() => setIsOpen(!isOpen)} className="absolute right-8 top-4 cursor-pointer md:hidden">
+                <div onClick={toggleNav} className="absolute right-8 top-4 cursor-pointer md:hidden">
                     {
                         isOpen ?
                             <X size='35' />
@@ -80,9 +95,9 @@ function Navbar() {
                             </li>
                             {isLoggedIn ?
                                 <>
-                                    <li className="mt-7 md:my-0 md:ml-8 py-1 w-[30px] rounded md:static">
+                                    <li className="mt-7 md:my-0 md:ml-8 py-1 rounded md:static w-full flex justify-center">
                                         {/* <UserMenu /> */}
-                                        <ProfileMenu />
+                                        <ProfileMenu isMobile={isMobile} toggleNav={toggleNav} />
                                     </li>
 
                                 </>
@@ -100,17 +115,7 @@ function Navbar() {
 
                                 </>
                             }
-                            <li className="my-7 md:my-0 md:ml-6 flex justify-center" onClick={() => setIsOpen(false)}>
-                                <button onClick={toggleTheme}>
-                                    {theme === "light" ?
-                                        <Moon size={'32'} />
-                                        :
-                                        <Sun size={'32'} />
-                                    }
-                                </button>
-                            </li>
                         </>
-
                     }
                 </m.ul>
             </div>

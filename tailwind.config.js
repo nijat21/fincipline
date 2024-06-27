@@ -36,7 +36,7 @@ module.exports = {
         '3screen': '282vh', // 3 times the screen height
       },
       screens: {
-        'md': '950px'
+        'md': '900px'
       },
       keyframes: {
         "accordion-down": {
