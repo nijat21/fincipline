@@ -8,14 +8,35 @@ import { Trash2 } from 'lucide-react';
 import { deleteAccount } from "@/API/account.api";
 import { toast } from 'sonner';
 import { AuthContext } from "@/context/auth.context";
-
+import { FilterContext } from "@/context/filter.context";
+import PlaidLink from "@/pages/PlaidLink";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 
 function Balance({ currBank, setCurrBank }) {
     const [accounts, setAccounts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { banks } = useContext(AuthContext);
+    const { setSelectedBank } = useContext(FilterContext);
 
+
+    // Handle bank select
+    const handleSelect = (value) => {
+        // Find the selected bank object based on the value
+        const selectedBank = banks.find(bank => bank.institution_name === value);
+        if (selectedBank) {
+            localStorage.setItem('currBank', JSON.stringify(selectedBank));
+            setCurrBank(selectedBank);
+            setSelectedBank(selectedBank);
+            // console.log(selectedBank);
+        }
+    };
 
     // Get balance info for selected bank
     const getAccounts = async (currBank) => {
@@ -105,6 +126,36 @@ function Balance({ currBank, setCurrBank }) {
                     </div>
                 </div>
             }
+
+            {/* Bank selection drop-down */}
+            {banks && banks.length > 0 &&
+                <div className='w-[188px] flex justify-center py-2'>
+                    <Select onValueChange={(value) => handleSelect(value)}
+                        className="text-lg">
+                        <SelectTrigger>
+                            <SelectValue placeholder={currBank ?
+                                currBank.institution_name
+                                :
+                                <>
+                                    Select your bank
+                                </>
+                            } />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {banks.length > 0 && banks.map(bank => {
+                                return (
+                                    <SelectItem key={uuidv4()} value={bank.institution_name}>
+                                        {bank.institution_name}
+                                    </SelectItem>
+                                );
+                            })}
+
+                        </SelectContent>
+                    </Select>
+                </div>
+            }
+            {/* Adding new bank account */}
+            <PlaidLink />
         </>
     );
 }
