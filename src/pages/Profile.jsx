@@ -45,7 +45,7 @@ function Profile() {
         <div className="flex flex-col h-screen items-center justify-center">
             <div className="flex items-center justify-center w-80 md:w-1/2 px-8 py-10 rounded-lg shadow-2xl 
             bg-gradient-to-r from-slate-400 to-slate-300
-            dark:from-indigo-800 dark:to-indigo-500">
+            dark:from-indigo-700 dark:to-indigo-500">
                 <div className="flex flex-col items-center justify-center text-lg w-full">
                     <div className={`max-w-40 md:max-w-52 flex flex-col items-center justify-center border cursor-pointer shadow-md
                     ${imgUrl ? "border-transparent" : "border-black dark:border-slate-300 hover:border-transparent"} `}
@@ -71,18 +71,19 @@ function Profile() {
 
                         <button className="w-full mt-2 rounded-sm hover:bg-slate-700 hover:text-white
                         font-semibold dark:hover:bg-white dark:hover:text-black cursor-pointer
-                        border border-black dark:border-slate-300 md:border-transparent md:dark:border-transparent"
+                        border border-black dark:border-slate-300 hover:border-transparent"
                             onClick={() => setShowDetailsEdit(true)}>
                             Name & Email</button>
                         {/* Add some edit icon to make obvious */}
                         <button className="w-full mb-2 m-1 rounded-sm  hover:bg-slate-700 hover:text-white
                         font-semibold dark:hover:bg-white dark:hover:text-black cursor-pointer
-                        border border-black dark:border-slate-300 md:border-transparent md:dark:border-transparent"
+                        border border-black dark:border-slate-300 hover:border-transparent"
                             onClick={() => setShowPasswordEdit(true)}>
                             Password</button>
-                        <button className="w-full p-2 border border-black dark:border-slate-300 hover:bg-slate-700 hover:text-white
-                         dark:hover:bg-white dark:hover:text-black  hover:border-transparent bg-black bg-opacity-60 md:bg-transparent bg-opacity-1"
-                            onClick={handleDelete}>Delete account</button>
+                        <button className="w-full hover:text-slate-900"
+                            onClick={handleDelete}>
+                            Delete account
+                        </button>
                     </div>
                 </div>
                 {showPasswordEdit &&

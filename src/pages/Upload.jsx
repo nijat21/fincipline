@@ -52,16 +52,17 @@ function Upload() {
 
     return (
         <div className="flex flex-col h-screen items-center justify-center">
-            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 rounded-md shadow-2xl">
+            <div className="flex flex-col items-center justify-center text-xl px-8 py-10 rounded-lg shadow-2xl box-border
+            bg-slate-400 dark:bg-indigo-800 max-w-80 md:max-w-full">
 
-                <h3 className="text-2xl h-16">Upload your profile photo</h3>
-                <form onSubmit={handleSubmit} className="flex flex-col items-center">
-                    <div className="flex justify-center p-6">
+                <h3 className="py-2 text-center">Upload your profile photo</h3>
+                <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center w-full">
+                    <div className="flex justify-center items-center py-10 w-full">
                         <label htmlFor="image"></label>
-                        <input type="file" onChange={handleImage} id="image" className="" />
+                        <input type="file" onChange={handleImage} id="image" className="max-w-xs md:max-w-full" />
                     </div>
                     <div className="flex justify-center">
-                        <button type="submit" className="min-w-44 p-2 m-2 border rounded-sm border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                        <button type="submit" className="min-w-40 p-2 m-2 border rounded-sm border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                         dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">Save</button>
                     </div>
                 </form>
