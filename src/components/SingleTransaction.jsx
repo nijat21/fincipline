@@ -18,7 +18,7 @@ function SingleTransaction({ onClose, transaction }) {
     return (
         <div ref={modalRef} onClick={closeModal} className="fixed inset-0 mt-[68px] bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center">
             {transaction &&
-                <div className="bg-blue-800 rounded-xl w-3/4 h-3/4 flex flex-col items-center gap-4">
+                <div className="bg-white dark:bg-blue-800 rounded-xl w-3/4 h-3/4 flex flex-col items-center gap-4">
                     <button onClick={onClose} className="place-self-end hover:cursor-pointer p-4"><X size={30} /></button>
                     <div className="flex flex-col items-center h-64 w-full ">
                         <div className="flex items-center justify-center h-48">

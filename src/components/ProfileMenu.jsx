@@ -7,24 +7,18 @@ import { ThemeContext } from "@/context/theme.context";
 
 
 function ProfileMenu({ isMobile, toggleNav }) {
-    const { user, logoutUser } = useContext(AuthContext);
-    const [profilePhoto, setProfilePhoto] = useState(null);
+    const { user, logoutUser, profilePhoto } = useContext(AuthContext);
+    const { theme, toggleTheme } = useContext(ThemeContext);
+    const [imgUrl, setImgUrl] = useState(user.imgUrl);
     const [open, setOpen] = useState(false);
     const firstName = user.name.split(' ')[0];
     const menuRef = useRef(null);
-    const { theme, toggleTheme } = useContext(ThemeContext);
 
     // Toggle menu
     const toggleMenu = () => {
         setOpen(!open);
     };
 
-    // Profile photo
-    useEffect(() => {
-        if (user) {
-            setProfilePhoto(user.imgUrl);
-        } else setProfilePhoto(null);
-    }, [user]);
 
     // Close menu in outside click
     useEffect(() => {
@@ -45,6 +39,13 @@ function ProfileMenu({ isMobile, toggleNav }) {
         };
     }, [open]);
 
+    useEffect(() => {
+        if (profilePhoto) {
+            setImgUrl(profilePhoto);
+        }
+    }, [profilePhoto]);
+
+
     return (
         <div className="relative" ref={menuRef}>
             <div onClick={() => toggleMenu()}
@@ -52,9 +53,9 @@ function ProfileMenu({ isMobile, toggleNav }) {
                 {!isMobile &&
                     <div className='relative'>
                         <>
-                            {profilePhoto ?
+                            {imgUrl ?
                                 <div className="h-10 max-w-10">
-                                    < img src={profilePhoto} alt="" className="rounded-lg h-full w-full" />
+                                    <img src={imgUrl} alt="" className="rounded-lg h-full w-full" />
                                 </div>
                                 :
                                 <UserRound size={'32'} />

@@ -43,9 +43,10 @@ function Profile() {
 
     return (
         <div className="flex flex-col h-screen items-center justify-center">
-            <div className="flex items-center justify-center w-1/4 px-8 py-10  rounded-md shadow-2xl">
-                <div className="flex flex-col items-center justify-center text-xl w-full">
-                    <div className="w-full flex flex-col items-center justify-center border rounded-sm hover:bg-slate-600 cursor-pointer"
+            <div className="flex items-center justify-center w-80 md:w-1/2 px-8 py-10 rounded-md shadow-2xl bg-blue-800
+            border border-zinc-300 dark:border-slate-800">
+                <div className="flex flex-col items-center justify-center text-lg w-full">
+                    <div className="max-w-40  flex flex-col items-center justify-center border rounded-sm hover:bg-slate-600 cursor-pointer"
                         onClick={() => { navigate('/profile/upload'); }}>
                         {imgUrl ?
                             <div className="relative flex justify-center items-end group">
@@ -62,13 +63,7 @@ function Profile() {
                         }
                     </div>
 
-                    <h1 className="font-medium text-xl h-16 flex items-center ">{name.toUpperCase()}</h1>
-                    {/* <div className="relative group flex justify-center items-center w-full p-2 m-2 group border rounded-sm border-black dark:border-slate-300 cursor-pointer">
-                        <input type="text" value={name.toUpperCase()} className="text-center bg-transparent" onChange={(e) => setName(e.target.value)} />
-                        <div className="relative w-full flex justify-end">
-                            <Pencil className="absolute h-8 w-14 mb-2 group-hover:bg-black group-hover:bg-opacity-80" />
-                        </div>
-                    </div> */}
+                    <h1 className="font-medium text-xl h-16 flex items-center ">{`${name[0].toUpperCase()}${user && name.slice(1)}`}</h1>
                     <button className="w-full p-2 m-2 border rounded-sm border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                     dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer"
                         onClick={() => setShowDetailsEdit(true)}>

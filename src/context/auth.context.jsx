@@ -100,7 +100,7 @@ const AuthProvider = props => {
     return (
         <AuthContext.Provider value={{
             isLoading, setIsLoading, isLoggedIn, user, storeToken, authenticateUser, logoutUser,
-            profilePhoto, setProfilePhoto, banks, setBanks, setBankReturned, isBankLoading
+            profilePhoto, setProfilePhoto, banks, setBanks, setBankReturned, isBankLoading,
         }}>
             {props.children}
         </AuthContext.Provider>

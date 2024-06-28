@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { uploadImg, updateImg } from "../API/auth.api";
+import { v4 as uuidv4 } from 'uuid';
+
 
 function Upload() {
     const { user, setProfilePhoto } = useContext(AuthContext);

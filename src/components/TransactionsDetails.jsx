@@ -51,7 +51,8 @@ function TransactionsDetails() {
             <h1 className="text-3xl pt-10 pb-4 text-center">{`Transactions`}</h1>
 
             <Filters />
-            <div className="overflow-y-auto h-half-screen">
+
+            <div className="overflow-y-auto h-half-screen rounded-lg">
                 <table className="box-border">
                     <thead className="text-lg h-10 bg-black bg-opacity-20">
                         <tr>
@@ -65,7 +66,7 @@ function TransactionsDetails() {
                         {allTransactions && allTransactions.length > 0 && allTransactions.map(tran => {
                             return (
                                 <tr key={uuidv4()} onClick={() => handleRowClick(tran)}
-                                    className="text-lg border-b dark:hover:bg-blue-800 hover:bg-opacity-15 hover:bg-black cursor-pointer">
+                                    className="text-lg border-b dark:hover:bg-blue-800 hover:bg-neutral-300 cursor-pointer">
                                     <td className="px-10 py-2 text-center flex items-center">
                                         <div className="h-10 my-1">
                                             {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 rounded-xl" />}
@@ -84,28 +85,28 @@ function TransactionsDetails() {
                 {showModal &&
                     <SingleTransaction onClose={() => setShowModal(false)} transaction={selectedTransaction} />
                 }
-            </div>
-            <div className="flex justify-end">
-                <button onClick={() => navigate(-1)}
-                    className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                <div className="flex justify-end">
+                    <button onClick={() => navigate(-1)}
+                        className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                     dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
-                    Back
-                </button>
-                {/* Print and Export */}
-                <button onClick={handlePrint}
-                    className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                        Back
+                    </button>
+                    {/* Print and Export */}
+                    <button onClick={handlePrint}
+                        className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                     dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
-                    <i className="fa-solid fa-print mr-1"></i>
-                    Print
-                    {/* Add a "Print" popup when hovered over */}
-                </button>
-                <button onClick={handleExport}
-                    className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                        <i className="fa-solid fa-print mr-1"></i>
+                        Print
+                        {/* Add a "Print" popup when hovered over */}
+                    </button>
+                    <button onClick={handleExport}
+                        className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                     dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
-                    <i className="fa-solid fa-download mr-1"></i>
-                    Export
-                    {/* Add a "Export" popup when hovered over */}
-                </button>
+                        <i className="fa-solid fa-download mr-1"></i>
+                        Export
+                        {/* Add a "Export" popup when hovered over */}
+                    </button>
+                </div>
             </div>
         </div>
     );
