@@ -10,14 +10,8 @@ import { toast } from 'sonner';
 import { AuthContext } from "@/context/auth.context";
 import { FilterContext } from "@/context/filter.context";
 import PlaidLink from "@/pages/PlaidLink";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-
+import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from '@/components/ui/table';
 
 function Balance({ currBank, setCurrBank }) {
     const [accounts, setAccounts] = useState([]);
@@ -90,14 +84,14 @@ function Balance({ currBank, setCurrBank }) {
                     <div className="flex flex-col items-center justify-center my-20">
                         {currBank ?
                             <>
-                                <table>
-                                    <thead className="text-lg h-10 bg-black bg-opacity-20">
-                                        <tr>
+                                <Table>
+                                    <TableHeader className="text-lg h-10 ">
+                                        <TableRow>
                                             <th className="px-10">Account</th>
                                             <th className="px-10">Balance</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="text-xl text-center">
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody className="text-xl text-center">
                                         {accounts && accounts.map(acc => {
                                             return (
                                                 <tr key={uuidv4()} className="text-lg border-b">
@@ -111,8 +105,8 @@ function Balance({ currBank, setCurrBank }) {
                                                 </tr>
                                             );
                                         })}
-                                    </tbody>
-                                </table>
+                                    </TableBody>
+                                </Table>
                                 <button className="mt-6 opacity-50 hover:opacity-100 flex text-lg" onClick={handleDeleteBank}>
                                     <Trash2 className="pr-1" />
                                     Delete connection
@@ -129,10 +123,11 @@ function Balance({ currBank, setCurrBank }) {
 
             {/* Bank selection drop-down */}
             {banks && banks.length > 0 &&
-                <div className='w-[188px] flex justify-center py-2'>
+                <div className='w-[188px] flex justify-center py-2 z-40'>
                     <Select onValueChange={(value) => handleSelect(value)}
                         className="text-lg">
-                        <SelectTrigger>
+                        <SelectTrigger className="text-lg text-center border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                        dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer flex justify-center">
                             <SelectValue placeholder={currBank ?
                                 currBank.institution_name
                                 :
@@ -141,21 +136,25 @@ function Balance({ currBank, setCurrBank }) {
                                 </>
                             } />
                         </SelectTrigger>
-                        <SelectContent>
-                            {banks.length > 0 && banks.map(bank => {
-                                return (
-                                    <SelectItem key={uuidv4()} value={bank.institution_name}>
-                                        {bank.institution_name}
-                                    </SelectItem>
-                                );
-                            })}
+                        <SelectContent className="bg-neutral-300 z-50">
+                            <SelectGroup>
+                                {banks.length > 0 && banks.map(bank => {
+                                    return (
+                                        <SelectItem className="text-md dark:text-slate-300 cursor-pointer block z-50" key={uuidv4()} value={bank.institution_name}>
+                                            {bank.institution_name}
+                                        </SelectItem>
+                                    );
+                                })}
 
+                            </SelectGroup>
                         </SelectContent>
                     </Select>
                 </div>
             }
             {/* Adding new bank account */}
-            <PlaidLink />
+            <div className="relative z-0">
+                <PlaidLink />
+            </div>
         </>
     );
 }

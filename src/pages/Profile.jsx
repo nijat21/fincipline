@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth.context";
 import { deleteUser } from "../API/auth.api";
-import { Pencil } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import EditPassword from "@/components/EditPassword";
 import EditUserDetails from "@/components/EditUserDetails";
 
@@ -80,8 +80,9 @@ function Profile() {
                         border border-black dark:border-slate-300 hover:border-transparent"
                             onClick={() => setShowPasswordEdit(true)}>
                             Password</button>
-                        <button className="w-full hover:text-slate-900"
+                        <button className="w-full mt-4 dark:hover:text-slate-900 opacity-50 hover:opacity-100 flex justify-center text-lg"
                             onClick={handleDelete}>
+                            <Trash2 className="pr-1" />
                             Delete account
                         </button>
                     </div>

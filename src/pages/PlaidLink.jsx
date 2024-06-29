@@ -60,7 +60,7 @@ function PlaidLink() {
         <div>
             {error && <p>An error occurred: {error.message}</p>}
             <button onClick={() => open()} disabled={!ready}
-                className="p-1 w-[188px] mx-2 px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                className="py-1 w-[188px] text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer bg-neutral-300 dark:bg-blue-950">Add</button>
         </div>
     );
