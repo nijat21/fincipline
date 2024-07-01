@@ -13,10 +13,10 @@ import PlaidLink from "@/pages/PlaidLink";
 import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from '@/components/ui/table';
 
-function Balance({ currBank, setCurrBank }) {
+function Balance({ currBank, setCurrBank, deleteCurrBank }) {
     const [accounts, setAccounts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const { banks } = useContext(AuthContext);
+    const { banks, setBanks, renderBanks } = useContext(AuthContext);
     const { setSelectedBank } = useContext(FilterContext);
 
 
@@ -62,7 +62,9 @@ function Balance({ currBank, setCurrBank }) {
                 const messageResponse = await deleteAccount({ bank_id: currBank._id });
                 toast.success(messageResponse.data.message);
                 setAccounts([]);
-                setCurrBank(null);
+                deleteCurrBank();
+                setBanks(null);
+                renderBanks();
             } catch (error) {
                 console.log('Error deleting the bank account', error);
             }
@@ -127,7 +129,7 @@ function Balance({ currBank, setCurrBank }) {
                     <Select onValueChange={(value) => handleSelect(value)}
                         className="text-lg">
                         <SelectTrigger className="text-lg text-center border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-                        dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer flex justify-center">
+                        dark:hover:bg-white dark:hover:text-black hover:border-transparent cursor-pointer flex justify-center">
                             <SelectValue placeholder={currBank ?
                                 currBank.institution_name
                                 :
@@ -136,8 +138,8 @@ function Balance({ currBank, setCurrBank }) {
                                 </>
                             } />
                         </SelectTrigger>
-                        <SelectContent className="bg-neutral-300 z-50">
-                            <SelectGroup>
+                        <SelectContent className="bg-neutral-300 dark:bg-white z-50">
+                            <SelectGroup className="z-50">
                                 {banks.length > 0 && banks.map(bank => {
                                     return (
                                         <SelectItem className="text-md dark:text-slate-300 cursor-pointer block z-50" key={uuidv4()} value={bank.institution_name}>
@@ -152,9 +154,7 @@ function Balance({ currBank, setCurrBank }) {
                 </div>
             }
             {/* Adding new bank account */}
-            <div className="relative z-0">
-                <PlaidLink />
-            </div>
+            <PlaidLink />
         </>
     );
 }
