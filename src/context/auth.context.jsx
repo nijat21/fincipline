@@ -74,6 +74,7 @@ const AuthProvider = props => {
 
     // Show banks
     const renderBanks = async () => {
+        console.log('Render Banks run');
         if (user) {
             setIsBankLoading(true);
             try {
@@ -100,7 +101,7 @@ const AuthProvider = props => {
     return (
         <AuthContext.Provider value={{
             isLoading, setIsLoading, isLoggedIn, user, storeToken, authenticateUser, logoutUser,
-            profilePhoto, setProfilePhoto, banks, setBanks, setBankReturned, isBankLoading,
+            profilePhoto, setProfilePhoto, banks, setBanks, setBankReturned, isBankLoading, renderBanks
         }}>
             {props.children}
         </AuthContext.Provider>

@@ -52,6 +52,10 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      borderColor: theme => ({
+        DEFAULT: 'var(--border-color)',
+        ...theme('colors'),
+      }),
     },
   },
   plugins: [require("tailwindcss-animate")],

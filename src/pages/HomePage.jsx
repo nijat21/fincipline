@@ -23,10 +23,6 @@ function HomePage() {
         }
     }, []);
 
-    const deleteCurrBank = () => {
-        setCurrBank(null);
-        localStorage.removeItem('currBank');
-    };
 
     return (
         <div className=' w-screen special-overflow-hidden'>
@@ -34,7 +30,7 @@ function HomePage() {
                 {/* <GradientBackground /> */}
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
                     {/* Balance section */}
-                    <Balance currBank={currBank} setCurrBank={setCurrBank} deleteCurrBank={deleteCurrBank} />
+                    <Balance currBank={currBank} setCurrBank={setCurrBank}  />
                 </div>
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box pb-10 bg-black bg-opacity-5'>
                     {/* Showing recent transactions */}

@@ -13,7 +13,7 @@ import PlaidLink from "@/pages/PlaidLink";
 import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from '@/components/ui/table';
 
-function Balance({ currBank, setCurrBank, deleteCurrBank }) {
+function Balance({ currBank, setCurrBank }) {
     const [accounts, setAccounts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { banks, setBanks, renderBanks } = useContext(AuthContext);
@@ -52,6 +52,7 @@ function Balance({ currBank, setCurrBank, deleteCurrBank }) {
     useEffect(() => {
         setAccounts([]);
         getAccounts(currBank);
+        // renderBanks(); // Not a function error
     }, [currBank]);
 
 
@@ -62,9 +63,10 @@ function Balance({ currBank, setCurrBank, deleteCurrBank }) {
                 const messageResponse = await deleteAccount({ bank_id: currBank._id });
                 toast.success(messageResponse.data.message);
                 setAccounts([]);
-                deleteCurrBank();
-                setBanks(null);
-                renderBanks();
+                setCurrBank(null);
+                localStorage.removeItem('currBank');
+                // setBanks(null);
+                await renderBanks();
             } catch (error) {
                 console.log('Error deleting the bank account', error);
             }
@@ -84,11 +86,11 @@ function Balance({ currBank, setCurrBank, deleteCurrBank }) {
                 :
                 <div className='min-h-3/5 text-xl flex items-center justify-center mb-[-50px]'>
                     <div className="flex flex-col items-center justify-center my-20">
-                        {currBank ?
+                        {banks && banks.length ?
                             <>
                                 <Table>
                                     <TableHeader className="text-lg h-10 ">
-                                        <TableRow>
+                                        <TableRow className='border-b'>
                                             <th className="px-10">Account</th>
                                             <th className="px-10">Balance</th>
                                         </TableRow>

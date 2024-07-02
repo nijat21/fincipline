@@ -12,7 +12,7 @@ const IsAnon = props => {
     if (isLoading) {
         return (
             <div className="h-screen w-screen flex justify-center items-center">
-                <HashLoader color="#FFF" size={60} />
+                <HashLoader color={spinnerColor} size={60} />
             </div>
         );
     }
