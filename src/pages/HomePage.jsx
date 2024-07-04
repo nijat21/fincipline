@@ -37,20 +37,20 @@ function HomePage() {
 
 
     return (
-        <div className=' w-screen special-overflow-hidden'>
+        <div className='w-screen special-overflow-hidden'>
             <div className='h-3screen w-screen flex flex-col items-center'>
                 {/* <GradientBackground /> */}
-                <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
+                <div className='md:h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm '>
                     {/* <div className='h-3/4 flex flex-col justify-center items-center border-box'> */}
                     {/* Balance section */}
                     <Balance />
                     {/* </div> */}
                 </div>
-                <div className='h-screen w-screen flex flex-col justify-center items-center border-box pb-10'>
+                <div className='bg-black bg-opacity-40 md:bg-black md:bg-opacity-5 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box py-4'>
                     {/* Showing recent transactions */}
                     <Transactions isMobile={isMobile} />
                 </div>
-                <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
+                <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box'>
                     {/* Last 30 days analytics */}
                     <HomeBarChart currBank={currBank} />
                 </div>

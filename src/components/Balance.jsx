@@ -74,7 +74,7 @@ function Balance() {
 
 
     return (
-        <>
+        <div className="flex flex-col items-center w-full py-10 md:shadow-none">
             <div className='flex flex-col justify-start'>
                 <h1 className='text-center'>{currBank ? currBank.institution_name : 'Accounts'}</h1>
             </div>
@@ -82,7 +82,7 @@ function Balance() {
                 <Loader />
                 :
                 <div className='min-h-3/5 text-xl flex items-center justify-center mb-[-50px]'>
-                    <div className="flex flex-col items-center justify-center my-20">
+                    <div className="flex flex-col items-center justify-center my-10 pb-4 pt-2">
                         {banks && banks.length && currBank ?
                             <>
                                 <Table>
@@ -108,7 +108,7 @@ function Balance() {
                                         })}
                                     </TableBody>
                                 </Table>
-                                <button className="mt-6 opacity-50 hover:opacity-100 flex text-lg" onClick={handleDeleteBank}>
+                                <button className="my-4 opacity-50 hover:opacity-100 flex text-lg" onClick={handleDeleteBank}>
                                     <Trash2 className="pr-1" />
                                     Delete connection
                                 </button>
@@ -156,7 +156,7 @@ function Balance() {
             <div className="z-10">
                 <PlaidLink />
             </div>
-        </>
+        </div>
     );
 }
 

@@ -53,8 +53,8 @@ function Transactions({ isMobile }) {
 
 
     return (
-        <div className="mx-4 px-6 border rounded-xl pb-4">
-            {/* <h2 className="text-3xl py-10 text-center">{`Recent Transactions`}</h2> */}
+        <div className="m-4 px-6 rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent">
+            {!isMobile && <h2 className="text-3xl py-10 text-center">{`Recent Transactions`}</h2>}
             <div className="rounded-lg pt-4">
                 {currBank &&
                     <Table className="box-border ">
@@ -100,7 +100,7 @@ function Transactions({ isMobile }) {
 
             <div className='flex justify-center items-center mt-2'>
                 <Link to={'/transactions'}
-                    className="p-2 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                    className="py-[3px] px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
                     See More
                 </Link>
