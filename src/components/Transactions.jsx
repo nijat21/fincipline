@@ -6,13 +6,14 @@ import { format } from 'date-fns';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import SingleTransaction from "./SingleTransaction";
 import { Link } from "react-router-dom";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from '@/components/ui/table';
 
-function Transactions({ currBank }) {
+
+function Transactions({ isMobile }) {
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
-    const { setTransactionsLTD } = useContext(FilterContext);
-
+    const { setTransactionsLTD, currBank } = useContext(FilterContext);
 
     // Get last 30 days
     const filterLTD = (input) => {
@@ -52,38 +53,38 @@ function Transactions({ currBank }) {
 
 
     return (
-        <div>
-            <h2 className="text-3xl py-10 text-center">{`Recent Transactions`}</h2>
-            <div className="rounded-lg">
-                <table className="box-border">
-                    <thead className="text-lg h-10 bg-black bg-opacity-20">
-                        <tr>
-                            <th className="px-10">Transaction</th>
-                            <th className="px-10">Date</th>
-                            <th className="px-10">Category</th>
-                            <th className="px-10">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody className="text-xl text-center">
-                        {recentTransactions && recentTransactions.map(tran => {
-                            return (
-                                <tr key={uuidv4()} onClick={() => handleRowClick(tran)}
-                                    className="text-lg border-b dark:hover:bg-blue-800 hover:bg-neutral-300 cursor-pointer">
-                                    {/* <td>{tran.account_details.institution_name}</td> */}
-                                    <td className="px-10 py-2 text-center flex items-center">
-                                        <div className="h-10 my-1">
-                                            {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 rounded-xl" />}
-                                        </div>
-                                        {tran.name}
-                                    </td>
-                                    <td>{format(new Date(tran.date), "MMM dd, yyyy")}</td>
-                                    <td>{tran.category[0]}</td>
-                                    <td>{`${tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+        <div className="mx-4 px-6 border rounded-xl pb-4">
+            {/* <h2 className="text-3xl py-10 text-center">{`Recent Transactions`}</h2> */}
+            <div className="rounded-lg pt-4">
+                {currBank &&
+                    <Table className="box-border ">
+                        <TableHeader className="text-lg h-10">
+                            <TableRow>
+                                <TableHead className="text-center">Transaction</TableHead>
+                                {!isMobile && <TableHead className="text-center">Date</TableHead>}
+                                <TableHead className="text-center">Amount</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody className="text-xl text-center">
+                            {recentTransactions && recentTransactions.map(tran => {
+                                return (
+                                    <TableRow key={uuidv4()} onClick={() => handleRowClick(tran)}
+                                        className="text-lg dark:hover:bg-blue-800 hover:bg-neutral-300 cursor-pointer">
+                                        {/* <td>{tran.account_details.institution_name}</td> */}
+                                        <TableCell className="text-center flex items-center">
+                                            <div className="h-10 my-1">
+                                                {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-2 rounded-xl" />}
+                                            </div>
+                                            {tran.name}
+                                        </TableCell>
+                                        {!isMobile && <TableCell className='text-center'>{format(new Date(tran.date), "MMM dd, yyyy")}</TableCell>}
+                                        <TableCell>{`${tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                }
             </div>
             {/* SingleTransaction Modal */}
             {showModal &&
@@ -93,13 +94,13 @@ function Transactions({ currBank }) {
 
             {!currBank && (
                 <div className="flex justify-center">
-                    <h1 className="text-lg pt-6">No bank selected.</h1>
+                    <h1 className="text-xl pt-6">No bank selected.</h1>
                 </div>
             )}
 
-            <div className='flex justify-center items-center mt-4'>
+            <div className='flex justify-center items-center mt-2'>
                 <Link to={'/transactions'}
-                    className="p-2 py-[10px] my-4 mx-2 px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                    className="p-2 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
                     See More
                 </Link>

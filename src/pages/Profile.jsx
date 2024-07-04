@@ -47,18 +47,18 @@ function Profile() {
             bg-gradient-to-r from-slate-400 to-slate-300
             dark:from-indigo-700 dark:to-indigo-500">
                 <div className="flex flex-col items-center justify-center text-lg w-full">
-                    <div className={`max-w-40 md:max-w-52 flex flex-col items-center justify-center border cursor-pointer shadow-md
+                    <div className={`max-w-40 md:max-w-52 flex flex-col items-center justify-center border cursor-pointer
                     ${imgUrl ? "border-transparent" : "border-black dark:border-slate-300 hover:border-transparent"} `}
                         onClick={() => { navigate('/profile/upload'); }}>
                         {imgUrl ?
-                            <div className="relative text-slate-300 flex justify-center items-end group">
+                            <div className="relative text-slate-300 flex justify-center items-end group shadow-md rounded-md">
                                 <img src={imgUrl} alt="" className='rounded-md' />
                                 <p className="absolute w-full text-lg text-center place-content-center py-2 bg-black bg-opacity-80 hidden group-hover:inline-block">
                                     Upload a new photo
                                 </p>
                             </div>
                             :
-                            <div className="p-4 flex flex-col justify-center items-center hover:bg-slate-700 hover:text-slate-300">
+                            <div className="p-4 flex flex-col justify-center items-center hover:bg-slate-700 hover:text-slate-300  shadow-md rounded-md">
                                 <i className="fa-regular fa-user fa-2xl p-10"></i>
                                 <p className="text-sm">Upload a photo</p>
                             </div>

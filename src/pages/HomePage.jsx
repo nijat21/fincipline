@@ -11,7 +11,19 @@ import HomeBarChart from '../components/charts/HomeBarChart';
 
 function HomePage() {
     const { setSelectedBank } = useContext(FilterContext);
-    const [currBank, setCurrBank] = useState(null);
+    const { currBank, setCurrBank } = useContext(FilterContext);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+
+    // Check if the app is in mobile screen
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 900);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
 
     // Retrieving current bank
@@ -29,12 +41,14 @@ function HomePage() {
             <div className='h-3screen w-screen flex flex-col items-center'>
                 {/* <GradientBackground /> */}
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
+                    {/* <div className='h-3/4 flex flex-col justify-center items-center border-box'> */}
                     {/* Balance section */}
-                    <Balance currBank={currBank} setCurrBank={setCurrBank}  />
+                    <Balance />
+                    {/* </div> */}
                 </div>
-                <div className='h-screen w-screen flex flex-col justify-center items-center border-box pb-10 bg-black bg-opacity-5'>
+                <div className='h-screen w-screen flex flex-col justify-center items-center border-box pb-10'>
                     {/* Showing recent transactions */}
-                    <Transactions currBank={currBank} />
+                    <Transactions isMobile={isMobile} />
                 </div>
                 <div className='h-screen w-screen flex flex-col justify-center items-center border-box shadow-sm'>
                     {/* Last 30 days analytics */}

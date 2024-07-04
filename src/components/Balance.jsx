@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { getBalance } from "../API/plaid.api";
-import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import Loader from './Loader';
@@ -13,11 +12,11 @@ import PlaidLink from "@/pages/PlaidLink";
 import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from '@/components/ui/table';
 
-function Balance({ currBank, setCurrBank }) {
+function Balance() {
     const [accounts, setAccounts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const { banks, setBanks, renderBanks } = useContext(AuthContext);
-    const { setSelectedBank } = useContext(FilterContext);
+    const { banks, renderBanks } = useContext(AuthContext);
+    const { setSelectedBank, currBank, setCurrBank } = useContext(FilterContext);
 
 
     // Handle bank select
@@ -52,7 +51,6 @@ function Balance({ currBank, setCurrBank }) {
     useEffect(() => {
         setAccounts([]);
         getAccounts(currBank);
-        // renderBanks(); // Not a function error
     }, [currBank]);
 
 
@@ -65,7 +63,6 @@ function Balance({ currBank, setCurrBank }) {
                 setAccounts([]);
                 setCurrBank(null);
                 localStorage.removeItem('currBank');
-                // setBanks(null);
                 await renderBanks();
             } catch (error) {
                 console.log('Error deleting the bank account', error);
@@ -86,27 +83,27 @@ function Balance({ currBank, setCurrBank }) {
                 :
                 <div className='min-h-3/5 text-xl flex items-center justify-center mb-[-50px]'>
                     <div className="flex flex-col items-center justify-center my-20">
-                        {banks && banks.length ?
+                        {banks && banks.length && currBank ?
                             <>
                                 <Table>
-                                    <TableHeader className="text-lg h-10 ">
-                                        <TableRow className='border-b'>
-                                            <th className="px-10">Account</th>
-                                            <th className="px-10">Balance</th>
+                                    <TableHeader className="text-lg">
+                                        <TableRow>
+                                            <TableHead className='text-center'>Account</TableHead>
+                                            <TableHead className='text-center'>Balance</TableHead>
                                         </TableRow>
                                     </TableHeader>
-                                    <TableBody className="text-xl text-center">
+                                    <TableBody className="text-xl">
                                         {accounts && accounts.map(acc => {
                                             return (
-                                                <tr key={uuidv4()} className="text-lg border-b">
-                                                    <td className="px-10 py-4 text-center">
+                                                <TableRow key={uuidv4()} className="text-xl text-center">
+                                                    <TableCell>
                                                         {acc.name}
-                                                    </td>
+                                                    </TableCell>
 
-                                                    <td>
+                                                    <TableCell className="text-center">
                                                         {`${acc.balances.available} ${getSymbolFromCurrency(acc.balances.iso_currency_code)}`}
-                                                    </td>
-                                                </tr>
+                                                    </TableCell>
+                                                </TableRow>
                                             );
                                         })}
                                     </TableBody>
@@ -156,7 +153,9 @@ function Balance({ currBank, setCurrBank }) {
                 </div>
             }
             {/* Adding new bank account */}
-            <PlaidLink />
+            <div className="z-10">
+                <PlaidLink />
+            </div>
         </>
     );
 }

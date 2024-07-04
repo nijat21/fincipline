@@ -11,6 +11,8 @@ const FilterProvider = props => {
     const [selectedBank, setSelectedBank] = useState(() => null);
     const [startDate, setStartDate] = useState(() => null);
     const [endDate, setEndDate] = useState(() => null);
+    const [currBank, setCurrBank] = useState(null);
+
     // Menu / boolean
     const [dateRangeMenu, setDateRangeMenu] = useState(() => false);
     const [rangeSelected, setRangeSelected] = useState(() => false);
@@ -215,7 +217,7 @@ const FilterProvider = props => {
             endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
             rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
             bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
-            analyticsInput, setAnalyticsInput
+            analyticsInput, setAnalyticsInput, currBank, setCurrBank
 
             ,
             // Functions
