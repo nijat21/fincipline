@@ -74,7 +74,7 @@ function Balance() {
 
 
     return (
-        <div className="flex flex-col items-center w-full py-10 md:shadow-none">
+        <div className="flex flex-col items-center w-full py-10 mb-2 md:shadow-none">
             <div className='flex flex-col justify-start'>
                 <h1 className='text-center'>{currBank ? currBank.institution_name : 'Accounts'}</h1>
             </div>
@@ -124,7 +124,7 @@ function Balance() {
 
             {/* Bank selection drop-down */}
             {banks && banks.length > 0 &&
-                <div className='w-[188px] flex justify-center py-2 z-40'>
+                <div className='w-[188px] flex justify-center py-2'>
                     <Select onValueChange={(value) => handleSelect(value)}
                         className="text-lg">
                         <SelectTrigger className="text-lg text-center border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
@@ -137,11 +137,11 @@ function Balance() {
                                 </>
                             } />
                         </SelectTrigger>
-                        <SelectContent className="bg-neutral-300 dark:bg-white z-50">
-                            <SelectGroup className="z-50">
+                        <SelectContent className="bg-neutral-300 dark:bg-white">
+                            <SelectGroup className="">
                                 {banks.length > 0 && banks.map(bank => {
                                     return (
-                                        <SelectItem className="text-md dark:text-slate-300 cursor-pointer block z-50" key={uuidv4()} value={bank.institution_name}>
+                                        <SelectItem className="text-md dark:text-slate-300 cursor-pointer block" key={uuidv4()} value={bank.institution_name}>
                                             {bank.institution_name}
                                         </SelectItem>
                                     );
@@ -153,7 +153,7 @@ function Balance() {
                 </div>
             }
             {/* Adding new bank account */}
-            <div className="z-10">
+            <div className="">
                 <PlaidLink />
             </div>
         </div>

@@ -51,3 +51,7 @@ p {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+.no-scroll {
+  overflow: hidden;
+}

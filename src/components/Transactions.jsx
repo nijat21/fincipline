@@ -53,7 +53,7 @@ function Transactions({ isMobile }) {
 
 
     return (
-        <div className="m-4 px-6 rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent">
+        <div className="my-2 px-6 w-[90%] md:w-auto rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent">
             {!isMobile && <h2 className="text-3xl py-10 text-center">{`Recent Transactions`}</h2>}
             <div className="rounded-lg pt-4">
                 {currBank &&
@@ -78,7 +78,7 @@ function Transactions({ isMobile }) {
                                             {tran.name}
                                         </TableCell>
                                         {!isMobile && <TableCell className='text-center'>{format(new Date(tran.date), "MMM dd, yyyy")}</TableCell>}
-                                        <TableCell>{`${tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
+                                        <TableCell>{`${tran.amount > 0 ? '-' : '+'}${Math.abs(tran.amount)}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
                                     </TableRow>
                                 );
                             })}
