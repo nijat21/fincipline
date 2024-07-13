@@ -15,7 +15,7 @@ function Ad() {
             <div className="md:h-half-screen w-screen flex flex-col justify-center items-center box-border pb-16">
                 <h2 className="mb-10 py-2 my-10 border-b dark:border-slate-300 border-black">Why is it important?</h2>
 
-                <div className="grid sm:grid-cols-1 md:grid-cols-3 h-auto gap-10 pb-2">
+                <div className="grid sm:grid-cols-1 md:grid-cols-3 h-auto gap-10 pb-2 mx-10">
                     <div className=" py-10 px-6 max-w-80 flex flex-col items-center justify-center rounded-lg
                     bg-gradient-to-r from-slate-400 to-slate-200
                     dark:from-blue-900 dark:to-blue-500">

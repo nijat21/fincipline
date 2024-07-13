@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { FilterContext } from "@/context/filter.context";
+import { AuthContext } from "@/context/auth.context";
 import { v4 as uuidv4 } from 'uuid';
 import { getBankTransactions } from "../API/plaid.api";
 import { format } from 'date-fns';
@@ -14,6 +15,7 @@ function Transactions({ isMobile }) {
     const [showModal, setShowModal] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const { setTransactionsLTD, currBank } = useContext(FilterContext);
+    const { banks } = useContext(AuthContext);
 
     // Get last 30 days
     const filterLTD = (input) => {
@@ -32,7 +34,7 @@ function Transactions({ isMobile }) {
                 const params = { user_id: currBank.user_id, bank_id: currBank._id };
                 const transactions = await getBankTransactions(params);
                 console.log('Transactions', transactions.data.added_transactions);
-                setRecentTransactions(transactions.data.added_transactions.slice(0, 5));
+                setRecentTransactions(transactions.data.added_transactions.slice(0, 3));
                 filterLTD(transactions.data.added_transactions);
             } catch (error) {
                 console.log('Error retrieving transactions', error);
@@ -53,10 +55,10 @@ function Transactions({ isMobile }) {
 
 
     return (
-        <div className="my-2 px-6 w-[90%] md:w-auto rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent">
+        <div className="my-2 px-6 md:h-auto w-[90%] md:w-auto rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent">
             {!isMobile && <h2 className="text-3xl py-10 text-center">{`Recent Transactions`}</h2>}
             <div className="rounded-lg pt-4">
-                {currBank &&
+                {currBank ?
                     <Table className="box-border ">
                         <TableHeader className="text-lg h-10">
                             <TableRow>
@@ -84,6 +86,10 @@ function Transactions({ isMobile }) {
                             })}
                         </TableBody>
                     </Table>
+                    :
+                    <div className="flex justify-center items-center">
+                        <p className="py-6">{banks && banks.length > 0 ? 'No Bank Selected' : 'No Bank Registered'}</p>
+                    </div>
                 }
             </div>
             {/* SingleTransaction Modal */}
@@ -92,11 +98,11 @@ function Transactions({ isMobile }) {
             }
 
 
-            {!currBank && (
+            {/* {!currBank && (
                 <div className="flex justify-center">
                     <h1 className="text-xl pt-6">No bank selected.</h1>
                 </div>
-            )}
+            )} */}
 
             <div className='flex justify-center items-center mt-2'>
                 <Link to={'/transactions'}

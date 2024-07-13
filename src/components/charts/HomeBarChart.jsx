@@ -1,21 +1,21 @@
 import { useContext, useEffect, useState } from 'react';
 import { FilterContext } from '@/context/filter.context';
-import {
-    BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Label, CartesianGrid, Legend, Tooltip,
-
-} from 'recharts';
+import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Label, CartesianGrid, Legend, Tooltip, } from 'recharts';
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-
+import { ThemeContext } from '@/context/theme.context';
+import { AuthContext } from '@/context/auth.context';
 
 const channels = [];
 const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57', '#8dd1e1', '#ff8042', '#ffbb28', '#a5a5a5'];
 const colors = { 'Online': baseColors[0], 'In store': baseColors[1], 'Other': baseColors[2] };
 
-
-function HomeBarChart({ currBank }) {
+function HomeBarChart({ isMobile }) {
     const { transactionsLTD } = useContext(FilterContext);
+    const { theme } = useContext(ThemeContext);
     const [data, setData] = useState([]);
+    const { banks } = useContext(AuthContext);
+
 
     // Capitalize the first letter of the channels
     const capitalize = (str) => str[0].toUpperCase() + str.slice(1);
@@ -72,7 +72,7 @@ function HomeBarChart({ currBank }) {
                 }
             }
         });
-        // console.log("New data", dt);
+        console.log("New data", dt);
         setData(dt);
         return dt;
     };
@@ -88,37 +88,44 @@ function HomeBarChart({ currBank }) {
 
 
     return (
-        <div className='h-screen w-full flex flex-col justify-center items-center'>
-            <div className='grid grid-cols-1 w-2/4 h-1/2 '>
-                <h2 className="text-3xl py-10 text-center">{`Spending Analytics`}</h2>
-                <p className='w-full text-center py-2 opacity-50'>Last 30 days</p>
-                {/* <GridItem> */}
-                {data && data.length > 0 &&
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={data} margin={{ bottom: 20 }}>
-                            <XAxis dataKey="category" stroke='#cbd5e1' angle={'30'} textAnchor='start'>
-                                <Label value="Spending categories" position="insideBottom" offset={0} dy={15} />
-                            </XAxis>
-                            {/* <YAxis stroke='#cbd5e1' /> */}
-                            <CartesianGrid strokeDasharray='3 3' />
-                            <Legend verticalAlign='top' />
-                            {/* Fill -the color of the highlight of the bar area */}
-                            <Tooltip content={<CustomTooltip />} cursor={{ fill: '#1a294f' }} />
-                            {channels.map(ch => {
-                                return <Bar type="monotone" key={uuidv4()} dataKey={ch} stackId={'a'} fill={colors[ch]} />;
-                            })}
-                        </BarChart>
-                    </ResponsiveContainer>
-                }
-                {/* </GridItem> */}
-            </div>
+        <div className={`my-2 h-96 md:h-screen w-[90%] md:w-2/3 rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent box-border
+        flex items-center justify-center`}>
+            <div className='h-full w-full flex flex-col justify-between md:justify-center items-center'>
+                <div className='h-[85%] w-full px-6 pt-4 pb-2 md:px-0 md:pt-0 md:pb-0 md:grid md:rid-cols-1 md:w-2/4 md:h-4/6'>
+                    {!isMobile && <h2 className="text-3xl py-10 text-center">{`Spending Analytics`}</h2>}
+                    {data && data.length > 0 && <p className='w-full pt-1 pb-2 text-center'>Last 30 days</p>}
+                    {/* <GridItem> */}
+                    {data && data.length > 0 ?
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={data} margin={{ bottom: 20 }}>
+                                <XAxis dataKey="category" stroke={theme === 'dark' ? '#cbd5e1' : 'black'}>
+                                    {/* {!isMobile && <Label value="Spending categories" position="insideBottom" offset={0} dy={15} />} */}
+                                </XAxis>
+                                {/* <YAxis stroke='#cbd5e1' /> */}
+                                {/* <CartesianGrid strokeDasharray='3 3' /> */}
+                                <Legend verticalAlign='top' />
+                                {/* Fill -the color of the highlight of the bar area */}
+                                <Tooltip content={<CustomTooltip />} cursor={{ fill: '#1a294f' }} />
+                                {channels.map(ch => {
+                                    return <Bar type="monotone" key={uuidv4()} dataKey={ch} stackId={'a'} fill={colors[ch]} />;
+                                })}
+                            </BarChart>
+                        </ResponsiveContainer>
+                        :
+                        <div className="h-[100%] w-[100%] flex justify-center items-center">
+                            <p className="py-6">{banks && banks.length > 0 ? 'No Bank Selected' : 'No Bank Registered'}</p>
+                        </div>
+                    }
+                    {/* </GridItem> */}
+                </div>
 
-            <Link to={'/analytics'}
-                className="p-2 py-[10px] my-10 mx-2 px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                <Link to={'/analytics'}
+                    className="py-[3px] px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
-                See More
-            </Link>
-        </div >
+                    See More
+                </Link>
+            </div>
+        </div>
     );
 }
 

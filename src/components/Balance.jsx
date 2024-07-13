@@ -74,7 +74,7 @@ function Balance() {
 
 
     return (
-        <div className="flex flex-col items-center w-full py-10 mb-2 md:shadow-none">
+        <div className=" h- flex flex-col items-center w-full py-10 mb-2 md:shadow-none">
             <div className='flex flex-col justify-start'>
                 <h1 className='text-center'>{currBank ? currBank.institution_name : 'Accounts'}</h1>
             </div>
@@ -137,11 +137,19 @@ function Balance() {
                                 </>
                             } />
                         </SelectTrigger>
-                        <SelectContent className="bg-neutral-300 dark:bg-white">
-                            <SelectGroup className="">
+                        <SelectContent className="bg-neutral-300 dark:bg-white"
+                            ref={(ref) => {
+                                if (!ref) return;
+                                ref.ontouchstart = (e) => e.preventDefault();
+                            }}
+                        >
+                            <SelectGroup>
                                 {banks.length > 0 && banks.map(bank => {
                                     return (
-                                        <SelectItem className="text-md dark:text-slate-300 cursor-pointer block" key={uuidv4()} value={bank.institution_name}>
+                                        <SelectItem className="text-md dark:text-slate-300 cursor-pointer block"
+                                            key={uuidv4()}
+                                            value={bank.institution_name}
+                                        >
                                             {bank.institution_name}
                                         </SelectItem>
                                     );
