@@ -74,15 +74,15 @@ function Balance() {
 
 
     return (
-        <div className=" h- flex flex-col items-center w-full py-10 mb-2 md:shadow-none">
+        <div className="h-96 md:h-home-screen flex flex-col items-center justify-center w-full py-10 mb-2 md:shadow-none">
             <div className='flex flex-col justify-start'>
-                <h1 className='text-center'>{currBank ? currBank.institution_name : 'Accounts'}</h1>
+                <h1 className='text-center text-3xl md:text-5xl'>{currBank ? currBank.institution_name : 'Accounts'}</h1>
             </div>
             {isLoading ?
                 <Loader />
                 :
-                <div className='min-h-3/5 text-xl flex items-center justify-center mb-[-50px]'>
-                    <div className="flex flex-col items-center justify-center my-10 pb-4 pt-2">
+                <div className='min-h-3/5 text-xl flex items-center justify-center mb-[-50px] relative'>
+                    <div className="flex flex-col items-center justify-center my-4 pb-4 pt-2">
                         {banks && banks.length && currBank ?
                             <>
                                 <Table>
@@ -114,7 +114,7 @@ function Balance() {
                                 </button>
                             </>
                             :
-                            <div>
+                            <div className="relative py-10">
                                 {banks && banks.length > 0 ? 'No Bank Selected' : 'No Bank Registered'}
                             </div>
                         }

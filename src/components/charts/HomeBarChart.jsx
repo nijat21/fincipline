@@ -88,7 +88,7 @@ function HomeBarChart({ isMobile }) {
 
 
     return (
-        <div className={`my-2 h-96 md:h-screen w-[90%] md:w-2/3 rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent box-border
+        <div className={`my-2 h-96 md:h-screen w-[90%] md:w-full rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent box-border
         flex items-center justify-center`}>
             <div className='h-full w-full flex flex-col justify-between md:justify-center items-center'>
                 <div className='h-[85%] w-full px-6 pt-4 pb-2 md:px-0 md:pt-0 md:pb-0 md:grid md:rid-cols-1 md:w-2/4 md:h-4/6'>
@@ -140,7 +140,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                         return (
                             <p key={uuidv4()} style={{ 'color': `${p.fill}` }}>
                                 {p.dataKey}:
-                                <span className='ml-2'>${p.value}</span>
+                                <span className='ml-2'>{p.value}$</span>
                             </p>
                         );
                     }

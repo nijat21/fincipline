@@ -20,10 +20,12 @@ const FilterProvider = props => {
     const [rangeSubmitClear, setRangeSubmitClear] = useState(null);
     // Data
     const [transactionsLTD, setTransactionsLTD] = useState(null);
+    const [tranCurrMonth, setTranCurrMonth] = useState(null);
     const [allTransactions, setAllTransactions] = useState(null);
     const [data, setData] = useState(null);
     const [analyticsInput, setAnalyticsInput] = useState(null);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+
 
     // User
     // const { user } = useContext(AuthContext);
@@ -217,7 +219,7 @@ const FilterProvider = props => {
             endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
             rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
             bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
-            analyticsInput, setAnalyticsInput, currBank, setCurrBank
+            analyticsInput, setAnalyticsInput, currBank, setCurrBank, tranCurrMonth, setTranCurrMonth
 
             ,
             // Functions

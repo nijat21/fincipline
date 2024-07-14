@@ -125,7 +125,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                         return (
                             <p key={uuidv4()} style={{ 'color': `${p.fill}` }}>
                                 {p.dataKey}:
-                                <span className='ml-2'>${p.value}</span>
+                                <span className='ml-2'>{p.value}$</span>
                             </p>
                         );
                     }

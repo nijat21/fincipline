@@ -14,7 +14,7 @@ function Transactions({ isMobile }) {
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
-    const { setTransactionsLTD, currBank } = useContext(FilterContext);
+    const { setTransactionsLTD, currBank, setTranCurrMonth } = useContext(FilterContext);
     const { banks } = useContext(AuthContext);
 
     // Get last 30 days
@@ -26,6 +26,20 @@ function Transactions({ isMobile }) {
         setTransactionsLTD(tranLTD);
     };
 
+    // Get transactions for the current month
+    const filterCurrentMonth = (input) => {
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        const currentYear = today.getFullYear();
+
+        const tranCurrentMonth = input.filter(tran => {
+            const tranDate = new Date(tran.authorized_date);
+            return tranDate.getMonth() === currentMonth && tranDate.getFullYear() === currentYear && tran.amount > 0;
+        });
+        setTranCurrMonth(tranCurrentMonth);
+        // console.log("TranCurrMonth", tranCurrentMonth);
+    };
+
 
     // Retrieve transactions
     const retrieveTransactions = async (currBank) => {
@@ -34,8 +48,9 @@ function Transactions({ isMobile }) {
                 const params = { user_id: currBank.user_id, bank_id: currBank._id };
                 const transactions = await getBankTransactions(params);
                 console.log('Transactions', transactions.data.added_transactions);
-                setRecentTransactions(transactions.data.added_transactions.slice(0, 3));
+                setRecentTransactions(transactions.data.added_transactions.slice(0, 5));
                 filterLTD(transactions.data.added_transactions);
+                filterCurrentMonth(transactions.data.added_transactions);
             } catch (error) {
                 console.log('Error retrieving transactions', error);
             }
@@ -55,7 +70,7 @@ function Transactions({ isMobile }) {
 
 
     return (
-        <div className="my-2 px-6 md:h-auto w-[90%] md:w-auto rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent">
+        <div className="my-2 px-6 md:h-home-screen w-[90%] md:w-auto rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent">
             {!isMobile && <h2 className="text-3xl py-10 text-center">{`Recent Transactions`}</h2>}
             <div className="rounded-lg pt-4">
                 {currBank ?
@@ -96,13 +111,6 @@ function Transactions({ isMobile }) {
             {showModal &&
                 <SingleTransaction onClose={() => setShowModal(false)} transaction={selectedTransaction} />
             }
-
-
-            {/* {!currBank && (
-                <div className="flex justify-center">
-                    <h1 className="text-xl pt-6">No bank selected.</h1>
-                </div>
-            )} */}
 
             <div className='flex justify-center items-center mt-2'>
                 <Link to={'/transactions'}
