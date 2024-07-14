@@ -47,15 +47,15 @@ function HomePage() {
                     <Balance />
                     {/* </div> */}
                 </div>
-                <div className='bg-black bg-opacity-40 md:bg-black md:bg-opacity-5 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box py-4'>
+                <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box py-4'>
                     {/* Last 30 days analytics */}
                     <HomeAreaChart currBank={currBank} isMobile={isMobile} />
                 </div>
-                <div className='bg-black bg-opacity-40 md:bg-black md:bg-opacity-5 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box pb-4'>
+                <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box pb-4'>
                     {/* Showing recent transactions */}
                     <Transactions isMobile={isMobile} />
                 </div>
-                <div className='bg-black bg-opacity-40 md:bg-black md:bg-opacity-5 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box pb-4'>
+                <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box pb-10'>
                     {/* Last 30 days analytics */}
                     <HomeBarChart currBank={currBank} isMobile={isMobile} />
                 </div>

@@ -152,7 +152,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
         return (
             <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
-                <p className=''>{`${label} ${monthName}`}</p>
+                <p className='text-[#cbd5e1]'>{`${label} ${monthName}`}</p>
                 {/* {console.log("Payload", payload)} */}
                 {payload.map(p => {
                     if (p.value > 0) {

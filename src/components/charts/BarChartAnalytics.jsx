@@ -2,7 +2,7 @@ import { useState, useContext, useEffect, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
 import { FilterContext } from '@/context/filter.context';
 import { v4 as uuidv4 } from 'uuid';
-
+import { ThemeContext } from '@/context/theme.context';
 
 const categories = [];
 const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57', '#8dd1e1', '#ff8042', '#ffbb28', '#a5a5a5'];
@@ -10,10 +10,11 @@ const initialColors = { 'Travel': baseColors[0], 'Payment': baseColors[1], 'Food
 
 // Notes: If no month or range selected, should display last 6 month (using analyticsInput)
 // If month or range is selected, show that month or range (using allTransactions)
-function BarChartAnalytics({ formatDate, parseMonthSelected }) {
+function BarChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
     const { selectedMonth, allTransactions, startDate, endDate, analyticsInput } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
     const [colors, setColors] = useState(initialColors);
+    const { theme } = useContext(ThemeContext);
 
 
     // An array of previous 6 months since today
@@ -110,18 +111,23 @@ function BarChartAnalytics({ formatDate, parseMonthSelected }) {
                         height={300}
                         data={finalData}
                         margin={{
-                            top: 10,
-                            right: 40,
-                            left: 0,
+                            top: 0,
+                            right: 30,
+                            left: 30,
                             bottom: 25,
                         }}
                     >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month">
-                            <Label position={'insideBottom'} dy={17}>Spending Categories</Label>
+                        <CartesianGrid
+                            strokeDasharray="3 3"
+                            strokeOpacity={"30%"}
+                            stroke={theme === 'dark' ? '#cbd5e1' : 'black'}
+                            vertical={false}
+                            horizontal={true}
+                        />
+                        <XAxis dataKey="month" stroke={theme === 'dark' ? '#cbd5e1' : 'black'}>
+                            <Label position={'insideBottom'} dy={17} fill={theme === 'dark' ? '#cbd5e1' : 'black'}>Spending Categories</Label>
                         </XAxis>
-                        <YAxis />
-                        <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} />
+                        <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} wrapperStyle={{ zIndex: 30 }} />
                         <Legend verticalAlign='top' />
                         {/* Loop for each category and add a bar for each */}
                         {Object.keys(colors).map(cat => {
@@ -139,7 +145,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
             <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
-                <p className=''>{label}</p>
+                <p className='text-[#cbd5e1]'>{label}</p>
                 {payload.map(p => {
                     if (p.value > 0) {
                         return (

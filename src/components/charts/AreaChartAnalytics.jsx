@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
 import { FilterContext } from '@/context/filter.context';
 import { v4 as uuidv4 } from 'uuid';
+import { ThemeContext } from '@/context/theme.context';
 
 
 // Notes:
@@ -11,10 +12,11 @@ import { v4 as uuidv4 } from 'uuid';
 // 4. Maybe add a year to month format "Mar, 24"
 
 
-function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
+function AreaChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
     const { selectedMonth, selectedBank, rangeSelected, allTransactions, startDate, endDate, analyticsInput
         ,
     } = useContext(FilterContext);
+    const { theme } = useContext(ThemeContext);
     const [finalData, setFinalData] = useState(null);
 
 
@@ -92,19 +94,24 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
                         height={400}
                         data={finalData}
                         margin={{
-                            top: 10,
-                            right: 40,
-                            left: 4,
+                            top: 0,
+                            right: 30,
+                            left: 30,
                             bottom: 25,
                         }}
                     >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month">
-                            <Label position={'insideBottom'} dy={17}>Total Spending</Label>
+                        <CartesianGrid
+                            strokeDasharray="3 3"
+                            strokeOpacity={"30%"}
+                            stroke={theme === 'dark' ? '#cbd5e1' : 'black'}
+                            vertical={false}
+                            horizontal={true}
+                        />
+                        <XAxis dataKey="month" stroke={theme === 'dark' ? '#cbd5e1' : 'black'}>
+                            <Label position={'insideBottom'} dy={17} fill={theme === 'dark' ? '#cbd5e1' : 'black'}>Total Spending</Label>
                         </XAxis>
-                        <YAxis />
                         <Tooltip content={CustomTooltip} />
-                        <Area type="monotone" dataKey="Amount" stroke="#8884d8" fill="#8884d8" />
+                        <Area type="monotone" dataKey="Amount" stroke="#8884d8" strokeWidth={2} fill="#8884d8" />
                     </AreaChart>
                 </ResponsiveContainer>
             }
@@ -118,7 +125,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
             <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
-                <p className=''>{label}</p>
+                <p className='text-[#cbd5e1]'>{label}</p>
                 {/* {console.log("Payload", payload)} */}
                 {payload.map(p => {
                     if (p.value > 0) {

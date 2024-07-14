@@ -81,7 +81,7 @@ function ProfileMenu({ isMobile, toggleNav }) {
                             <div className="md:absolute md:border md:border-b-0 md:border-r-0 md:border-zinc-300 md:dark:border-slate-800 md:right-[20%]
                             md:top-0 md:h-4 md:w-4 md:-translate-x-1/2 md:-translate-y-1/2 md:rotate-45 md:bg-white md:dark:bg-slate-900" />
                             {/* Content =>*/}
-                            <div className="min-h-28 min-w-40 p-4 text-lg bg-white border border-zinc-300 dark:border-slate-800 dark:bg-slate-900 shadow-xl rounded-md
+                            <div className="min-h-28 min-w-40 max-w-48 p-4 text-lg bg-white border border-zinc-300 dark:border-slate-800 dark:bg-slate-900 shadow-xl rounded-md
                             flex flex-col items-center justify-center">
                                 <h5 className="font-semibold mb-2">{`${user && firstName[0].toUpperCase()}${user && firstName.slice(1)}`}</h5>
                                 <Link to={'/profile'} className="hover:border-b hover:text-xl">Profile</Link>

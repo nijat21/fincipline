@@ -2,15 +2,16 @@ import { useEffect, useState, useContext } from 'react';
 import { FilterContext } from '@/context/filter.context';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
 import { v4 as uuidv4 } from 'uuid';
-
+import { ThemeContext } from '@/context/theme.context';
 
 const channels = [];
 const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57', '#8dd1e1', '#ff8042', '#ffbb28', '#a5a5a5'];
 const colors = { 'Online': baseColors[0], 'In store': baseColors[1], 'Other': baseColors[2] };
 
-function LineChartAnalytics({ formatDate, parseMonthSelected }) {
+function LineChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
     const { selectedMonth, allTransactions, startDate, endDate, analyticsInput } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
+    const { theme } = useContext(ThemeContext);
 
     // An array of previous 6 months since today
     const listLastSixMonths = () => {
@@ -101,19 +102,24 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
                         height={300}
                         data={finalData}
                         margin={{
-                            top: 10,
-                            right: 40,
-                            left: 0,
+                            top: 0,
+                            right: 30,
+                            left: 30,
                             bottom: 25,
                         }}
                     >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month">
-                            <Label position={'insideBottom'} dy={17}>Payment Channels</Label>
+                        <CartesianGrid
+                            strokeDasharray="3 3"
+                            strokeOpacity={"30%"}
+                            stroke={theme === 'dark' ? '#cbd5e1' : 'black'}
+                            vertical={false}
+                            horizontal={true}
+                        />
+                        <XAxis dataKey="month" stroke={theme === 'dark' ? '#cbd5e1' : 'black'}>
+                            <Label position={'insideBottom'} dy={17} fill={theme === 'dark' ? '#cbd5e1' : 'black'}>Payment Channels</Label>
                         </XAxis>
-                        <YAxis />
                         <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} />
-                        <Legend verticalAlign='top' />
+                        <Legend verticalAlign='top' z={0} />
                         {channels.map(ch => {
                             return <Line type="monotone" key={ch} dataKey={ch} stroke={colors[ch]} />;
                         })}
@@ -129,7 +135,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
             <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
-                <p className=''>{label}</p>
+                <p className='text-[#cbd5e1]'>{label}</p>
                 {payload.map(p => {
                     if (p.value > 0) {
                         return (
