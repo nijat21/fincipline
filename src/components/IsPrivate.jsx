@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import { ThemeContext } from "../context/theme.context";
 import { Navigate } from "react-router-dom";
@@ -7,7 +7,6 @@ import HashLoader from "react-spinners/HashLoader";
 const IsPrivate = props => {
     const { isLoggedIn, isLoading } = useContext(AuthContext);
     const { spinnerColor } = useContext(ThemeContext);
-    // const { linkToPage } = props;
 
     // if the authentication is still loading 
     if (isLoading) {

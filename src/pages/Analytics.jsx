@@ -59,28 +59,32 @@ function Analytics() {
 
 
     return (
-        <div className="min-h-screen w-screen flex flex-col justify-start items-center box-border pb-10"
+        <div className="min-h-screen md:h-screen w-screen flex flex-col justify-start items-center box-border"
             ref={analyticsRef} onClick={(e) => handleOutsideClick(e, analyticsRef)}>
             <h1 className="text-3xl pt-10 pb-4 text-center">Analytics</h1>
             <div className='w-full h-full flex flex-col items-center justify-center'
                 ref={analyticsRef2}
                 onClick={(e) => handleOutsideClick(e, analyticsRef2)}
             >
-                <Filters />
-                <div className='w-[90%] md:w-4/5 h-48 md:h-1/2 flex mt-4'>
-                    <AreaChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} isMobile={isMobile} />
+                <div className='pb-4'>
+                    <Filters />
                 </div>
-                <div className='w-[90%] md:w-4/5 h-96 md:h-1/2  flex mt-4 md:mt-2 flex-col md:flex-row gap-4'>
-                    <BarChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} isMobile={isMobile} />
-                    <LineChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} isMobile={isMobile} />
+                <div className='w-full h-full flex flex-col items-center justify-center pb-4 bg-black bg-opacity-40 md:bg-transparent'>
+                    <div className='w-[90%] md:w-4/5 h-48 md:h-1/2 flex mt-6'>
+                        <AreaChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} isMobile={isMobile} />
+                    </div>
+                    <div className='w-[90%] md:w-4/5 h-96 md:h-1/2  flex mt-6 md:mt-2 flex-col md:flex-row gap-6 md:gap-0'>
+                        <BarChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} isMobile={isMobile} />
+                        <LineChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} isMobile={isMobile} />
+                    </div>
+                    <button onClick={() => navigate(-1)}
+                        className="py-[3px] px-4 my-4 md:my-10 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                    dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer bg-white dark:bg-[#001152] md:bg-transparent">
+                        Back
+                    </button>
                 </div>
             </div>
-            <div className="flex justify-end">
-                <button onClick={() => navigate(-1)}
-                    className="py-[3px] px-4 md:m-10 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-                    dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
-                    Back
-                </button>
+            <div className="flex justify-end ">
             </div>
         </div >
     );

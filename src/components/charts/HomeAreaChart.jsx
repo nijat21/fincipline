@@ -89,54 +89,50 @@ function HomeAreaChart({ isMobile }) {
 
 
     return (
-        <div className={`my-2 h-48 md:h-half-screen w-[90%] md:w-full rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent box-border
-        flex items-center justify-center`}>
-            <div className='h-full w-full flex flex-col justify-center items-center'>
-                <div className='h-full w-full px-6 pt-4 pb-6 md:px-0 md:pt-0 md:pb-0 md:grid md:rid-cols-1 md:w-2/4 md:h-4/6'>
-                    {
-                        isMobile ?
-                            <p className='w-full pt-1 pb-2 text-center'>Spent this month</p>
-                            :
-                            <h2 className="text-3xl pb-6 text-center">{`Spent This Month`}</h2>
-                    }
-                    {finalData && finalData.length > 0 &&
-                        <ResponsiveContainer width="100%" height="100%" >
-                            <AreaChart
-                                width={500}
-                                height={400}
-                                data={finalData}
-                                margin={{
-                                    top: 10,
-                                    bottom: 25,
-                                }}
-                            >
-                                {/* <CartesianGrid strokeDasharray="10 10" /> */}
-                                <XAxis dataKey="date" stroke={theme === 'dark' ? '#cbd5e1' : 'black'} >
-                                    {!isMobile && <Label position={'insideBottom'} dy={17} fill={theme === 'dark' ? '#cbd5e1' : 'black'}>Total Spending</Label>}
-                                </XAxis>
-                                {/* <YAxis /> */}
-                                <Tooltip content={CustomTooltip} />
-                                <Area type="monotone" dataKey="Amount" stroke="#8884d8" fill="#8884d8" strokeWidth={2}>
-                                    <LabelList
-                                        dataKey="Amount"
-                                        position="top"
-                                        content={({ x, y, value, index }) => {
-                                            const today = new Date().getDate();
-                                            if (index + 1 === today) {
-                                                return (
-                                                    <text x={x} y={y - 10} fill={theme === 'dark' ? '#cbd5e1' : 'black'} textAnchor="middle">
-                                                        {Number(value)}$
-                                                    </text>
-                                                );
-                                            }
-                                            return null;
-                                        }}
-                                    />
-                                </Area>
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    }
-                </div>
+        <div className="h-48 w-[90%] md:w-3/5 md:h-4/6 rounded-xl shadow-lg md:shadow-none md:rounded-none bg-white dark:bg-[#001152] 
+        flex items-center justify-center md:bg-transparent dark:md:bg-transparent">
+            <div className='h-full w-full px-6 py-4 md:pt-6 md:pb-4 md:grid md:rid-cols-1 rounded-xl
+                box-border md:bg-black md:bg-opacity-20 dark:md:bg-black dark:md:bg-opacity-20'>
+                {
+                    isMobile ?
+                        <p className='w-full py-1 text-center'>Spent this month</p>
+                        :
+                        <h3 className="text-center py-1">Spent This Month</h3>
+                }
+                {finalData && finalData.length > 0 &&
+                    <ResponsiveContainer width="100%" height="100%" >
+                        <AreaChart
+                            width={500}
+                            height={400}
+                            data={finalData}
+                            margin={{ top: 10, bottom: 25 }}
+                        >
+                            {/* <CartesianGrid strokeDasharray="10 10" /> */}
+                            <XAxis dataKey="date" stroke={theme === 'dark' ? '#cbd5e1' : 'black'} >
+                                {!isMobile && <Label position={'insideBottom'} dy={20} fill={theme === 'dark' ? '#cbd5e1' : 'black'}>Total Spending</Label>}
+                            </XAxis>
+                            {/* <YAxis /> */}
+                            <Tooltip content={CustomTooltip} />
+                            <Area type="monotone" dataKey="Amount" stroke="#8884d8" fill="#8884d8" strokeWidth={2}>
+                                <LabelList
+                                    dataKey="Amount"
+                                    position="top"
+                                    content={({ x, y, value, index }) => {
+                                        const today = new Date().getDate();
+                                        if (index + 1 === today) {
+                                            return (
+                                                <text x={x} y={y - 10} fill={theme === 'dark' ? '#cbd5e1' : 'black'} textAnchor="middle">
+                                                    {Number(value)}$
+                                                </text>
+                                            );
+                                        }
+                                        return null;
+                                    }}
+                                />
+                            </Area>
+                        </AreaChart>
+                    </ResponsiveContainer>
+                }
             </div>
         </div>
     );

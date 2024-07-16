@@ -88,16 +88,20 @@ function HomeBarChart({ isMobile }) {
 
 
     return (
-        <div className={`my-2 h-96 md:h-screen w-[90%] md:w-full rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent box-border
-        flex items-center justify-center`}>
-            <div className='h-full w-full flex flex-col justify-between md:justify-center items-center'>
-                <div className='h-[85%] w-full px-6 pt-4 pb-2 md:px-0 md:pt-0 md:pb-0 md:grid md:rid-cols-1 md:w-2/4 md:h-4/6'>
-                    {!isMobile && <h2 className="text-3xl py-10 text-center">{`Spending Analytics`}</h2>}
-                    {data && data.length > 0 && <p className='w-full pt-1 pb-2 text-center'>Last 30 days</p>}
-                    {/* <GridItem> */}
+        <div className="h-[25rem] w-[90%] md:w-3/5 md:h-4/6 rounded-xl shadow-lg md:shadow-none md:rounded-none bg-white dark:bg-[#001152] 
+        flex items-center justify-center md:bg-transparent dark:md:bg-transparent box-border">
+            <div className='h-full w-full px-6 py-4 md:pt-6 md:pb-4 flex flex-col justify-between rounded-xl
+                box-border md:bg-black md:bg-opacity-20 dark:md:bg-black dark:md:bg-opacity-20'>
+                {!isMobile && <h3 className="py-1 text-center">Spending Analytics</h3>}
+                {data && data.length > 0 && <p className='w-full py-1 text-center'>Last 30 days</p>}
+                <div className='h-[80%] md:pt-2 md:h-full flex items-center justify-center'>
                     {data && data.length > 0 ?
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={data} margin={{ bottom: 20 }}>
+                            <BarChart
+                                data={data}
+                                width={500}
+                                height={400}
+                            >
                                 <XAxis dataKey="category" stroke={theme === 'dark' ? '#cbd5e1' : 'black'}>
                                     {/* {!isMobile && <Label value="Spending categories" position="insideBottom" offset={0} dy={15} />} */}
                                 </XAxis>
@@ -112,18 +116,18 @@ function HomeBarChart({ isMobile }) {
                             </BarChart>
                         </ResponsiveContainer>
                         :
-                        <div className="h-[100%] w-[100%] flex justify-center items-center">
+                        <div className="flex justify-center items-center">
                             <p className="py-6">{banks && banks.length > 0 ? 'No Bank Selected' : 'No Bank Registered'}</p>
                         </div>
                     }
-                    {/* </GridItem> */}
                 </div>
-
-                <Link to={'/analytics'}
-                    className="py-[3px] px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                <div className='flex justify-center items-center my-2 md:mt-2'>
+                    <Link to={'/analytics'}
+                        className="py-[3px] px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
-                    See More
-                </Link>
+                        See More
+                    </Link>
+                </div>
             </div>
         </div>
     );

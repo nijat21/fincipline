@@ -124,7 +124,7 @@ function Balance() {
 
             {/* Bank selection drop-down */}
             {banks && banks.length > 0 &&
-                <div className='w-[188px] flex justify-center py-2'>
+                <div className='w-[188px] flex justify-center py-2 z-30'>
                     <Select onValueChange={(value) => handleSelect(value)}
                         className="text-lg">
                         <SelectTrigger className="text-lg text-center border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white

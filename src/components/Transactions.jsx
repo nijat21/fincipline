@@ -70,54 +70,58 @@ function Transactions({ isMobile }) {
 
 
     return (
-        <div className="my-2 px-6 md:h-home-screen w-[90%] md:w-auto rounded-xl shadow-lg md:shadow-none md:border-none md:rounded-none pb-4 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent">
-            {!isMobile && <h2 className="text-3xl py-10 text-center">{`Recent Transactions`}</h2>}
-            <div className="rounded-lg pt-4">
-                {currBank ?
-                    <Table className="box-border ">
-                        <TableHeader className="text-lg h-10">
-                            <TableRow>
-                                <TableHead className="text-center">Transaction</TableHead>
-                                {!isMobile && <TableHead className="text-center">Date</TableHead>}
-                                <TableHead className="text-center">Amount</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody className="text-xl text-center">
-                            {recentTransactions && recentTransactions.map(tran => {
-                                return (
-                                    <TableRow key={uuidv4()} onClick={() => handleRowClick(tran)}
-                                        className="text-lg dark:hover:bg-blue-800 hover:bg-neutral-300 cursor-pointer">
-                                        {/* <td>{tran.account_details.institution_name}</td> */}
-                                        <TableCell className="text-center flex items-center">
-                                            <div className="h-10 my-1">
-                                                {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-2 rounded-xl" />}
-                                            </div>
-                                            {tran.name}
-                                        </TableCell>
-                                        {!isMobile && <TableCell className='text-center'>{format(new Date(tran.date), "MMM dd, yyyy")}</TableCell>}
-                                        <TableCell>{`${tran.amount > 0 ? '-' : '+'}${Math.abs(tran.amount)}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                    :
-                    <div className="flex justify-center items-center">
-                        <p className="py-6">{banks && banks.length > 0 ? 'No Bank Selected' : 'No Bank Registered'}</p>
-                    </div>
+        <div className="h-[29rem] w-[90%] md:w-3/5 md:h-4/6 rounded-xl shadow-lg md:shadow-none md:rounded-none bg-white dark:bg-[#001152] 
+        flex items-center justify-center md:bg-transparent dark:md:bg-transparent">
+            <div className="w-full h-full px-6 py-4 md:pt-6 md:pb-4 flex flex-col justify-between rounded-xl
+            md:bg-black md:bg-opacity-20 dark:md:bg-black dark:md:bg-opacity-20">
+                {!isMobile && <h3 className="py-1 text-center">Recent Transactions</h3>}
+                <div className="h-full md:pt-2 flex items-center justify-center">
+                    {currBank ?
+                        <Table className="box-border ">
+                            <TableHeader className="text-lg h-10">
+                                <TableRow>
+                                    <TableHead className="text-center">Transaction</TableHead>
+                                    {!isMobile && <TableHead className="text-center">Date</TableHead>}
+                                    <TableHead className="text-center">Amount</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody className="text-xl text-center">
+                                {recentTransactions && recentTransactions.map(tran => {
+                                    return (
+                                        <TableRow key={uuidv4()} onClick={() => handleRowClick(tran)}
+                                            className="text-lg dark:hover:bg-blue-800 hover:bg-neutral-300 cursor-pointer">
+                                            {/* <td>{tran.account_details.institution_name}</td> */}
+                                            <TableCell className="text-center flex items-center">
+                                                <div className="h-10 my-1">
+                                                    {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-2 rounded-xl" />}
+                                                </div>
+                                                {tran.name}
+                                            </TableCell>
+                                            {!isMobile && <TableCell className='text-center'>{format(new Date(tran.date), "MMM dd, yyyy")}</TableCell>}
+                                            <TableCell>{`${tran.amount > 0 ? '-' : '+'}${Math.abs(tran.amount)}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                        :
+                        <div className="flex justify-center items-center">
+                            <p className="py-6">{banks && banks.length > 0 ? 'No Bank Selected' : 'No Bank Registered'}</p>
+                        </div>
+                    }
+                </div>
+                {/* SingleTransaction Modal */}
+                {showModal &&
+                    <SingleTransaction onClose={() => setShowModal(false)} transaction={selectedTransaction} />
                 }
-            </div>
-            {/* SingleTransaction Modal */}
-            {showModal &&
-                <SingleTransaction onClose={() => setShowModal(false)} transaction={selectedTransaction} />
-            }
 
-            <div className='flex justify-center items-center mt-2'>
-                <Link to={'/transactions'}
-                    className="py-[3px] px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                <div className='flex justify-center items-center m-0 md:mt-2 md:mb-4'>
+                    <Link to={'/transactions'}
+                        className="py-[3px] px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
-                    See More
-                </Link>
+                        See More
+                    </Link>
+                </div>
             </div>
         </div>
     );
