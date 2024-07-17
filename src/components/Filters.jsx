@@ -149,11 +149,14 @@ function Filters() {
             </ul>
 
             {/* Logic for DateRangeMenu and BankMenu */}
-            {dateRangeMenu &&
-                <div className='h-48 z-50 mb-4 text-lg text-slate-300 rounded-md bg-slate-700 dark:bg-blue-800 flex justify-center absolute w-auto '>
-                    <DateRangeForm />
-                </div>
-            }
+            <div className='relative'>
+                {dateRangeMenu &&
+                    <div className='h-48 z-50 text-lg text-slate-300 rounded-md bg-slate-700 dark:bg-blue-800 flex justify-center 
+                    absolute w-auto top-0 right-0 shadow-lg'>
+                        <DateRangeForm />
+                    </div>
+                }
+            </div>
             {bankMenu &&
                 <m.div
                     className='z-50 mb-4 h-28 w-40 text-lg text-slate-300 pl-4 border-black dark:border-slate-300 rounded-md flex items-center

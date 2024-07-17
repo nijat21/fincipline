@@ -52,6 +52,12 @@ p {
   display: none;
 }
 
+/* For making components unscrollable */
 .no-scroll {
   overflow: hidden;
+}
+
+.scrollable-container::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }

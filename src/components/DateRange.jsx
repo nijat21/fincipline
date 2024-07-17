@@ -71,7 +71,7 @@ function DateRangeForm() {
 
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col items-center text-lg w-full">
+        <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center text-lg w-full">
             <div className='flex'>
                 <div className='flex flex-col items-center mx-2'>
                     <label htmlFor="startDate" className="mt-4 mb-2">Starting on</label>
