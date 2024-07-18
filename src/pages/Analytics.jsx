@@ -61,7 +61,7 @@ function Analytics() {
     return (
         <div className="min-h-screen md:h-screen w-screen flex flex-col justify-start items-center"
             ref={analyticsRef} onClick={(e) => handleOutsideClick(e, analyticsRef)}>
-            <h1 className="text-3xl pt-10 pb-4 text-center">Analytics</h1>
+            <h3 className="pt-10 pb-4 text-center">Analytics</h3>
 
             <Filters />
 
@@ -78,7 +78,7 @@ function Analytics() {
                         <LineChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} isMobile={isMobile} />
                     </div>
                     <button onClick={() => navigate(-1)}
-                        className="py-[3px] px-4 my-4 md:my-10 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                        className="py-[3px] px-2 my-4 md:my-10 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                     dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer bg-white dark:bg-[#001152] md:bg-transparent">
                         Back
                     </button>

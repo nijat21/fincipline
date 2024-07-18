@@ -71,7 +71,8 @@ function DateRangeForm() {
 
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center text-lg w-full">
+        <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center w-full">
+            <p className='text-lg'>Date Range</p>
             <div className='flex'>
                 <div className='flex flex-col items-center mx-2'>
                     <label htmlFor="startDate" className="mt-4 mb-2">Starting on</label>
@@ -99,13 +100,13 @@ function DateRangeForm() {
                     />
                 </div>
             </div>
-            <div className='flex items-center'>
-                <button type="submit" className="px-2 py-1 mx-1 mt-4 mb-2 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
+            <div className='flex items-center my-4'>
+                <button type="submit" className="w-[70px] py-[3px] mx-1 border rounded-md border-white dark:border-slate-300 hover:bg-white hover:text-black
+                dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
                     Submit
                 </button>
-                <button onClick={handleClear} className="px-2 py-1 mx-1 mt-4 mb-2 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">Clear</button>
+                <button onClick={handleClear} className="w-[70px] py-[3px] mx-1 border rounded-md border-white dark:border-slate-300 hover:bg-white hover:text-black
+                dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">Clear</button>
             </div>
             <p className=''>{errorMessage}</p>
         </form>

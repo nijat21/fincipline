@@ -101,80 +101,84 @@ function Filters() {
 
 
     return (
-        <div className='w-[90%] h-20 mb-2 md:w-9/12 overflow-x-auto whitespace-nowrap overflow-y-hidden md:overflow-hidden flex items-center justify-center'>
-            <ul className="list-none flex justify-center">
-                {/* Bank */}
-                <li className={`w-40 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+        <>
+            <div className='w-[90%] h-20 mb-2 md:w-9/12 overflow-x-auto whitespace-nowrap overflow-y-hidden md:overflow-hidden flex items-center justify-center relative'>
+                <ul className="list-none flex justify-center">
+                    {/* Bank */}
+                    <li className={`w-40 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                 dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  
                 ${bankMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}
-                >
-                    <button onClick={toggleBankMenu}>
-                        {selectedBank ? selectedBank.institution_name : 'Banks'}
-                        {bankMenu ?
-                            <i className="fa-solid fa-chevron-up  p-1"></i>
-                            :
-                            <i className="fa-solid fa-chevron-down p-1"></i>
-                        }
-                    </button>
-                </li>
+                    >
+                        <button onClick={toggleBankMenu}>
+                            {selectedBank ? selectedBank.institution_name : 'Banks'}
+                            {bankMenu ?
+                                <i className="fa-solid fa-chevron-up  p-1"></i>
+                                :
+                                <i className="fa-solid fa-chevron-down p-1"></i>
+                            }
+                        </button>
+                    </li>
 
-                {/* Months */}
-                {formattedDates.map(date => {
-                    return (
-                        <li className={`${date === selectedMonth && !dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} 
+                    {/* Months */}
+                    {formattedDates.map(date => {
+                        return (
+                            <li className={`${date === selectedMonth && !dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} 
                         w-16 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                         dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer`}
-                            key={uuidv4()}>
-                            <button onClick={() => handleMonthSelection(date)}>{date}</button>
-                        </li>);
-                })}
+                                key={uuidv4()}>
+                                <button onClick={() => handleMonthSelection(date)}>{date}</button>
+                            </li>);
+                    })}
 
-                {/* Date range */}
-                <li className={`w-36 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                    {/* Date range */}
+                    <li className={`w-36 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-white hover:bg-neutral-700 hover:text-white
                 dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  ${dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}>
-                    <button onClick={(e) => handleRangeClick(e)}>
-                        {startDate && endDate ?
-                            formatDate(startDate) + '  -  ' + formatDate(endDate)
-                            :
-                            <>
-                                Custom range
-                            </>
-                        }
-                        {dateRangeMenu ?
-                            <i className="fa-solid fa-chevron-up  p-1"></i>
-                            :
-                            <i className="fa-solid fa-chevron-down p-1"></i>
-                        }
-                    </button>
-                </li>
-            </ul>
+                        <button onClick={(e) => handleRangeClick(e)}>
+                            {startDate && endDate ?
+                                formatDate(startDate) + '  -  ' + formatDate(endDate)
+                                :
+                                <>
+                                    Custom range
+                                </>
+                            }
+                            {dateRangeMenu ?
+                                <i className="fa-solid fa-chevron-up  p-1"></i>
+                                :
+                                <i className="fa-solid fa-chevron-down p-1"></i>
+                            }
+                        </button>
+                    </li>
+                </ul>
 
-            {/* Logic for DateRangeMenu and BankMenu */}
-            <div className='relative'>
-                {dateRangeMenu &&
-                    <div className='h-48 z-50 text-lg text-slate-300 rounded-md bg-slate-700 dark:bg-blue-800 flex justify-center 
-                    absolute w-auto top-0 right-0 shadow-lg'>
-                        <DateRangeForm />
-                    </div>
+            </div>
+            <div className='relative w-[90%] md:w-9/12'>
+                {/* Logic for DateRangeMenu and BankMenu */}
+                <m.div className='relative'>
+                    {dateRangeMenu &&
+                        <div className='h-48 z-[99] text-white rounded-md bg-neutral-700 dark:bg-blue-800 flex justify-center 
+                    absolute w-auto top-[-20px] right-1 md:right-3 shadow-lg'>
+                            <DateRangeForm />
+                        </div>
+                    }
+                </m.div>
+                {bankMenu &&
+                    <m.div
+                        className='z-50 mb-4 h-28 w-40 text-white pl-4 rounded-md flex items-center
+                            bg-neutral-700 dark:bg-blue-800 absolute top-[-20px] left-1 md:left-3'>
+                        <ul className='list-none'>
+                            {banks.length > 0 && banks.map(bank => {
+                                return <li key={uuidv4()} className='hover:border-b border-white'>
+                                    <button onClick={() => handleBankSelect(bank)}>{bank.institution_name}</button>
+                                </li>;
+                            })}
+                            <li className=''>
+                                <button className='hover:border-b border-white' onClick={() => clearBankSelection()}>All</button>
+                            </li>
+                        </ul>
+                    </m.div>
                 }
             </div>
-            {bankMenu &&
-                <m.div
-                    className='z-50 mb-4 h-28 w-40 text-lg text-slate-300 pl-4 border-black dark:border-slate-300 rounded-md flex items-center
-                    bg-slate-700 dark:bg-blue-800 absolute'>
-                    <ul className='list-none'>
-                        {banks.length > 0 && banks.map(bank => {
-                            return <li key={uuidv4()} className='hover:border-b'>
-                                <button onClick={() => handleBankSelect(bank)}>{bank.institution_name}</button>
-                            </li>;
-                        })}
-                        <li className=''>
-                            <button className='hover:border-b' onClick={() => clearBankSelection()}>All</button>
-                        </li>
-                    </ul>
-                </m.div>
-            }
-        </div>
+        </>
     );
 }
 

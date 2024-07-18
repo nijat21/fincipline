@@ -47,7 +47,7 @@ function TransactionsDetails() {
     return (
         <div className="h-screen w-screen flex flex-col justify-start items-center box-border pb-10"
             ref={filterRef} onClick={(e) => handleOutsideClick(e, filterRef)}>
-            <h1 className="text-3xl pt-10 pb-4 text-center">{`Transactions`}</h1>
+            <h3 className="pt-10 pb-4 text-center">{`Transactions`}</h3>
 
             <Filters />
 
@@ -87,20 +87,20 @@ function TransactionsDetails() {
             }
             <div className="flex justify-end">
                 <button onClick={() => navigate(-1)}
-                    className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                    className="py-[3px] px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                         dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
                     Back
                 </button>
                 {/* Print and Export */}
                 <button onClick={handlePrint}
-                    className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                    className="py-[3px] px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                         dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
                     <i className="fa-solid fa-print mr-1"></i>
                     Print
                     {/* Add a "Print" popup when hovered over */}
                 </button>
                 <button onClick={handleExport}
-                    className="p-2 px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                    className="py-[3px] px-2 my-10 mx-1 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                         dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">
                     <i className="fa-solid fa-download mr-1"></i>
                     Export
