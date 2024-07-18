@@ -32,7 +32,7 @@ function HomeAreaChart({ isMobile }) {
         for (let i = 1; i <= daysInMonth; i++) {
             dt.push({ date: i, Amount: 0 });
         }
-        console.log("Days in month", dt);
+        // console.log("Days in month", dt);
         return dt;
     };
 
@@ -81,7 +81,7 @@ function HomeAreaChart({ isMobile }) {
     useEffect(() => {
         const formedData = addData();
         const result = aggregateAmount(formedData);
-        console.log("Result", result);
+        // console.log("Result", result);
         setFinalData(result);
     }, [tranCurrMonth]);
 
@@ -102,8 +102,6 @@ function HomeAreaChart({ isMobile }) {
                 {finalData && finalData.length > 0 &&
                     <ResponsiveContainer width="100%" height="100%" >
                         <AreaChart
-                            width={500}
-                            height={400}
                             data={finalData}
                             margin={{ top: 10, bottom: 25 }}
                         >

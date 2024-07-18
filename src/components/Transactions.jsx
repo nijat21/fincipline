@@ -75,7 +75,7 @@ function Transactions({ isMobile }) {
             <div className="w-full h-full px-6 py-4 md:pt-6 md:pb-4 flex flex-col justify-between rounded-xl
             md:bg-black md:bg-opacity-20 dark:md:bg-black dark:md:bg-opacity-20">
                 {!isMobile && <h3 className="py-1 text-center">Recent Transactions</h3>}
-                <div className="h-full md:pt-2 flex items-center justify-center">
+                <div className="h-full md:h-[22rem] md:pt-2 flex items-center justify-center">
                     {currBank ?
                         <Table className="box-border ">
                             <TableHeader className="text-lg h-10">
@@ -115,7 +115,7 @@ function Transactions({ isMobile }) {
                     <SingleTransaction onClose={() => setShowModal(false)} transaction={selectedTransaction} />
                 }
 
-                <div className='flex justify-center items-center m-0 md:mt-2 md:mb-4'>
+                <div className='flex justify-center items-center m-0 md:my-4'>
                     <Link to={'/transactions'}
                         className="py-[3px] px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">

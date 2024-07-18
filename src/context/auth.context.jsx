@@ -56,6 +56,7 @@ const AuthProvider = props => {
         localStorage.removeItem('selectedMonth');
         localStorage.removeItem('startDate');
         localStorage.removeItem('endDate');
+        localStorage.removeItem('theme');
     };
 
     const logoutUser = () => {

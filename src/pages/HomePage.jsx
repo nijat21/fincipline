@@ -13,18 +13,7 @@ import HomeAreaChart from '@/components/charts/HomeAreaChart';
 function HomePage() {
     const { setSelectedBank } = useContext(FilterContext);
     const { currBank, setCurrBank } = useContext(FilterContext);
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
-
-    // Check if the app is in mobile screen
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 900);
-        };
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+    const { isMobile } = useContext(FilterContext);
 
 
     // Retrieving current bank

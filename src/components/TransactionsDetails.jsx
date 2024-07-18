@@ -12,11 +12,9 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 function TransactionsDetails() {
     const { selectedMonth, selectedBank, rangeSubmitClear, setDateRangeMenu, setBankMenu,
-        allTransactions, data, selectedTransaction, setSelectedTransaction
+        allTransactions, data, selectedTransaction, setSelectedTransaction, isMobile
         ,
-        // Functions
-        handleOutsideClick, handleExport, handlePrint, retrieveTransactions, filter
-    } = useContext(FilterContext);
+        handleOutsideClick, handleExport, handlePrint, retrieveTransactions, filter } = useContext(FilterContext);
     const filterRef = useRef();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
@@ -47,20 +45,20 @@ function TransactionsDetails() {
 
 
     return (
-        <div className="h-screen w-screen-screen w-screen flex flex-col justify-start items-center box-border pb-10 scrollable-container"
+        <div className="h-screen w-screen flex flex-col justify-start items-center box-border pb-10 scrollable-container"
             ref={filterRef} onClick={(e) => handleOutsideClick(e, filterRef)}>
             <h1 className="text-3xl pt-10 pb-4 text-center">{`Transactions`}</h1>
 
             <Filters />
 
-            <div className="overflow-y-auto h-half-screen rounded-md scrollbar-thumb-rounded-full scrollbar scrollbar-thumb-[#b9b9b9] dark:scrollbar-thumb-blue-900 ">
+            <div className="overflow-y-auto h-half-screen w-[90%] md:w-9/12 rounded-md scrollbar-thumb-rounded-full scrollbar scrollbar-thumb-[#b9b9b9] dark:scrollbar-thumb-blue-900 ">
                 <Table className="box-border">
                     <TableHeader className="text-lg top-0 z-10 sticky bg-[#b9b9b9] dark:bg-blue-900 shadow-lg">
                         <TableRow>
                             <TableHead className="px-10">Transaction</TableHead>
                             <TableHead className="px-10">Date</TableHead>
-                            <TableHead className="px-10">Category</TableHead>
-                            <TableHead className="px-10">Amount</TableHead>
+                            {!isMobile && <TableHead className="px-10">Category</TableHead>}
+                            {!isMobile && <TableHead className="px-10">Amount</TableHead>}
                         </TableRow>
                     </TableHeader>
                     <TableBody className="text-xl text-center">
@@ -68,15 +66,15 @@ function TransactionsDetails() {
                             return (
                                 <TableRow key={uuidv4()} onClick={() => handleRowClick(tran)}
                                     className="text-lg border-b dark:hover:bg-blue-800 hover:bg-neutral-300 cursor-pointer">
-                                    <TableCell className="px-10 py-2 text-center flex items-center">
+                                    <TableCell className="text-center flex items-center">
                                         <div className="h-10 my-1">
-                                            {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-6 rounded-xl" />}
+                                            {tran.logo_url && <img src={tran.logo_url} className="h-10 mr-2 rounded-xl" />}
                                         </div>
                                         {tran.name}
                                     </TableCell>
-                                    <TableCell>{format(new Date(tran.authorized_date), "MMM dd, yyyy")}</TableCell>
-                                    <TableCell>{tran.category[0]}</TableCell>
-                                    <TableCell>{`${-tran.amount}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
+                                    {!isMobile && <TableCell>{format(new Date(tran.authorized_date), "MMM dd, yyyy")}</TableCell>}
+                                    {!isMobile && <TableCell>{tran.category[0]}</TableCell>}
+                                    <TableCell>{`${tran.amount > 0 ? '-' : '+'}${Math.abs(tran.amount)}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
                                 </TableRow>);
                         })
                         }

@@ -101,12 +101,13 @@ function Filters() {
 
 
     return (
-        <div className='max-w-3/5'>
+        <div className='w-[90%] h-20 mb-2 md:w-9/12 overflow-x-auto whitespace-nowrap overflow-y-hidden md:overflow-hidden flex items-center justify-center'>
             <ul className="list-none flex justify-center">
-
                 {/* Bank */}
-                <li className={`px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  ${bankMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}>
+                <li className={`w-40 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  
+                ${bankMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}
+                >
                     <button onClick={toggleBankMenu}>
                         {selectedBank ? selectedBank.institution_name : 'Banks'}
                         {bankMenu ?
@@ -121,16 +122,16 @@ function Filters() {
                 {formattedDates.map(date => {
                     return (
                         <li className={`${date === selectedMonth && !dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} 
-                    px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-                    dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer`}
+                        w-16 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                        dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer`}
                             key={uuidv4()}>
                             <button onClick={() => handleMonthSelection(date)}>{date}</button>
                         </li>);
                 })}
 
                 {/* Date range */}
-                <li className={`px-2 py-1 mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  ${dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}>
+                <li className={`w-36 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
+                dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  ${dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}>
                     <button onClick={(e) => handleRangeClick(e)}>
                         {startDate && endDate ?
                             formatDate(startDate) + '  -  ' + formatDate(endDate)

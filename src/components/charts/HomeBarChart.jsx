@@ -72,7 +72,7 @@ function HomeBarChart({ isMobile }) {
                 }
             }
         });
-        console.log("New data", dt);
+        // console.log("New data", dt);
         setData(dt);
         return dt;
     };
@@ -94,14 +94,10 @@ function HomeBarChart({ isMobile }) {
                 box-border md:bg-black md:bg-opacity-20 dark:md:bg-black dark:md:bg-opacity-20'>
                 {!isMobile && <h3 className="py-1 text-center">Spending Analytics</h3>}
                 {data && data.length > 0 && <p className='w-full py-1 text-center'>Last 30 days</p>}
-                <div className='h-[80%] md:pt-2 md:h-full flex items-center justify-center'>
+                <div className='h-[80%] md:pt-2 md:h-[22rem] flex items-center justify-center'>
                     {data && data.length > 0 ?
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                                data={data}
-                                width={500}
-                                height={400}
-                            >
+                            <BarChart data={data}>
                                 <XAxis dataKey="category" stroke={theme === 'dark' ? '#cbd5e1' : 'black'}>
                                     {/* {!isMobile && <Label value="Spending categories" position="insideBottom" offset={0} dy={15} />} */}
                                 </XAxis>
@@ -121,7 +117,7 @@ function HomeBarChart({ isMobile }) {
                         </div>
                     }
                 </div>
-                <div className='flex justify-center items-center my-2 md:mt-2'>
+                <div className='flex justify-center items-center m-0 md:my-4'>
                     <Link to={'/analytics'}
                         className="py-[3px] px-4 text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                             dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer">

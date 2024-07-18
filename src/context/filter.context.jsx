@@ -25,10 +25,20 @@ const FilterProvider = props => {
     const [data, setData] = useState(null);
     const [analyticsInput, setAnalyticsInput] = useState(null);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
 
 
-    // User
-    // const { user } = useContext(AuthContext);
+    // Check if the app is in mobile screen
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 900);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
 
     // Retrieve all transactions
     const retrieveTransactions = async (id) => {
@@ -43,7 +53,8 @@ const FilterProvider = props => {
             // console.log('Data retrieved');
             // If bank or month is selected
             if (selectedBank || selectedMonth || rangeSelected) {
-                filter(result);
+                const res2 = filter(result);
+                setAllTransactions(res2);
             } else {
                 setAllTransactions(result);
             }
@@ -212,6 +223,7 @@ const FilterProvider = props => {
     };
 
 
+
     return (
         <FilterContext.Provider value={{
             // States
@@ -219,7 +231,7 @@ const FilterProvider = props => {
             endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
             rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
             bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
-            analyticsInput, setAnalyticsInput, currBank, setCurrBank, tranCurrMonth, setTranCurrMonth
+            analyticsInput, setAnalyticsInput, currBank, setCurrBank, tranCurrMonth, setTranCurrMonth, isMobile, setIsMobile
 
             ,
             // Functions
