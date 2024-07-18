@@ -59,18 +59,18 @@ function Analytics() {
 
 
     return (
-        <div className="min-h-screen md:h-screen w-screen flex flex-col justify-start items-center box-border"
+        <div className="min-h-screen md:h-screen w-screen flex flex-col justify-start items-center"
             ref={analyticsRef} onClick={(e) => handleOutsideClick(e, analyticsRef)}>
             <h1 className="text-3xl pt-10 pb-4 text-center">Analytics</h1>
+
+            <Filters />
+
             <div className='w-full h-full flex flex-col items-center justify-center'
                 ref={analyticsRef2}
                 onClick={(e) => handleOutsideClick(e, analyticsRef2)}
             >
-                <div className='pb-4'>
-                    <Filters />
-                </div>
-                <div className='w-full h-full flex flex-col items-center justify-center pb-4 bg-black bg-opacity-40 md:bg-transparent'>
-                    <div className='w-[90%] md:w-4/5 h-48 md:h-1/2 flex mt-6'>
+                <div className='w-full h-full flex flex-col items-center pb-4 bg-black bg-opacity-40 md:bg-transparent'>
+                    <div className='w-[90%] md:w-4/5 h-48 md:h-1/2 flex mt-4 md:mt-0'>
                         <AreaChartAnalytics formatDate={formatDate} parseMonthSelected={parseMonthSelected} isMobile={isMobile} />
                     </div>
                     <div className='w-[90%] md:w-4/5 h-96 md:h-1/2  flex mt-6 md:mt-2 flex-col md:flex-row gap-6 md:gap-0'>

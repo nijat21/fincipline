@@ -86,7 +86,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
 
 
     return (
-        <div className='h-full w-full mx-1 px-1 pt-4 rounded-xl shadow-lg md:shadow-none md:border-none
+        <div className='h-full w-full md:mx-1 pt-4 rounded-xl shadow-lg md:shadow-none md:border-none
         bg-white dark:bg-[#001152] md:bg-black md:bg-opacity-20 dark:md:bg-black dark:md:bg-opacity-20 box-border'>
             {finalData && finalData.length > 0 &&
                 <ResponsiveContainer width="100%" height="100%" >

@@ -45,7 +45,7 @@ function TransactionsDetails() {
 
 
     return (
-        <div className="h-screen w-screen flex flex-col justify-start items-center box-border pb-10 scrollable-container"
+        <div className="h-screen w-screen flex flex-col justify-start items-center box-border pb-10"
             ref={filterRef} onClick={(e) => handleOutsideClick(e, filterRef)}>
             <h1 className="text-3xl pt-10 pb-4 text-center">{`Transactions`}</h1>
 
@@ -74,7 +74,7 @@ function TransactionsDetails() {
                                     </TableCell>
                                     {!isMobile && <TableCell>{format(new Date(tran.authorized_date), "MMM dd, yyyy")}</TableCell>}
                                     {!isMobile && <TableCell>{tran.category[0]}</TableCell>}
-                                    <TableCell>{`${tran.amount > 0 ? '-' : '+'}${Math.abs(tran.amount)}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
+                                    <TableCell>{`${tran.amount > 0 ? '-' : '+'}${Math.abs(tran.amount.toFixed(1))}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
                                 </TableRow>);
                         })
                         }

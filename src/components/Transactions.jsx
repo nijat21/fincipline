@@ -98,7 +98,7 @@ function Transactions({ isMobile }) {
                                                 {tran.name}
                                             </TableCell>
                                             {!isMobile && <TableCell className='text-center'>{format(new Date(tran.date), "MMM dd, yyyy")}</TableCell>}
-                                            <TableCell>{`${tran.amount > 0 ? '-' : '+'}${Math.abs(tran.amount)}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
+                                            <TableCell>{`${tran.amount > 0 ? '-' : '+'}${Math.abs(tran.amount.toFixed(1))}${getSymbolFromCurrency(tran.iso_currency_code)}`}</TableCell>
                                         </TableRow>
                                     );
                                 })}
