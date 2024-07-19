@@ -62,7 +62,7 @@ function Analytics() {
     return (
         <AnimatePresence>
             <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}
-                className="h-[103vh] md:h-screen w-screen flex flex-col justify-start items-center"
+                className="min-h-screen md:h-screen w-screen flex flex-col justify-start items-center"
                 ref={analyticsRef} onClick={(e) => handleOutsideClick(e, analyticsRef)}>
                 <h3 className="pt-10 pb-4 text-center">Analytics</h3>
 
