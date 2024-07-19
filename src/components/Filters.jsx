@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { motion as m } from 'framer-motion';
+import { motion as m, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useContext } from 'react';
 import { FilterContext } from '../context/filter.context';
 import { AuthContext } from '../context/auth.context';
@@ -133,7 +133,7 @@ function Filters() {
                     {/* Date range */}
                     <li className={`w-36 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-white hover:bg-neutral-700 hover:text-white
                 dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  ${dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}>
-                        <button onClick={(e) => handleRangeClick(e)}>
+                        <button onClick={(e) => handleRangeClick(e)} className='overflow-hidden'>
                             {startDate && endDate ?
                                 formatDate(startDate) + '  -  ' + formatDate(endDate)
                                 :
@@ -153,30 +153,35 @@ function Filters() {
             </div>
             <div className='relative w-[90%] md:w-9/12'>
                 {/* Logic for DateRangeMenu and BankMenu */}
-                <m.div className='relative'>
-                    {dateRangeMenu &&
-                        <div className='h-48 z-[99] text-white rounded-md bg-neutral-700 dark:bg-blue-800 flex justify-center 
+                <div className='relative'>
+                    <AnimatePresence>
+                        {dateRangeMenu &&
+                            <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
+                                className='h-48 z-[99] text-white rounded-md bg-neutral-700 dark:bg-blue-800 flex justify-center 
                     absolute w-auto top-[-20px] right-1 md:right-3 shadow-lg'>
-                            <DateRangeForm />
-                        </div>
-                    }
-                </m.div>
-                {bankMenu &&
-                    <m.div
-                        className='z-50 mb-4 h-28 w-40 text-white pl-4 rounded-md flex items-center
+                                <DateRangeForm />
+                            </m.div>
+                        }
+                    </AnimatePresence>
+                </div>
+                <AnimatePresence>
+                    {bankMenu &&
+                        <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
+                            className='z-50 mb-4 h-28 w-40 text-white pl-4 rounded-md flex items-center
                             bg-neutral-700 dark:bg-blue-800 absolute top-[-20px] left-1 md:left-3'>
-                        <ul className='list-none'>
-                            {banks.length > 0 && banks.map(bank => {
-                                return <li key={uuidv4()} className='hover:border-b border-white'>
-                                    <button onClick={() => handleBankSelect(bank)}>{bank.institution_name}</button>
-                                </li>;
-                            })}
-                            <li className=''>
-                                <button className='hover:border-b border-white' onClick={() => clearBankSelection()}>All</button>
-                            </li>
-                        </ul>
-                    </m.div>
-                }
+                            <ul className='list-none'>
+                                {banks.length > 0 && banks.map(bank => {
+                                    return <li key={uuidv4()} className='hover:border-b border-white'>
+                                        <button onClick={() => handleBankSelect(bank)}>{bank.institution_name}</button>
+                                    </li>;
+                                })}
+                                <li className=''>
+                                    <button className='hover:border-b border-white' onClick={() => clearBankSelection()}>All</button>
+                                </li>
+                            </ul>
+                        </m.div>
+                    }
+                </AnimatePresence>
             </div>
         </>
     );

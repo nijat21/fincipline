@@ -8,8 +8,8 @@ const channels = [];
 const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57', '#8dd1e1', '#ff8042', '#ffbb28', '#a5a5a5'];
 const colors = { 'Online': baseColors[0], 'In store': baseColors[1], 'Other': baseColors[2] };
 
-function LineChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
-    const { selectedMonth, allTransactions, startDate, endDate, analyticsInput } = useContext(FilterContext);
+function LineChartAnalytics({ formatDate, parseMonthSelected }) {
+    const { selectedMonth, allTransactions, startDate, endDate, analyticsInput, rangeSelected } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
     const { theme } = useContext(ThemeContext);
 
@@ -35,6 +35,10 @@ function LineChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
             // If there's range selected, only show those months in the range
             const start = new Date(startDate);
             const end = new Date(endDate);
+
+            // Set the day to 1 to ignore the comparison on day basis
+            start.setDate(1);
+            end.setDate(1);
 
             // Iterate from startDate to endDate by month
             for (let date = start; date <= end; date.setMonth(date.getMonth() + 1)) {
@@ -62,9 +66,10 @@ function LineChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
     // Form the data
     const addData = () => {
         const datesList = listLastSixMonths();
-        if (analyticsInput) {
+        if (analyticsInput && allTransactions) {
+            const rawTransactions = !rangeSelected ? JSON.parse(JSON.stringify(analyticsInput)) : JSON.parse(JSON.stringify(allTransactions));
             datesList.forEach(date => {
-                analyticsInput.forEach(tran => {
+                rawTransactions.forEach(tran => {
                     const tranMonth = new Date(tran.authorized_date);
                     const formattedTranMonth = formatDate(tranMonth);
                     if (date.month === formattedTranMonth && tran.amount > 0) {
@@ -94,8 +99,8 @@ function LineChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
     }, [analyticsInput, allTransactions]);
 
     return (
-        <div className='h-full w-full md:mx-1  rounded-xl shadow-lg md:shadow-none md:border-none
-        bg-white dark:bg-[#001152] md:bg-black md:bg-opacity-20 dark:md:bg-black dark:md:bg-opacity-20 box-border'>
+        <div className='h-full w-full mx-0 md:mx-1 rounded-xl shadow-lg md:shadow-none md:border-none box-border
+        bg-white dark:bg-[#001152] md:bg-black md:bg-opacity-20 dark:md:bg-black dark:md:bg-opacity-20 '>
             <ResponsiveContainer width="100%" height="100%">
                 {finalData && finalData.length > 0 &&
                     <LineChart

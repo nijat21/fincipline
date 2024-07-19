@@ -12,8 +12,8 @@ import { ThemeContext } from '@/context/theme.context';
 // 4. Maybe add a year to month format "Mar, 24"
 
 
-function AreaChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
-    const { selectedMonth, selectedBank, rangeSelected, allTransactions, startDate, endDate, analyticsInput
+function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
+    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, analyticsInput
         ,
     } = useContext(FilterContext);
     const { theme } = useContext(ThemeContext);
@@ -41,6 +41,10 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
             const start = new Date(startDate);
             const end = new Date(endDate);
 
+            // Set the day to 1 to ignore the comparison on day basis
+            start.setDate(1);
+            end.setDate(1);
+
             // Iterate from startDate to endDate by month
             for (let date = start; date <= end; date.setMonth(date.getMonth() + 1)) {
                 const formattedDate = formatDate(date);
@@ -54,7 +58,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
     // Add data for the list of dates to be presented
     const addData = () => {
         let datesList = listLastSixMonths();
-        if (analyticsInput) {
+        if (analyticsInput && allTransactions) {
             // If range is selected, use allTransactions, if not, use the copy of data
             // The reason is allTransactions are modified by the filter selection
             // In date range, it's fine but if Month selected, allTransactions include only that month

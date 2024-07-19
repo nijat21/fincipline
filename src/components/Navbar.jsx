@@ -91,7 +91,7 @@ function Navbar() {
                             }
                             <li className="font-semibold my-7 md:my-0 md:ml-8 flex justify-center" onClick={() => setIsOpen(false)}>
                                 {/* <Link to={'/about'}>About</Link> */}
-                                <LinkLayout href={'/about'}>About</LinkLayout>
+                                <LinkLayout href={'/about_us'}>About</LinkLayout>
                             </li>
                             {isLoggedIn ?
                                 <>

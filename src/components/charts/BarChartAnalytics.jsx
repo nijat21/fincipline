@@ -10,8 +10,8 @@ const initialColors = { 'Travel': baseColors[0], 'Payment': baseColors[1], 'Food
 
 // Notes: If no month or range selected, should display last 6 month (using analyticsInput)
 // If month or range is selected, show that month or range (using allTransactions)
-function BarChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
-    const { selectedMonth, allTransactions, startDate, endDate, analyticsInput } = useContext(FilterContext);
+function BarChartAnalytics({ formatDate, parseMonthSelected }) {
+    const { selectedMonth, allTransactions, startDate, endDate, analyticsInput, rangeSelected } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
     const [colors, setColors] = useState(initialColors);
     const { theme } = useContext(ThemeContext);
@@ -48,6 +48,10 @@ function BarChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
             const start = new Date(startDate);
             const end = new Date(endDate);
 
+            // Set the day to 1 to ignore the comparison on day basis
+            start.setDate(1);
+            end.setDate(1);
+
             // Iterate from startDate to endDate by month
             for (let date = start; date <= end; date.setMonth(date.getMonth() + 1)) {
                 const formattedDate = formatDate(date);
@@ -71,9 +75,10 @@ function BarChartAnalytics({ formatDate, parseMonthSelected, isMobile }) {
     // Form the data
     const addData = () => {
         const datesList = listLastSixMonths();
-        if (analyticsInput) {
+        if (analyticsInput && allTransactions) {
+            const rawTransactions = !rangeSelected ? JSON.parse(JSON.stringify(analyticsInput)) : JSON.parse(JSON.stringify(allTransactions));
             datesList.forEach(date => {
-                analyticsInput.forEach(tran => {
+                rawTransactions.forEach(tran => {
                     const tranMonth = new Date(tran.authorized_date);
                     const formattedTranMonth = formatDate(tranMonth);
                     if (date.month === formattedTranMonth && tran.amount > 0) {

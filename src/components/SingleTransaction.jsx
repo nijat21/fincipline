@@ -29,8 +29,10 @@ function SingleTransaction({ onClose, transaction }) {
 
     return (
         <AnimatePresence>
-            <m.div ref={modalRef} onClick={closeModal} className="fixed inset-0 mt-[64px] bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-40"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, ease: "easeOut" }} exit={{ opacity: 0 }}>
+            <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, ease: "easeOut" }} exit={{ opacity: 0 }}
+                ref={modalRef}
+                onClick={closeModal}
+                className="fixed inset-0 mt-[64px] bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-40">
                 {transaction &&
                     <div className="bg-white dark:bg-blue-800 rounded-xl w-[90%] md:w-3/4  h-3/4 flex flex-col items-center justify-start  gap-4">
                         <button onClick={onClose} className="place-self-end hover:cursor-pointer p-4"><X size={30} /></button>

@@ -10,7 +10,6 @@ const AuthProvider = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [isBankLoading, setIsBankLoading] = useState(false);
 
-    const [profilePhoto, setProfilePhoto] = useState('');
     const [user, setUser] = useState(null);
     const [banks, setBanks] = useState([]);
     const [bankReturned, setBankReturned] = useState(null);
@@ -39,7 +38,6 @@ const AuthProvider = props => {
             // if token isn't available 
             setUser(null);
             setIsLoggedIn(false);
-            setProfilePhoto(null);
             setBanks(null);
             removeLSItems();
         }
@@ -102,7 +100,7 @@ const AuthProvider = props => {
     return (
         <AuthContext.Provider value={{
             isLoading, setIsLoading, isLoggedIn, user, storeToken, authenticateUser, logoutUser,
-            profilePhoto, setProfilePhoto, banks, setBanks, setBankReturned, isBankLoading, renderBanks
+            banks, setBanks, setBankReturned, isBankLoading, renderBanks
         }}>
             {props.children}
         </AuthContext.Provider>

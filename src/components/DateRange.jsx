@@ -29,7 +29,7 @@ function DateRangeForm() {
         if (!startDate && !endDate) {
             setErrorMessage('Please select at least one of the dates');
             setRangeSelected(false);
-        } else if (!startDate) {
+        } else if (!startDate && endDate) {
             const earliestDate = new Date(0); // January 1, 1970
             // Convert the automatically added date to selected date format
             const formattedDate = earliestDate.toISOString().split("T")[0];
@@ -37,7 +37,7 @@ function DateRangeForm() {
             localStorage.setItem('startDate', formattedDate);
             setDateRangeMenu(false);
             setRangeSelected(true);
-        } else if (!endDate) {
+        } else if (!endDate && startDate) {
             const currentDate = new Date();
             // Convert the automatically added date to selected date format
             const formattedDate = currentDate.toISOString().split("T")[0];
@@ -46,7 +46,7 @@ function DateRangeForm() {
             setDateRangeMenu(false);
             setRangeSelected(true);
         }
-        else {
+        else if (startDate && endDate) {
             setDateRangeMenu(false);
             setRangeSelected(true);
         }
@@ -57,6 +57,12 @@ function DateRangeForm() {
     // Future dates can't be selected / define max date
     const getMaxDate = () => {
         const today = new Date().toISOString().split('T')[0];
+        return today;
+    };
+
+    // Future dates can't be selected / define max date
+    const getMinDate = () => {
+        const today = new Date(0).toISOString().split('T')[0];
         return today;
     };
 
@@ -96,7 +102,7 @@ function DateRangeForm() {
                         className="border rounded-md p-1 text-black"
                         // Max date is today | Min date is startDate
                         max={getMaxDate()}
-                        min={startDate}
+                        min={startDate ? startDate : getMinDate()}
                     />
                 </div>
             </div>

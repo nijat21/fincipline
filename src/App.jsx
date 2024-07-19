@@ -35,7 +35,7 @@ function App() {
             <Route path="/" element={<IsHybrid><HomePage /></IsHybrid>} />
             <Route path="/signup" element={<IsAnon><Signup /></IsAnon>} />
             <Route path="/login" element={<IsAnon><Login /></IsAnon>} />
-            <Route path="/about" element={<IsAnon><About /></IsAnon>} />
+            <Route path="/about_us" element={<About />} />
             <Route path="/plaid_link" element={<IsPrivate><PlaidLink /></IsPrivate>} />
             <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
             <Route path="/profile/upload" element={<IsPrivate><Upload /></IsPrivate>} />

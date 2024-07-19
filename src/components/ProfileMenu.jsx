@@ -7,7 +7,7 @@ import { ThemeContext } from "@/context/theme.context";
 
 
 function ProfileMenu({ isMobile, toggleNav }) {
-    const { user, logoutUser, profilePhoto } = useContext(AuthContext);
+    const { user, logoutUser } = useContext(AuthContext);
     const { theme, toggleTheme } = useContext(ThemeContext);
     const [imgUrl, setImgUrl] = useState(user.imgUrl);
     const [open, setOpen] = useState(false);
@@ -38,12 +38,6 @@ function ProfileMenu({ isMobile, toggleNav }) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [open]);
-
-    useEffect(() => {
-        if (profilePhoto) {
-            setImgUrl(profilePhoto);
-        }
-    }, [profilePhoto]);
 
 
     return (
@@ -102,9 +96,9 @@ function ProfileMenu({ isMobile, toggleNav }) {
                         <ul className="flex flex-col items-center border-t">
                             <li className="font-semibold my-2 p-2 flex"
                                 onClick={toggleNav}>
-                                {profilePhoto ?
+                                {user.imgUrl ?
                                     <div className="h-10 max-w-10">
-                                        < img src={profilePhoto} alt="" className="rounded-lg h-full w-full" />
+                                        <img src={user.imgUrl} alt="" className="rounded-lg h-full w-full" />
                                     </div>
                                     :
                                     <UserRound size={'32'} />
@@ -130,7 +124,7 @@ function ProfileMenu({ isMobile, toggleNav }) {
                     )}
                 </AnimatePresence>
             </div>
-        </div >
+        </div>
     );
 }
 
