@@ -19,6 +19,8 @@ import IsHybrid from "./components/IsHybrid";
 import SingleTransaction from "./components/SingleTransaction";
 import Analytics from "./pages/Analytics";
 import About from "./pages/About";
+import ServerError from "./pages/ServerError";
+import NotFound from "./pages/NotFound";
 
 
 function App() {
@@ -42,6 +44,9 @@ function App() {
             <Route path="/transactions" element={<IsPrivate><TransactionsPage /></IsPrivate>} />
             <Route path="/transaction" element={<IsPrivate><SingleTransaction /></IsPrivate>} />
             <Route path="/analytics" element={<IsPrivate><Analytics /></IsPrivate>} />
+            {/* Errors */}
+            <Route path='/server-error' element={<ServerError />} />
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </div>
       </AnimatePresence>

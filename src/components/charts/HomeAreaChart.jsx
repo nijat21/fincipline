@@ -103,7 +103,7 @@ function HomeAreaChart({ isMobile }) {
                     <ResponsiveContainer width="100%" height="100%" >
                         <AreaChart
                             data={finalData}
-                            margin={{ top: 10, bottom: 25 }}
+                            margin={{ top: 20, bottom: 25 }}
                         >
                             {/* <CartesianGrid strokeDasharray="10 10" /> */}
                             <XAxis dataKey="date" stroke={theme === 'dark' ? '#cbd5e1' : 'black'} >

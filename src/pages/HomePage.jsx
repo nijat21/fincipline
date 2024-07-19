@@ -1,15 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-// import { Link as ScrollLink } from 'react-scroll';
-import { AuthContext } from '../context/auth.context';
 import { FilterContext } from '../context/filter.context';
-import { v4 as uuidv4 } from 'uuid';
 import Balance from '../components/Balance';
 import Transactions from '../components/Transactions';
 import HomeBarChart from '../components/charts/HomeBarChart';
 import HomeAreaChart from '@/components/charts/HomeAreaChart';
 import { motion as m, AnimatePresence } from 'framer-motion';
-
+import Section from '@/components/Section';
 
 function HomePage() {
     const { setSelectedBank } = useContext(FilterContext);
@@ -39,18 +35,24 @@ function HomePage() {
                         <Balance />
                         {/* </div> */}
                     </div>
-                    <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box py-4'>
-                        {/* Last 30 days analytics */}
-                        <HomeAreaChart currBank={currBank} isMobile={isMobile} />
-                    </div>
-                    <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box pb-4'>
-                        {/* Showing recent transactions */}
-                        <Transactions isMobile={isMobile} />
-                    </div>
-                    <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box pb-10'>
-                        {/* Last 30 days analytics */}
-                        <HomeBarChart currBank={currBank} isMobile={isMobile} />
-                    </div>
+                    <Section>
+                        <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box py-4'>
+                            {/* Last 30 days analytics */}
+                            <HomeAreaChart currBank={currBank} isMobile={isMobile} />
+                        </div>
+                    </Section>
+                    <Section>
+                        <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box pb-4'>
+                            {/* Showing recent transactions */}
+                            <Transactions isMobile={isMobile} />
+                        </div>
+                    </Section>
+                    <Section>
+                        <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box pb-10'>
+                            {/* Last 30 days analytics */}
+                            <HomeBarChart currBank={currBank} isMobile={isMobile} />
+                        </div>
+                    </Section>
                 </div>
             </m.div>
         </AnimatePresence>

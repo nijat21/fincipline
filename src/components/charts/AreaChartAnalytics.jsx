@@ -85,7 +85,10 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
     // Run every time filter updated or reloaded
     useEffect(() => {
         const formedData = addData();
-        setFinalData(formedData);
+        const timer = setTimeout(() => {
+            setFinalData(formedData);
+        }, 200);  // 0.2-second delay
+        return () => clearTimeout(timer);
     }, [allTransactions, analyticsInput]);
 
 

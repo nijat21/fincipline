@@ -6,12 +6,18 @@ const ThemeProvider = props => {
     const [theme, setTheme] = useState(null);
     const [spinnerColor, setSpinnerColor] = useState("");
 
-    // Check preferred color scheme
+    // Check theme preference from localStorage and browser theme
     useEffect(() => {
-        if (window.matchMedia('(prefers-color-scheme:dark').matches) {
-            setTheme('dark');
+        const themePref = localStorage.getItem('theme');
+        if (themePref) {
+            setTheme(themePref);
         } else {
-            setTheme('light');
+            // Check preferred color scheme
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
         }
     }, []);
 
@@ -35,12 +41,9 @@ const ThemeProvider = props => {
             setTheme('dark');
         }
         localStorage.setItem('theme', themePref);
+        setTheme(themePref);
     };
 
-    useEffect(() => {
-        const themePref = localStorage.getItem('theme');
-        setTheme(themePref);
-    }, []);
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme, spinnerColor, setSpinnerColor }}>

@@ -10,7 +10,7 @@ function About() {
         role: 'Web Developer',
         bio: 'MSc. in Management',
         linkedIn: 'https://www.linkedin.com/in/nijat-ismayilov',
-        github: 'https://github.com/nijat21',
+        github: 'https://github.com/stars/nijat21/lists/fincipline',
         photo: NijatPhoto,
     };
 
@@ -24,7 +24,7 @@ function About() {
                 transition={{ duration: 0.5 }}
                 className='w-screen h-screen flex items-center justify-center'
             >
-                <div className='w-[90%] md:w-3/5  flex justify-center items-center border-2 border-transparent rounded-xl bg-black bg-opacity-20'>
+                <div className='w-[90%] md:w-3/5  flex justify-center items-center border-2 border-transparent rounded-xl bg-slate-400 dark:bg-blue-900'>
                     <section className='flex flex-col px-12 py-16 items-center justify-center'>
                         <div className='flex flex-col items-center w-64 px-8'>
                             <img src={person.photo} alt='Nijat' className=' rounded-xl w-40 h-48 mb-4 object-cover grayscale-50' />

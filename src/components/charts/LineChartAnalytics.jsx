@@ -95,7 +95,10 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
 
     useEffect(() => {
         const addedData = addData();
-        setFinalData(addedData);
+        const timer = setTimeout(() => {
+            setFinalData(addedData);
+        }, 200);  // 0.2-second delay
+        return () => clearTimeout(timer);
     }, [analyticsInput, allTransactions]);
 
     return (
