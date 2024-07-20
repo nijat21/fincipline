@@ -7,9 +7,13 @@ function Ad() {
         <div className="overflow-hidden">
             <div className='h-screen overflow-hidden place-self-center bg-no-repeat flex items-center'>
                 <GradientBackground />
-                <div className='text-white h-screen w-screen flex flex-col items-center justify-center z-50'>
-                    <h1 className='text-6xl font-bold p-4'>Fincipline</h1>
-                    <h3 className='text-center py-4'>Your path to become financially responsible.</h3>
+                <div className='text-white h-screen w-screen flex flex-col items-center justify-center z-50 mt-10'>
+                    <h1 className='font-bold p-4 text-6xl'>Fincipline</h1>
+                    <h3 className='text-center py-4 mt-10'>Your path to become financially responsible.</h3>
+                    <Link to={'/signup'}
+                        className=" px-4 py-1 mt-2 rounded-md text-2xl border bg-slate-900 hover:bg-blue-800 bg-opacity-70 shadow-md">
+                        Get started
+                    </Link>
                 </div>
             </div>
             <div className="md:h-half-screen w-screen flex flex-col justify-center items-center box-border pb-16">

@@ -6,6 +6,7 @@ import { Trash2 } from 'lucide-react';
 import EditPassword from "@/components/EditPassword";
 import EditUserDetails from "@/components/EditUserDetails";
 import { motion as m, AnimatePresence } from 'framer-motion';
+import { toast } from 'sonner';
 
 
 function Profile() {
@@ -22,6 +23,7 @@ function Profile() {
         try {
             const user_id = user._id;
             await deleteUser(user_id);
+            toast.success('Profile deleted!');
             logoutUser();
             navigate('/');
             console.log("User successfully deleted");
@@ -47,7 +49,7 @@ function Profile() {
         <AnimatePresence>
             <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}
                 className={`flex flex-col h-screen items-center justify-center`}>
-                <div className="flex items-center justify-center w-80 md:w-1/2 px-8 py-10 rounded-lg shadow-2xl 
+                <div className="flex items-center justify-center w-[90%] md:w-1/2 px-8 py-10 rounded-lg shadow-2xl 
                 bg-gradient-to-r from-slate-400 to-slate-300
                 dark:from-blue-900 dark:to-blue-600">
                     <div className="flex flex-col items-center justify-center text-lg w-full">
@@ -73,13 +75,13 @@ function Profile() {
                         <div className="w-40 md:w-52  box-border flex flex-col items-center">
                             <p className="text-lg px-2 border-b border-black dark:border-slate-300">Update:</p>
 
-                            <button className="w-full mt-2 rounded-sm hover:bg-slate-700 hover:text-white
-                        font-semibold dark:hover:bg-white dark:hover:text-black cursor-pointer
-                        border border-black dark:border-slate-300 hover:border-transparent"
+                            <button className="w-full mt-2 rounded-md hover:bg-slate-700 hover:text-white
+                            font-semibold dark:hover:bg-white dark:hover:text-black cursor-pointer
+                            border border-black dark:border-slate-300 hover:border-transparent"
                                 onClick={() => setShowDetailsEdit(true)}>
                                 Name & Email</button>
                             {/* Add some edit icon to make obvious */}
-                            <button className="w-full mb-2 m-1 rounded-sm  hover:bg-slate-700 hover:text-white
+                            <button className="w-full mb-2 m-1 rounded-md  hover:bg-slate-700 hover:text-white
                         font-semibold dark:hover:bg-white dark:hover:text-black cursor-pointer
                         border border-black dark:border-slate-300 hover:border-transparent"
                                 onClick={() => setShowPasswordEdit(true)}>

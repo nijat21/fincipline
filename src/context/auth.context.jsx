@@ -14,6 +14,8 @@ const AuthProvider = props => {
     const [banks, setBanks] = useState([]);
     const [bankReturned, setBankReturned] = useState(null);
 
+    const [profilePhoto, setProfilePhoto] = useState(null);
+
 
     const storeToken = token => {
         localStorage.setItem('authToken', token);
@@ -100,7 +102,7 @@ const AuthProvider = props => {
     return (
         <AuthContext.Provider value={{
             isLoading, setIsLoading, isLoggedIn, user, storeToken, authenticateUser, logoutUser,
-            banks, setBanks, setBankReturned, isBankLoading, renderBanks
+            banks, setBanks, setBankReturned, isBankLoading, renderBanks, profilePhoto, setProfilePhoto
         }}>
             {props.children}
         </AuthContext.Provider>
