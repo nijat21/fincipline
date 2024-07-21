@@ -1,7 +1,8 @@
-import { createContext, useState, useEffect, useMemo, useCallback } from "react";
+import { createContext, useState, useEffect, useMemo, useCallback, useContext } from "react";
 import { exportPDF, printPDF } from '../components/PDF';
 import { getAllTransactions } from "../API/plaid.api";
 import { v4 as uuidv4 } from 'uuid';
+import { AuthContext } from "./auth.context";
 
 const FilterContext = createContext();
 
@@ -19,13 +20,16 @@ const FilterProvider = props => {
     const [bankMenu, setBankMenu] = useState(false);
     const [rangeSubmitClear, setRangeSubmitClear] = useState(null);
     // Data
-    const [transactionsLTD, setTransactionsLTD] = useState(null);
-    const [tranCurrMonth, setTranCurrMonth] = useState(null);
-    const [allTransactions, setAllTransactions] = useState(null);
+    // const [transactionsLTD, setTransactionsLTD] = useState(null); // Movet to AuthContext
+    // const [tranCurrMonth, setTranCurrMonth] = useState(null);
     const [data, setData] = useState(null);
-    const [analyticsInput, setAnalyticsInput] = useState(null);
+    // const [allTransactions, setAllTransactions] = useState(null);  // AnalyticsInput and AllTransactions moved to AuthContext
+    // const [analyticsInput, setAnalyticsInput] = useState(null);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+
+    const { allTransactions, setAllTransactions, analyticsInput, setAnalyticsInput, tranCurrMonth, setTranCurrMonth,
+        transactionsLTD, setTransactionsLTD } = useContext(AuthContext);
 
 
     // Check if the app is in mobile screen
@@ -229,10 +233,9 @@ const FilterProvider = props => {
             // States
             selectedMonth, setSelectedMonth, selectedBank, setSelectedBank, startDate, setStartDate,
             endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
-            rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
-            bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
-            analyticsInput, setAnalyticsInput, currBank, setCurrBank, tranCurrMonth, setTranCurrMonth, isMobile, setIsMobile
-
+            rangeSubmitClear, setRangeSubmitClear, bankMenu,
+            setBankMenu, data, selectedTransaction, setSelectedTransaction,
+            currBank, setCurrBank, isMobile, setIsMobile
             ,
             // Functions
             handleOutsideClick, formatDate, handleExport, handlePrint, retrieveTransactions, filter, handleClear, filterByBank

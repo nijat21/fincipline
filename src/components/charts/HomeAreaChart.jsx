@@ -1,8 +1,8 @@
 import { useState, useContext, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label, LabelList } from 'recharts';
-import { FilterContext } from '@/context/filter.context';
 import { v4 as uuidv4 } from 'uuid';
 import { ThemeContext } from '@/context/theme.context';
+import { AuthContext } from '@/context/auth.context';
 
 
 // Notes:
@@ -13,9 +13,9 @@ import { ThemeContext } from '@/context/theme.context';
 
 
 function HomeAreaChart({ isMobile }) {
-    const { tranCurrMonth } = useContext(FilterContext);
+    const { tranCurrMonth, finalData, setFinalData } = useContext(AuthContext);
     const { theme } = useContext(ThemeContext);
-    const [finalData, setFinalData] = useState(null);
+    // const [finalData, setFinalData] = useState(null);
 
 
 

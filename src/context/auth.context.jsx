@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { verify } from "../API/auth.api";
 import { getBanks } from "../API/account.api";
 
@@ -15,6 +15,12 @@ const AuthProvider = props => {
     const [bankReturned, setBankReturned] = useState(null);
 
     const [profilePhoto, setProfilePhoto] = useState(null);
+    const [analyticsInput, setAnalyticsInput] = useState(null); // Moved from FilterContext so that old data can be deleted when user logs out or unauthenticated
+    const [allTransactions, setAllTransactions] = useState(null);
+    const [transactionsLTD, setTransactionsLTD] = useState(null);
+    const [tranCurrMonth, setTranCurrMonth] = useState(null);
+    const [data, setData] = useState([]);
+    const [finalData, setFinalData] = useState(null);
 
 
     const storeToken = token => {
@@ -57,12 +63,26 @@ const AuthProvider = props => {
         localStorage.removeItem('startDate');
         localStorage.removeItem('endDate');
         localStorage.removeItem('theme');
+        // clear all data for analytics
+        setAnalyticsInput(null);
+        setAllTransactions(null);
+        setTranCurrMonth(null);
+        setTransactionsLTD(null);
+        setData([]);
+        setFinalData(null);
     };
 
     const logoutUser = () => {
         removeToken();
         removeLSItems();
         authenticateUser();
+        // clear all data for analytics
+        setAnalyticsInput(null);
+        setAllTransactions(null);
+        setTranCurrMonth(null);
+        setTransactionsLTD(null);
+        setData([]);
+        setFinalData(null);
     };
 
     // Authenticate user every time reloaded
@@ -102,7 +122,9 @@ const AuthProvider = props => {
     return (
         <AuthContext.Provider value={{
             isLoading, setIsLoading, isLoggedIn, user, storeToken, authenticateUser, logoutUser,
-            banks, setBanks, setBankReturned, isBankLoading, renderBanks, profilePhoto, setProfilePhoto
+            banks, setBanks, setBankReturned, isBankLoading, renderBanks, profilePhoto, setProfilePhoto,
+            analyticsInput, setAnalyticsInput, allTransactions, setAllTransactions, tranCurrMonth, setTranCurrMonth,
+            transactionsLTD, setTransactionsLTD, finalData, setFinalData, data, setData
         }}>
             {props.children}
         </AuthContext.Provider>

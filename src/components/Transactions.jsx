@@ -14,8 +14,8 @@ function Transactions({ isMobile }) {
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
-    const { setTransactionsLTD, currBank, setTranCurrMonth } = useContext(FilterContext);
-    const { banks } = useContext(AuthContext);
+    const { currBank, } = useContext(FilterContext);
+    const { banks, setTranCurrMonth, setTransactionsLTD } = useContext(AuthContext);
 
     // Get last 30 days
     const filterLTD = (input) => {

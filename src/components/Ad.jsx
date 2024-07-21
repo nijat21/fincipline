@@ -1,14 +1,14 @@
 import { useContext } from "react";
-import { Link, useOutlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import GradientBackground from "./GradientBackground";
 import SectionLeft from "./SectionLeft";
 import SectionRight from "./SectionRight";
 import Section from "./Section";
 import Articles from "./Articles";
 import { FilterContext } from "@/context/filter.context";
-import AddAccount from '../../public/assets/AddAcounts.png';
-import transactions from "../../public/assets/transactions.png";
-import analytics from "../../public/assets/analytics.png";
+import AddAccount from '/assets/AddAcounts.png';
+import transactions from "/assets/transactions.png";
+import analytics from "/assets/analytics.png";
 
 
 function Ad() {
@@ -20,9 +20,11 @@ function Ad() {
             <div className="w-full flex flex-col items-center justify-center">
                 <div className='h-screen overflow-hidden place-self-center bg-no-repeat flex items-center'>
                     <GradientBackground />
-                    <div className='text-white h-screen w-screen flex flex-col items-center justify-center z-50 mt-14'>
+                    <div className='text-white h-screen w-screen flex flex-col items-center justify-center z-50 mt-0 md:mt-14'>
                         <h1 className='font-bold p-4 text-6xl text-center w-[90%] md:w-1/2'>Spending tracker for all your bank accounts</h1>
-                        <h3 className='text-center py-4 mt-10 w-[90%] md:w-3/4'>Get control over your finances, get control over your life! Your path to become financially responsible.</h3>
+                        <h3 className='text-center py-4 mt-10 w-[90%] md:w-3/4'>
+                            Your path to become financially responsible. Get control over your finances, get control over your life!
+                        </h3>
                         <Link to={'/signup'}
                             className=" px-4 py-2 mt-6 rounded-md text-2xl border border-zinc-400 bg-slate-900 bg-opacity-70 hover:bg-blue-800 shadow-md">
                             Start now

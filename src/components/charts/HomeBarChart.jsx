@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import { FilterContext } from '@/context/filter.context';
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Label, CartesianGrid, Legend, Tooltip, } from 'recharts';
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,10 +10,10 @@ const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57
 const colors = { 'Online': baseColors[0], 'In store': baseColors[1], 'Other': baseColors[2] };
 
 function HomeBarChart({ isMobile }) {
-    const { transactionsLTD } = useContext(FilterContext);
+    const { transactionsLTD } = useContext(AuthContext);
     const { theme } = useContext(ThemeContext);
-    const [data, setData] = useState([]);
-    const { banks } = useContext(AuthContext);
+    // const [data, setData] = useState([]);
+    const { banks, data, setData } = useContext(AuthContext);
 
 
     // Capitalize the first letter of the channels

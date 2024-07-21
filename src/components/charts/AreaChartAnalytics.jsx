@@ -3,6 +3,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { FilterContext } from '@/context/filter.context';
 import { v4 as uuidv4 } from 'uuid';
 import { ThemeContext } from '@/context/theme.context';
+import { AuthContext } from '@/context/auth.context';
 
 
 // Notes:
@@ -13,11 +14,11 @@ import { ThemeContext } from '@/context/theme.context';
 
 
 function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
-    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, analyticsInput
-        ,
-    } = useContext(FilterContext);
+    const { selectedMonth, rangeSelected, startDate, endDate, } = useContext(FilterContext);
     const { theme } = useContext(ThemeContext);
+    const { allTransactions, analyticsInput } = useContext(AuthContext);
     const [finalData, setFinalData] = useState(null);
+
 
 
     // Loop to generate 6 months of formatted dates

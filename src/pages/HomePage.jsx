@@ -8,8 +8,7 @@ import { motion as m, AnimatePresence } from 'framer-motion';
 import Section from '@/components/Section';
 
 function HomePage() {
-    const { setSelectedBank } = useContext(FilterContext);
-    const { currBank, setCurrBank } = useContext(FilterContext);
+    const { setSelectedBank, currBank, setCurrBank } = useContext(FilterContext);
     const { isMobile } = useContext(FilterContext);
 
 
