@@ -6,6 +6,9 @@ import SectionRight from "./SectionRight";
 import Section from "./Section";
 import Articles from "./Articles";
 import { FilterContext } from "@/context/filter.context";
+import AddAccount from '../../public/assets/AddAcounts.png';
+import transactions from "../../public/assets/transactions.png";
+import analytics from "../../public/assets/analytics.png";
 
 
 function Ad() {
@@ -38,7 +41,7 @@ function Ad() {
                                         retain great knowledge about the state of your financial situation.
                                     </h3>
                                 </div>
-                                <img src="/public/assets/AddAcounts.png" alt=""
+                                <img src={AddAccount} alt=""
                                     className="w-auto h-[30rem] md:w-[20%] md:h-auto mt-4 md:mt-0 rounded-3xl border-4 border-black"
                                 />
                             </div>
@@ -49,7 +52,7 @@ function Ad() {
                             <div className="h-full w-full flex justify-center">
                                 <div className="min-h-screen md:h-screen mt-12 md:mt-0 py-6 md:py-0 md:px-10 w-[90%] flex flex-col md:flex-row items-center justify-between 
                             gap-4 md:gap-0 bg-white dark:bg-[#001152] md:bg-transparent dark:md:bg-transparent rounded-xl">
-                                    {!isMobile && <img src="../../public/assets/transactions.png" alt="transactions"
+                                    {!isMobile && <img src={transactions} alt="transactions"
                                         className="w-auto h-[30rem] md:w-[20%] md:h-auto mt-4 md:mt-0 rounded-3xl border-4 border-black"
                                     />}
                                     <div className="flex flex-col w-[90%] md:w-[75%]">
@@ -60,7 +63,7 @@ function Ad() {
                                             as a pdf.
                                         </h3>
                                     </div>
-                                    {isMobile && <img src="/public/assets/transactions.png" alt="transactions"
+                                    {isMobile && <img src={transactions} alt="transactions"
                                         className="w-auto h-[30rem]  md:w-[20%] md:h-auto mt-4 md:mt-0 rounded-3xl border-4 border-black"
                                     />}
                                 </div>
@@ -79,14 +82,14 @@ function Ad() {
                                         improvement areas.
                                     </h3>
                                 </div>
-                                <img src="/public/assets/analytics.png" alt=""
+                                <img src={analytics} alt=""
                                     className="w-auto h-[30rem] md:w-[20%] md:h-auto mt-4 md:mt-0 rounded-3xl border-4 border-black"
                                 />
                             </div>
                         </div>
                     </SectionLeft>
                 </div>
-                <div className="w-full min-h-home-screen bg-black bg-opacity-40 md:bg-[#0521905e] md:bg-opacity-0 flex justify-center items-center">
+                <div className="w-full min-h-screen bg-black bg-opacity-40 md:bg-[#0521905e] md:bg-opacity-0 flex justify-center items-center">
                     <div className="w-full md:w-11/12 min-h-home-screen flex items-center">
                         <Section>
                             <Articles />
