@@ -38,7 +38,7 @@ function Ad() {
                                         retain great knowledge about the state of your financial situation.
                                     </h3>
                                 </div>
-                                <img src="../../public/assets/AddAcounts.png" alt=""
+                                <img src="/public/assets/AddAcounts.png" alt=""
                                     className="w-auto h-[30rem] md:w-[20%] md:h-auto mt-4 md:mt-0 rounded-3xl border-4 border-black"
                                 />
                             </div>
@@ -60,7 +60,7 @@ function Ad() {
                                             as a pdf.
                                         </h3>
                                     </div>
-                                    {isMobile && <img src="../../public/assets/transactions.png" alt="transactions"
+                                    {isMobile && <img src="/public/assets/transactions.png" alt="transactions"
                                         className="w-auto h-[30rem]  md:w-[20%] md:h-auto mt-4 md:mt-0 rounded-3xl border-4 border-black"
                                     />}
                                 </div>
@@ -79,14 +79,14 @@ function Ad() {
                                         improvement areas.
                                     </h3>
                                 </div>
-                                <img src="../../public/assets/analytics.png" alt=""
+                                <img src="/public/assets/analytics.png" alt=""
                                     className="w-auto h-[30rem] md:w-[20%] md:h-auto mt-4 md:mt-0 rounded-3xl border-4 border-black"
                                 />
                             </div>
                         </div>
                     </SectionLeft>
                 </div>
-                <div className="w-full bg-black bg-opacity-40 md:bg-[#0521905e] md:bg-opacity-0 flex justify-center items-center">
+                <div className="w-full min-h-home-screen bg-black bg-opacity-40 md:bg-[#0521905e] md:bg-opacity-0 flex justify-center items-center">
                     <div className="w-full md:w-11/12 min-h-home-screen flex items-center">
                         <Section>
                             <Articles />
