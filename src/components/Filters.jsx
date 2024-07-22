@@ -102,20 +102,23 @@ function Filters() {
 
     return (
         <>
-            <div className='w-[90%] h-20 mb-2 md:w-10/12 overflow-x-auto whitespace-nowrap overflow-y-hidden md:overflow-hidden flex items-center justify-center relative'>
+            <div className='w-[90%] h-20 mb-2 md:w-9/12 overflow-x-auto whitespace-nowrap overflow-y-hidden md:overflow-hidden 
+            flex items-center justify-center relative'>
                 <ul className="list-none flex justify-center">
                     {/* Bank */}
                     <li className={`w-40 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                 dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  
                 ${bankMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}
                     >
-                        <button onClick={toggleBankMenu} className='overflow-hidden text-start'>
-                            {selectedBank ? selectedBank.institution_name : 'Banks'}
-                            {bankMenu ?
-                                <i className="fa-solid fa-chevron-up  p-1 z-20"></i>
-                                :
-                                <i className="fa-solid fa-chevron-down p-1 z-20"></i>
-                            }
+                        <button onClick={toggleBankMenu} className='relative flex items-center justify-between w-full overflow-hidden text-start'>
+                            <span className='ml-1 text-center w-[90%] overflow-hidden'>{selectedBank ? selectedBank.institution_name : 'Banks'}</span>
+                            <span className='flex-none p-1'>
+                                {bankMenu ?
+                                    <i className="fa-solid fa-chevron-up z-20"></i>
+                                    :
+                                    <i className="fa-solid fa-chevron-down z-20"></i>
+                                }
+                            </span>
                         </button>
                     </li>
 
@@ -158,7 +161,7 @@ function Filters() {
                         {dateRangeMenu &&
                             <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
                                 className='h-48 z-[99] text-white rounded-md bg-neutral-700 dark:bg-blue-800 flex justify-center 
-                    absolute w-auto top-[-20px] right-1 md:right-3 shadow-lg'>
+                    absolute w-auto top-[-20px] right-1 md:right-[12%] shadow-lg'>
                                 <DateRangeForm />
                             </m.div>
                         }
@@ -167,8 +170,8 @@ function Filters() {
                 <AnimatePresence>
                     {bankMenu &&
                         <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
-                            className='z-50 mb-4 h-28 w-40 text-white text-center pl-4 rounded-md flex items-center
-                            bg-neutral-700 dark:bg-blue-800 absolute top-[-20px] left-1 md:left-3'>
+                            className='z-50 mb-4 h-28 w-auto max-w-1/2 text-white text-center px-4 rounded-md flex items-center
+                            bg-neutral-700 dark:bg-blue-800 absolute top-[-20px] left-1 md:left-[12%]'>
                             <ul className='list-none'>
                                 {banks.length > 0 && banks.map(bank => {
                                     return <li key={uuidv4()} className='hover:border-b border-white'>
