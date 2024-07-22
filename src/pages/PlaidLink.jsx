@@ -6,7 +6,7 @@ import { usePlaidLink } from 'react-plaid-link';
 
 
 function PlaidLink() {
-    const { banks, setBankReturned, user, } = useContext(AuthContext);
+    const { banks, setBankReturned, user } = useContext(AuthContext);
     const [linkToken, setLinkToken] = useState('');
 
     // Create a link token
@@ -61,7 +61,9 @@ function PlaidLink() {
             {error && <p>An error occurred: {error.message}</p>}
             <button onClick={() => open()} disabled={!ready}
                 className="py-[3px] w-[188px] text-lg border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
-            dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer bg-neutral-300 dark:bg-blue-950 z-50">Add</button>
+                dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer bg-neutral-300 dark:bg-blue-950 z-[500]">
+                Add
+            </button>
         </div>
     );
 }
