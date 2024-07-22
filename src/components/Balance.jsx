@@ -114,7 +114,7 @@ function Balance() {
                                 </button>
                             </>
                             :
-                            <div className="relative py-10">
+                            <div className="relative py-10 z-0">
                                 {banks && banks.length > 0 ? 'No Bank Selected' : 'No Bank Registered'}
                             </div>
                         }
@@ -161,7 +161,7 @@ function Balance() {
                 </div>
             }
             {/* Adding new bank account */}
-            <div className="">
+            <div className="z-10">
                 <PlaidLink />
             </div>
         </div>

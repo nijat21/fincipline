@@ -102,19 +102,19 @@ function Filters() {
 
     return (
         <>
-            <div className='w-[90%] h-20 mb-2 md:w-9/12 overflow-x-auto whitespace-nowrap overflow-y-hidden md:overflow-hidden flex items-center justify-center relative'>
+            <div className='w-[90%] h-20 mb-2 md:w-10/12 overflow-x-auto whitespace-nowrap overflow-y-hidden md:overflow-hidden flex items-center justify-center relative'>
                 <ul className="list-none flex justify-center">
                     {/* Bank */}
                     <li className={`w-40 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-slate-300 hover:bg-neutral-700 hover:text-white
                 dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  
                 ${bankMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}
                     >
-                        <button onClick={toggleBankMenu}>
+                        <button onClick={toggleBankMenu} className='overflow-hidden text-start'>
                             {selectedBank ? selectedBank.institution_name : 'Banks'}
                             {bankMenu ?
-                                <i className="fa-solid fa-chevron-up  p-1"></i>
+                                <i className="fa-solid fa-chevron-up  p-1 z-20"></i>
                                 :
-                                <i className="fa-solid fa-chevron-down p-1"></i>
+                                <i className="fa-solid fa-chevron-down p-1 z-20"></i>
                             }
                         </button>
                     </li>
@@ -167,7 +167,7 @@ function Filters() {
                 <AnimatePresence>
                     {bankMenu &&
                         <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
-                            className='z-50 mb-4 h-28 w-40 text-white pl-4 rounded-md flex items-center
+                            className='z-50 mb-4 h-28 w-40 text-white text-center pl-4 rounded-md flex items-center
                             bg-neutral-700 dark:bg-blue-800 absolute top-[-20px] left-1 md:left-3'>
                             <ul className='list-none'>
                                 {banks.length > 0 && banks.map(bank => {

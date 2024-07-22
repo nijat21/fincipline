@@ -22,7 +22,9 @@ function PlaidLink() {
     };
 
     useEffect(() => {
-        handleConnect();
+        if (user) {
+            handleConnect();
+        }
     }, []);
 
     // If successfully connected, create a public token and send it to backend

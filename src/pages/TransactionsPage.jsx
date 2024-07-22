@@ -54,7 +54,7 @@ function TransactionsPage() {
 
                 <Filters />
 
-                <div className="overflow-y-auto h-half-screen w-[90%] md:w-9/12 rounded-md scrollbar-thumb-rounded-full scrollbar scrollbar-thumb-[#b9b9b9] dark:scrollbar-thumb-blue-900 ">
+                <div className="overflow-y-auto h-half-screen w-[90%] md:w-10/12 rounded-md scrollbar-thumb-rounded-full scrollbar scrollbar-thumb-[#b9b9b9] dark:scrollbar-thumb-blue-900 ">
                     <Table className="box-border">
                         <TableHeader className="text-lg top-0 z-10 sticky bg-[#b9b9b9] dark:bg-blue-900 shadow-lg">
                             <TableRow>

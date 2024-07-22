@@ -6,9 +6,6 @@ import SectionRight from "./SectionRight";
 import Section from "./Section";
 import Articles from "./Articles";
 import { FilterContext } from "@/context/filter.context";
-import AddAccount from '/assets/AddAcounts.png';
-import transactions from "/assets/transactions.png";
-import analytics from "/assets/analytics.png";
 
 
 function Ad() {
