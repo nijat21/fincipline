@@ -35,6 +35,10 @@ p {
   @apply text-xl;
 }
 
+body {
+  @apply scrollbar scrollbar-track-transparent scrollbar-thumb-black;
+}
+
 .App.light {
   background-color: #f8fafc;
   color: black;
@@ -55,13 +59,4 @@ p {
 /* For making components unscrollable */
 .no-scroll {
   overflow: hidden;
-}
-
-.scrollable-container::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-.scrollable-container::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 6px;
 }

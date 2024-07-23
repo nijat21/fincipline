@@ -3,17 +3,15 @@ import { FilterContext } from '@/context/filter.context';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
 import { v4 as uuidv4 } from 'uuid';
 import { ThemeContext } from '@/context/theme.context';
-import { AuthContext } from '@/context/auth.context';
 
 const channels = [];
 const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57', '#8dd1e1', '#ff8042', '#ffbb28', '#a5a5a5'];
 const colors = { 'Online': baseColors[0], 'In store': baseColors[1], 'Other': baseColors[2] };
 
 function LineChartAnalytics({ formatDate, parseMonthSelected }) {
-    const { selectedMonth, startDate, endDate, rangeSelected } = useContext(FilterContext);
+    const { selectedMonth, allTransactions, startDate, endDate, analyticsInput, rangeSelected } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
     const { theme } = useContext(ThemeContext);
-    const { allTransactions, analyticsInput } = useContext(AuthContext);
 
     // An array of previous 6 months since today
     const listLastSixMonths = () => {

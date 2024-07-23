@@ -124,7 +124,7 @@ function HomeAreaChart({ isMobile }) {
                                         const today = new Date().getDate();
                                         if (index + 1 === today) {
                                             return (
-                                                <text x={x} y={y - 10} fill={theme === 'dark' ? '#cbd5e1' : 'black'} textAnchor="middle">
+                                                <text x={x} y={y - 10} fill="#8884d8" textAnchor="middle">
                                                     {Number(value)}$
                                                 </text>
                                             );

@@ -21,13 +21,14 @@ import Analytics from "./pages/Analytics";
 import About from "./pages/About";
 import ServerError from "./pages/ServerError";
 import NotFound from "./pages/NotFound";
-
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const { theme } = useContext(ThemeContext);
 
   return (
     <div className={`App ${theme} overflow-hidden`}>
+      <ScrollToTop />
       <Navbar />
       <Toaster richColors position='bottom-right' />
       <AnimatePresence>

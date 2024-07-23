@@ -1,9 +1,8 @@
 import { useState, useContext, useEffect } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label, LabelList } from 'recharts';
 import { FilterContext } from '@/context/filter.context';
 import { v4 as uuidv4 } from 'uuid';
 import { ThemeContext } from '@/context/theme.context';
-import { AuthContext } from '@/context/auth.context';
 
 
 // Notes:
@@ -14,11 +13,9 @@ import { AuthContext } from '@/context/auth.context';
 
 
 function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
-    const { selectedMonth, rangeSelected, startDate, endDate, } = useContext(FilterContext);
+    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, analyticsInput } = useContext(FilterContext);
     const { theme } = useContext(ThemeContext);
-    const { allTransactions, analyticsInput } = useContext(AuthContext);
     const [finalData, setFinalData] = useState(null);
-
 
 
     // Loop to generate 6 months of formatted dates
@@ -86,6 +83,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
     // Run every time filter updated or reloaded
     useEffect(() => {
         const formedData = addData();
+        console.log("Formed data", formedData);
         const timer = setTimeout(() => {
             setFinalData(formedData);
         }, 200);  // 0.2-second delay
@@ -120,7 +118,23 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
                             <Label position={'insideBottom'} dy={17} fill={theme === 'dark' ? '#cbd5e1' : 'black'}>Total Spending</Label>
                         </XAxis>
                         <Tooltip content={CustomTooltip} />
-                        <Area type="monotone" dataKey="Amount" stroke="#8884d8" strokeWidth={2} fill="#8884d8" />
+                        <Area type="monotone" dataKey="Amount" stroke="#8884d8" strokeWidth={2} fill="#8884d8" >
+                            <LabelList
+                                dataKey="Amount"
+                                position="top"
+                                fill={theme === 'dark' ? '#cbd5e1' : 'black'}
+                                content={({ x, y, value, index }) => {
+                                    if (index === 5) {
+                                        return (
+                                            <text x={x} y={y - 10} fill="#8884d8" textAnchor="middle">
+                                                {Number(value)}$
+                                            </text>
+                                        );
+                                    }
+                                    return null;
+                                }}
+                            />
+                        </Area>
                     </AreaChart>
                 </ResponsiveContainer>
             }

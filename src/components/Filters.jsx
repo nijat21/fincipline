@@ -112,7 +112,7 @@ function Filters() {
                     >
                         <button onClick={toggleBankMenu} className='relative flex items-center justify-between w-full overflow-hidden text-start'>
                             <span className='ml-1 text-center w-[90%] overflow-hidden'>{selectedBank ? selectedBank.institution_name : 'Banks'}</span>
-                            <span className='flex-none p-1'>
+                            <span className='flex-none p-1 mr-1'>
                                 {bankMenu ?
                                     <i className="fa-solid fa-chevron-up z-20"></i>
                                     :
@@ -136,19 +136,23 @@ function Filters() {
                     {/* Date range */}
                     <li className={`w-36 h-8 flex justify-center items-center mx-1 my-4 border rounded-md border-black dark:border-white hover:bg-neutral-700 hover:text-white
                 dark:hover:bg-white dark:hover:text-black  hover:border-transparent cursor-pointer  ${dateRangeMenu && "bg-neutral-700 text-white border-black dark:bg-white dark:text-black dark:border-transparent"} `}>
-                        <button onClick={(e) => handleRangeClick(e)} className='overflow-hidden'>
-                            {startDate && endDate ?
-                                formatDate(startDate) + '  -  ' + formatDate(endDate)
-                                :
-                                <>
-                                    Custom range
-                                </>
-                            }
-                            {dateRangeMenu ?
-                                <i className="fa-solid fa-chevron-up  p-1"></i>
-                                :
-                                <i className="fa-solid fa-chevron-down p-1"></i>
-                            }
+                        <button onClick={(e) => handleRangeClick(e)} className='overflow-hidden w-full flex justify-between items-center'>
+                            <span className='ml-1 w-[90%] text-center overflow-hidden'>
+                                {startDate && endDate ?
+                                    formatDate(startDate) + '  -  ' + formatDate(endDate)
+                                    :
+                                    <>
+                                        Custom range
+                                    </>
+                                }
+                            </span>
+                            <span className='flex-none p-1 mr-1'>
+                                {dateRangeMenu ?
+                                    <i className="fa-solid fa-chevron-up "></i>
+                                    :
+                                    <i className="fa-solid fa-chevron-down"></i>
+                                }
+                            </span>
                         </button>
                     </li>
                 </ul>

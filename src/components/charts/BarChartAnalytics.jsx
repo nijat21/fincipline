@@ -3,7 +3,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { FilterContext } from '@/context/filter.context';
 import { v4 as uuidv4 } from 'uuid';
 import { ThemeContext } from '@/context/theme.context';
-import { AuthContext } from '@/context/auth.context';
 
 const categories = [];
 const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57', '#8dd1e1', '#ff8042', '#ffbb28', '#a5a5a5'];
@@ -12,11 +11,10 @@ const initialColors = { 'Travel': baseColors[0], 'Payment': baseColors[1], 'Food
 // Notes: If no month or range selected, should display last 6 month (using analyticsInput)
 // If month or range is selected, show that month or range (using allTransactions)
 function BarChartAnalytics({ formatDate, parseMonthSelected }) {
-    const { selectedMonth, startDate, endDate, rangeSelected } = useContext(FilterContext);
+    const { selectedMonth, allTransactions, startDate, endDate, analyticsInput, rangeSelected } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
     const [colors, setColors] = useState(initialColors);
     const { theme } = useContext(ThemeContext);
-    const { allTransactions, analyticsInput } = useContext(AuthContext);
 
 
     // An array of previous 6 months since today

@@ -15,8 +15,8 @@ function Analytics() {
     const analyticsRef2 = useRef();
     const { data, selectedBank,
         // Functions
-        handleOutsideClick, retrieveTransactions, filterByBank, } = useContext(FilterContext);
-    const { user, setAnalyticsInput } = useContext(AuthContext);
+        handleOutsideClick, retrieveTransactions, filterByBank, setAnalyticsInput } = useContext(FilterContext);
+    const { user } = useContext(AuthContext);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
 
     // Check if the app is in mobile screen
