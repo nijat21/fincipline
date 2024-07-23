@@ -9,7 +9,7 @@ import Section from '@/components/Section';
 
 
 function HomePage() {
-    const { setSelectedBank, setCurrBank, isMobile, authenticateUser } = useContext(FilterContext);
+    const { setSelectedBank, setCurrBank, isMobile } = useContext(FilterContext);
 
     // Retrieving current bank
     useEffect(() => {

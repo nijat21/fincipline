@@ -13,13 +13,13 @@ import { motion as m, AnimatePresence } from 'framer-motion';
 
 function TransactionsPage() {
     const { selectedMonth, selectedBank, rangeSubmitClear, setDateRangeMenu, setBankMenu,
-        data, selectedTransaction, setSelectedTransaction, isMobile
+        allTransactions, data, selectedTransaction, setSelectedTransaction, isMobile
         ,
         handleOutsideClick, handleExport, handlePrint, retrieveTransactions, filter } = useContext(FilterContext);
     const filterRef = useRef();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
-    const { user, allTransactions, } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
 
     // Once user is available, load all transactions

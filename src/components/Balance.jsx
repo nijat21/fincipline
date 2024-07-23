@@ -15,7 +15,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 function Balance() {
     const [accounts, setAccounts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const { banks, renderBanks, clearData } = useContext(AuthContext);
+    const { banks, renderBanks } = useContext(AuthContext);
     const { setSelectedBank, currBank, setCurrBank } = useContext(FilterContext);
 
 
