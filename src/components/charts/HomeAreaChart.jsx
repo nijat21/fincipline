@@ -3,6 +3,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { v4 as uuidv4 } from 'uuid';
 import { ThemeContext } from '@/context/theme.context';
 import { AuthContext } from '@/context/auth.context';
+import { FilterContext } from '@/context/filter.context';
 
 
 // Notes:
@@ -13,10 +14,10 @@ import { AuthContext } from '@/context/auth.context';
 
 
 function HomeAreaChart({ isMobile }) {
-    const { tranCurrMonth, finalData, setFinalData } = useContext(AuthContext);
+    const { banks } = useContext(AuthContext);
     const { theme } = useContext(ThemeContext);
-    // const [finalData, setFinalData] = useState(null);
-
+    const { tranCurrMonth } = useContext(FilterContext);
+    const [finalData, setFinalData] = useState(null);
 
 
     // Loop to generate days of this month
@@ -79,10 +80,14 @@ function HomeAreaChart({ isMobile }) {
 
     // Run every time filter updated or reloaded
     useEffect(() => {
-        const formedData = addData();
-        const result = aggregateAmount(formedData);
-        // console.log("Result", result);
-        setFinalData(result);
+        // console.log("Input data in HomeAreaChart", tranCurrMonth);
+        if (tranCurrMonth && tranCurrMonth.length > 0) {
+            const formedData = addData();
+            const result = aggregateAmount(formedData);
+            // console.log("Result", result);
+            setFinalData(result);
+            // console.log('FinalData in HomeAreaChart', result);
+        }
     }, [tranCurrMonth]);
 
 
@@ -99,7 +104,7 @@ function HomeAreaChart({ isMobile }) {
                         :
                         <h3 className="text-center py-1">Spent This Month</h3>
                 }
-                {finalData && finalData.length > 0 &&
+                {finalData && finalData.length > 0 ?
                     <ResponsiveContainer width="100%" height="100%" >
                         <AreaChart
                             data={finalData}
@@ -130,6 +135,10 @@ function HomeAreaChart({ isMobile }) {
                             </Area>
                         </AreaChart>
                     </ResponsiveContainer>
+                    :
+                    <div className="flex justify-center items-center">
+                        <p className="">{banks && banks.length > 0 ? 'No Bank Selected' : 'No Bank Registered'}</p>
+                    </div>
                 }
             </div>
         </div>

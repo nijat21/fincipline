@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { FilterContext } from '@/context/filter.context';
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Label, CartesianGrid, Legend, Tooltip, } from 'recharts';
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,10 +11,10 @@ const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57
 const colors = { 'Online': baseColors[0], 'In store': baseColors[1], 'Other': baseColors[2] };
 
 function HomeBarChart({ isMobile }) {
-    const { transactionsLTD } = useContext(AuthContext);
+    const { transactionsLTD } = useContext(FilterContext);
     const { theme } = useContext(ThemeContext);
-    // const [data, setData] = useState([]);
-    const { banks, data, setData } = useContext(AuthContext);
+    const [dataHBarChart, setDataHBarChart] = useState([]);
+    const { banks } = useContext(AuthContext);
 
 
     // Capitalize the first letter of the channels
@@ -72,7 +73,6 @@ function HomeBarChart({ isMobile }) {
             }
         });
         // console.log("New data", dt);
-        setData(dt);
         return dt;
     };
 
@@ -81,7 +81,8 @@ function HomeBarChart({ isMobile }) {
     // Run when transactionsLTD received or updated
     useEffect(() => {
         if (transactionsLTD && transactionsLTD.length > 0) {
-            formGroupData(transactionsLTD);
+            const response = formGroupData(transactionsLTD);
+            setDataHBarChart(response);
         }
     }, [transactionsLTD]);
 
@@ -92,11 +93,11 @@ function HomeBarChart({ isMobile }) {
             <div className='h-full w-full px-6 py-4 md:pt-6 md:pb-4 flex flex-col justify-between rounded-xl
                 box-border md:bg-black md:bg-opacity-20 dark:md:bg-black dark:md:bg-opacity-20'>
                 {!isMobile && <h3 className="py-1 text-center">Spending Analytics</h3>}
-                {data && data.length > 0 && <p className='w-full py-1 text-center'>Last 30 days</p>}
+                {dataHBarChart && dataHBarChart.length > 0 && <p className='w-full py-1 text-center'>Last 30 days</p>}
                 <div className='h-[80%] md:pt-2 md:h-[22rem] flex items-center justify-center'>
-                    {data && data.length > 0 ?
+                    {dataHBarChart && dataHBarChart.length > 0 ?
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={data}>
+                            <BarChart data={dataHBarChart}>
                                 <XAxis dataKey="category" stroke={theme === 'dark' ? '#cbd5e1' : 'black'}>
                                     {/* {!isMobile && <Label value="Spending categories" position="insideBottom" offset={0} dy={15} />} */}
                                 </XAxis>

@@ -56,3 +56,12 @@ p {
 .no-scroll {
   overflow: hidden;
 }
+
+.scrollable-container::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+}

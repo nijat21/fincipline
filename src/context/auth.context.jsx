@@ -1,6 +1,7 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect } from "react";
 import { verify } from "../API/auth.api";
 import { getBanks } from "../API/account.api";
+import { v4 as uuidv4 } from 'uuid';
 
 
 const AuthContext = createContext();
@@ -9,23 +10,18 @@ const AuthProvider = props => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isBankLoading, setIsBankLoading] = useState(false);
-
     const [user, setUser] = useState(null);
     const [banks, setBanks] = useState([]);
     const [bankReturned, setBankReturned] = useState(null);
-
     const [profilePhoto, setProfilePhoto] = useState(null);
-    const [analyticsInput, setAnalyticsInput] = useState(null); // Moved from FilterContext so that old data can be deleted when user logs out or unauthenticated
-    const [allTransactions, setAllTransactions] = useState(null);
-    const [transactionsLTD, setTransactionsLTD] = useState(null);
-    const [tranCurrMonth, setTranCurrMonth] = useState(null);
-    const [data, setData] = useState([]);
-    const [finalData, setFinalData] = useState(null);
+
+    const [clearData, setClearData] = useState(null);
 
 
     const storeToken = token => {
         localStorage.setItem('authToken', token);
     };
+
 
     const authenticateUser = async () => {
         // Obtain token from localStorage
@@ -41,6 +37,7 @@ const AuthProvider = props => {
                 setUser(null);
                 setIsLoggedIn(false);
                 removeLSItems();
+                setClearData(uuidv4());
             }
         } else {
             // if token isn't available 
@@ -48,46 +45,34 @@ const AuthProvider = props => {
             setIsLoggedIn(false);
             setBanks(null);
             removeLSItems();
+            setClearData(uuidv4());
         }
-
+        // console.log('UUDV', clearData);
         setIsLoading(false);
     };
 
-    const removeToken = () => {
-        localStorage.removeItem('authToken');
-    };
 
     const removeLSItems = () => {
+        // Access token
+        localStorage.removeItem('authToken');
+        // Other items
         localStorage.removeItem('currBank');
         localStorage.removeItem('selectedMonth');
         localStorage.removeItem('startDate');
         localStorage.removeItem('endDate');
         localStorage.removeItem('theme');
-        // clear all data for analytics
-        setAnalyticsInput(null);
-        setAllTransactions(null);
-        setTranCurrMonth(null);
-        setTransactionsLTD(null);
-        setData([]);
-        setFinalData(null);
     };
 
     const logoutUser = () => {
-        removeToken();
         removeLSItems();
+        setClearData(uuidv4());
         authenticateUser();
-        // clear all data for analytics
-        setAnalyticsInput(null);
-        setAllTransactions(null);
-        setTranCurrMonth(null);
-        setTransactionsLTD(null);
-        setData([]);
-        setFinalData(null);
+        // console.log('User logged out, isLoggedOut set to:', true);
     };
+
 
     // Authenticate user every time reloaded
     useEffect(() => {
-        // setIsLoading(true);
         authenticateUser();
         renderBanks();
     }, []);
@@ -95,13 +80,12 @@ const AuthProvider = props => {
 
     // Show banks
     const renderBanks = async () => {
-        console.log('Render Banks run');
         if (user) {
             setIsBankLoading(true);
             try {
                 const response = await getBanks({ user_id: user._id });
                 setBanks(response.data);
-                // console.log(response.data[0]);
+                // console.log('Render Banks run', response.data);
             } catch (error) {
                 console.log(error);
             } finally {
@@ -123,8 +107,7 @@ const AuthProvider = props => {
         <AuthContext.Provider value={{
             isLoading, setIsLoading, isLoggedIn, user, storeToken, authenticateUser, logoutUser,
             banks, setBanks, setBankReturned, isBankLoading, renderBanks, profilePhoto, setProfilePhoto,
-            analyticsInput, setAnalyticsInput, allTransactions, setAllTransactions, tranCurrMonth, setTranCurrMonth,
-            transactionsLTD, setTransactionsLTD, finalData, setFinalData, data, setData
+            clearData, setClearData,
         }}>
             {props.children}
         </AuthContext.Provider>

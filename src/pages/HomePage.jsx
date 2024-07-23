@@ -7,10 +7,9 @@ import HomeAreaChart from '@/components/charts/HomeAreaChart';
 import { motion as m, AnimatePresence } from 'framer-motion';
 import Section from '@/components/Section';
 
-function HomePage() {
-    const { setSelectedBank, currBank, setCurrBank } = useContext(FilterContext);
-    const { isMobile } = useContext(FilterContext);
 
+function HomePage() {
+    const { setSelectedBank, setCurrBank, isMobile, authenticateUser } = useContext(FilterContext);
 
     // Retrieving current bank
     useEffect(() => {
@@ -25,7 +24,7 @@ function HomePage() {
     return (
         <AnimatePresence>
             <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}
-                className='w-screen special-overflow-hidden'>
+                className='w-screen special-overflow-hidden scrollbar'>
                 <div className='max-h-2screen md:h-4screen w-screen flex flex-col items-center'>
                     {/* <GradientBackground /> */}
                     <div className='md:h-screen w-screen flex flex-col justify-center items-center border-box shadow-md border-b border-zinc-200 dark:border-slate-900'>
@@ -37,7 +36,7 @@ function HomePage() {
                     <Section>
                         <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box py-4'>
                             {/* Last 30 days analytics */}
-                            <HomeAreaChart currBank={currBank} isMobile={isMobile} />
+                            <HomeAreaChart isMobile={isMobile} />
                         </div>
                     </Section>
                     <Section>
@@ -49,7 +48,7 @@ function HomePage() {
                     <Section>
                         <div className='bg-black bg-opacity-40 md:bg-transparent md:h-screen w-screen flex flex-col justify-center items-center border-box pb-10'>
                             {/* Last 30 days analytics */}
-                            <HomeBarChart currBank={currBank} isMobile={isMobile} />
+                            <HomeBarChart isMobile={isMobile} />
                         </div>
                     </Section>
                 </div>
