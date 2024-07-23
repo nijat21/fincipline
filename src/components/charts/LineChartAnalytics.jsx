@@ -9,7 +9,7 @@ const baseColors = ['#82c', '#8884d8', '#82ca9d', '#ffc658', '#a4de6c', '#d0ed57
 const colors = { 'Online': baseColors[0], 'In store': baseColors[1], 'Other': baseColors[2] };
 
 function LineChartAnalytics({ formatDate, parseMonthSelected }) {
-    const { selectedMonth, allTransactions, startDate, endDate, analyticsInput, rangeSelected } = useContext(FilterContext);
+    const { selectedMonth, allTransactions, startDate, endDate, analyticsInput, rangeSelected, currency } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
     const { theme } = useContext(ThemeContext);
 
@@ -127,7 +127,7 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
                         <XAxis dataKey="month" stroke={theme === 'dark' ? '#cbd5e1' : 'black'}>
                             <Label position={'insideBottom'} dy={17} fill={theme === 'dark' ? '#cbd5e1' : 'black'}>Payment Channels</Label>
                         </XAxis>
-                        <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} />
+                        <Tooltip content={CustomTooltip} currency={currency} cursor={{ fill: '#1a294f' }} />
                         <Legend verticalAlign='top' />
                         {channels.map(ch => {
                             return <Line type="monotone" key={ch} dataKey={ch} stroke={colors[ch]} />;
@@ -140,7 +140,7 @@ function LineChartAnalytics({ formatDate, parseMonthSelected }) {
 }
 
 // Custom ToolTip
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, currency }) => {
     if (active && payload && payload.length) {
         return (
             <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
@@ -150,7 +150,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                         return (
                             <p key={uuidv4()} style={{ 'color': `${p.stroke}` }}>
                                 {p.dataKey}:
-                                <span className='ml-2'>{p.value}$</span>
+                                <span className='ml-2'>{p.value} {currency}</span>
                             </p>
                         );
                     }

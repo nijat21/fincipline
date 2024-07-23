@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useMemo, useCallback, useContext } from "react";
 import { exportPDF, printPDF } from '../components/PDF';
 import { getAllTransactions } from "../API/plaid.api";
+import getSymbolFromCurrency from 'currency-symbol-map';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthContext } from "./auth.context";
 
@@ -13,6 +14,8 @@ const FilterProvider = props => {
     const [startDate, setStartDate] = useState(() => null);
     const [endDate, setEndDate] = useState(() => null);
     const [currBank, setCurrBank] = useState(null);
+    const [currency, setCurrency] = useState(null);
+
 
     // Menu / boolean
     const [dateRangeMenu, setDateRangeMenu] = useState(() => false);
@@ -39,6 +42,8 @@ const FilterProvider = props => {
         setTranCurrMonth(null);
         setTransactionsLTD(null);
         setCurrBank(null);
+        setCurrency(null);
+        localStorage.removeItem('currency');
     }, [clearData]);
 
 
@@ -64,6 +69,7 @@ const FilterProvider = props => {
             const transactions = await getAllTransactions(params);
             const result = transactions.data.sorted_transactions;
             setData(result);
+            setCurrency(getSymbolFromCurrency(result[0].iso_currency_code));
             // console.log('Data retrieved');
             // If bank or month is selected
             if (selectedBank || selectedMonth || rangeSelected) {
@@ -245,7 +251,8 @@ const FilterProvider = props => {
             endDate, setEndDate, dateRangeMenu, setDateRangeMenu, rangeSelected, setRangeSelected,
             rangeSubmitClear, setRangeSubmitClear, transactionsLTD, setTransactionsLTD,
             bankMenu, setBankMenu, allTransactions, setAllTransactions, data, selectedTransaction, setSelectedTransaction,
-            analyticsInput, setAnalyticsInput, currBank, setCurrBank, tranCurrMonth, setTranCurrMonth, isMobile, setIsMobile
+            analyticsInput, setAnalyticsInput, currBank, setCurrBank, tranCurrMonth, setTranCurrMonth, isMobile, setIsMobile,
+            currency, setCurrency
 
             ,
             // Functions

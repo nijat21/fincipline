@@ -11,7 +11,7 @@ const initialColors = { 'Travel': baseColors[0], 'Payment': baseColors[1], 'Food
 // Notes: If no month or range selected, should display last 6 month (using analyticsInput)
 // If month or range is selected, show that month or range (using allTransactions)
 function BarChartAnalytics({ formatDate, parseMonthSelected }) {
-    const { selectedMonth, allTransactions, startDate, endDate, analyticsInput, rangeSelected } = useContext(FilterContext);
+    const { selectedMonth, allTransactions, startDate, endDate, analyticsInput, rangeSelected, currency } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
     const [colors, setColors] = useState(initialColors);
     const { theme } = useContext(ThemeContext);
@@ -136,7 +136,7 @@ function BarChartAnalytics({ formatDate, parseMonthSelected }) {
                         <XAxis dataKey="month" stroke={theme === 'dark' ? '#cbd5e1' : 'black'}>
                             <Label position={'insideBottom'} dy={17} fill={theme === 'dark' ? '#cbd5e1' : 'black'}>Spending Categories</Label>
                         </XAxis>
-                        <Tooltip content={CustomTooltip} cursor={{ fill: '#1a294f' }} wrapperStyle={{ zIndex: 30 }} />
+                        <Tooltip content={CustomTooltip} currency={currency} cursor={{ fill: '#1a294f' }} wrapperStyle={{ zIndex: 30 }} />
                         <Legend verticalAlign='top' />
                         {/* Loop for each category and add a bar for each */}
                         {Object.keys(colors).map(cat => {
@@ -150,7 +150,7 @@ function BarChartAnalytics({ formatDate, parseMonthSelected }) {
 }
 
 // Custom ToolTip
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, currency }) => {
     if (active && payload && payload.length) {
         return (
             <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
@@ -160,7 +160,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                         return (
                             <p key={uuidv4()} style={{ 'color': `${p.fill}` }}>
                                 {p.dataKey}:
-                                <span className='ml-2'>{p.value}$</span>
+                                <span className='ml-2'>{p.value} {currency}</span>
                             </p>
                         );
                     }

@@ -13,7 +13,7 @@ import { ThemeContext } from '@/context/theme.context';
 
 
 function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
-    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, analyticsInput } = useContext(FilterContext);
+    const { selectedMonth, rangeSelected, allTransactions, startDate, endDate, analyticsInput, currency } = useContext(FilterContext);
     const { theme } = useContext(ThemeContext);
     const [finalData, setFinalData] = useState(null);
 
@@ -83,7 +83,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
     // Run every time filter updated or reloaded
     useEffect(() => {
         const formedData = addData();
-        console.log("Formed data", formedData);
+        // console.log("Formed data", formedData);
         const timer = setTimeout(() => {
             setFinalData(formedData);
         }, 200);  // 0.2-second delay
@@ -117,7 +117,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
                         <XAxis dataKey="month" stroke={theme === 'dark' ? '#cbd5e1' : 'black'}>
                             <Label position={'insideBottom'} dy={17} fill={theme === 'dark' ? '#cbd5e1' : 'black'}>Total Spending</Label>
                         </XAxis>
-                        <Tooltip content={CustomTooltip} />
+                        <Tooltip content={CustomTooltip} currency={currency} />
                         <Area type="monotone" dataKey="Amount" stroke="#8884d8" strokeWidth={2} fill="#8884d8" >
                             <LabelList
                                 dataKey="Amount"
@@ -127,7 +127,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
                                     if (index === 5) {
                                         return (
                                             <text x={x} y={y - 10} fill="#8884d8" textAnchor="middle">
-                                                {Number(value)}$
+                                                {Number(value)}{currency}
                                             </text>
                                         );
                                     }
@@ -144,7 +144,7 @@ function AreaChartAnalytics({ formatDate, parseMonthSelected }) {
 
 
 // Custom ToolTip
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, currency }) => {
     if (active && payload && payload.length) {
         return (
             <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
@@ -155,7 +155,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                         return (
                             <p key={uuidv4()} style={{ 'color': `${p.fill}` }}>
                                 {p.dataKey}:
-                                <span className='ml-2'>{p.value}$</span>
+                                <span className='ml-2'>{p.value} {currency}</span>
                             </p>
                         );
                     }

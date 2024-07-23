@@ -16,7 +16,7 @@ function Balance() {
     const [accounts, setAccounts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { banks, renderBanks } = useContext(AuthContext);
-    const { setSelectedBank, currBank, setCurrBank } = useContext(FilterContext);
+    const { setSelectedBank, currBank, setCurrBank, setCurrency } = useContext(FilterContext);
 
 
     // Handle bank select
@@ -39,6 +39,8 @@ function Balance() {
                 const props = { user_id: currBank.user_id, bank_id: currBank._id };
                 const accountResponse = await getBalance(props);
                 setAccounts(accountResponse.data.accounts);
+                setCurrency(getSymbolFromCurrency(accountResponse.data.accounts[0].balances.iso_currency_code));
+                console.log('Accounts balance', accountResponse.data.accounts);
             } catch (error) {
                 console.log('Error retrieving balance information', error);
             } finally {

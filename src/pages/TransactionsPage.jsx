@@ -25,7 +25,7 @@ function TransactionsPage() {
     // Once user is available, load all transactions
     useEffect(() => {
         retrieveTransactions(user._id);
-        console.log('Retrieve in transactionDetails');
+        // console.log('Retrieve in TransactionsPage', allTransactions);
     }, []);
 
     // If bank or month selected, filter the transactions

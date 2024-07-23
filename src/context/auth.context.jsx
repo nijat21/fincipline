@@ -85,7 +85,7 @@ const AuthProvider = props => {
             try {
                 const response = await getBanks({ user_id: user._id });
                 setBanks(response.data);
-                // console.log('Render Banks run', response.data);
+                console.log('Render Banks run', response.data);
             } catch (error) {
                 console.log(error);
             } finally {

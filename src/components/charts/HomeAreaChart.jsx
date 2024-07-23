@@ -16,7 +16,7 @@ import { FilterContext } from '@/context/filter.context';
 function HomeAreaChart({ isMobile }) {
     const { banks } = useContext(AuthContext);
     const { theme } = useContext(ThemeContext);
-    const { tranCurrMonth } = useContext(FilterContext);
+    const { tranCurrMonth, currency } = useContext(FilterContext);
     const [finalData, setFinalData] = useState(null);
 
 
@@ -115,7 +115,7 @@ function HomeAreaChart({ isMobile }) {
                                 {!isMobile && <Label position={'insideBottom'} dy={20} fill={theme === 'dark' ? '#cbd5e1' : 'black'}>Total Spending</Label>}
                             </XAxis>
                             {/* <YAxis /> */}
-                            <Tooltip content={CustomTooltip} />
+                            <Tooltip content={CustomTooltip} currency={currency} />
                             <Area type="monotone" dataKey="Amount" stroke="#8884d8" fill="#8884d8" strokeWidth={2}>
                                 <LabelList
                                     dataKey="Amount"
@@ -125,7 +125,7 @@ function HomeAreaChart({ isMobile }) {
                                         if (index + 1 === today) {
                                             return (
                                                 <text x={x} y={y - 10} fill="#8884d8" textAnchor="middle">
-                                                    {Number(value)}$
+                                                    {Number(value)}{currency}
                                                 </text>
                                             );
                                         }
@@ -147,7 +147,7 @@ function HomeAreaChart({ isMobile }) {
 
 
 // Custom ToolTip
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, currency }) => {
     if (active && payload && payload.length) {
         // Get the current month name
         const today = new Date();
@@ -162,7 +162,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                         return (
                             <p key={uuidv4()} style={{ 'color': `${p.fill}` }}>
                                 {p.dataKey}:
-                                <span className='ml-2'>{Number(p.value)}$</span>
+                                <span className='ml-2'>{Number(p.value)} {currency}</span>
                             </p>
                         );
                     }
