@@ -3,6 +3,7 @@ import { AuthContext } from "../context/auth.context";
 import { ThemeContext } from "../context/theme.context";
 import HashLoader from "react-spinners/HashLoader";
 import Ad from "./Ad";
+import ScrollToTop from "./ScrollToTop";
 
 const IsHybrid = props => {
     const { isLoggedIn, isLoading, isBankLoading } = useContext(AuthContext);
@@ -19,7 +20,12 @@ const IsHybrid = props => {
 
     if (!isLoggedIn) {
         console.log("Not logged in");
-        return (<Ad />);
+        return (
+            <>
+                <ScrollToTop />
+                <Ad />
+            </>
+        );
     } else {
         return props.children;
     }
