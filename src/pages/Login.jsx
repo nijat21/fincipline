@@ -60,7 +60,7 @@ function Login() {
 
                     <GoogleSignIn />
 
-                    {error && (<p className="opacity-60 text-center py-2 max-w-56">{error}</p>)}
+                    {error && (<p className="text-center py-2 max-w-56">{error}</p>)}
 
                     <Link to={'/signup'} className="mt-2">Don't have an account? <p className='text-blue-900 hover:text-slate-900 inline'>Sign up</p></Link>
                 </div>
