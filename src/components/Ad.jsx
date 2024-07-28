@@ -15,7 +15,7 @@ function Ad() {
     return (
         <div className="overflow-hidden flex justify-center">
             <div className="w-full flex flex-col items-center justify-center">
-                <div className='h-screen overflow-hidden place-self-center bg-no-repeat flex items-center'>
+                <div className='h-screen w-full overflow-hidden place-self-center bg-no-repeat flex items-center'>
                     <GradientBackground />
                     <div className='text-white h-screen w-screen flex flex-col items-center justify-center z-50 mt-0 md:mt-14'>
                         <h1 className='font-bold p-4 text-6xl text-center w-[90%] md:w-1/2'>Spending tracker for all your bank accounts</h1>

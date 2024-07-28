@@ -35,10 +35,6 @@ p {
   @apply text-xl;
 }
 
-body {
-  @apply scrollbar scrollbar-track-transparent scrollbar-thumb-black;
-}
-
 .App.light {
   background-color: #f8fafc;
   color: black;

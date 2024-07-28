@@ -24,7 +24,7 @@ function HomePage() {
     return (
         <AnimatePresence>
             <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}
-                className='w-screen special-overflow-hidden scrollbar'>
+                className='w-screen special-overflow-hidden'>
                 <div className='max-h-2screen md:h-4screen w-screen flex flex-col items-center'>
                     {/* <GradientBackground /> */}
                     <div className='md:h-screen w-screen flex flex-col justify-center items-center border-box shadow-md border-b border-zinc-200 dark:border-slate-900'>
