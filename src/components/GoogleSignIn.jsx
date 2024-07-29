@@ -26,18 +26,16 @@ const GoogleSignIn = () => {
     };
 
     return (
-        <div>
-            <GoogleLogin
-                clientId={clientId}
-                buttonText="Login"
-                onSuccess={onSuccess}
-                onError={onError}
-                cookiePolicy={'single_host_origin'}
-                isSignedIn={true}
-                useOneTap
-                shape='pill'
-            />
-        </div>
+        <GoogleLogin
+            clientId={clientId}
+            buttonText="Login"
+            onSuccess={onSuccess}
+            onError={onError}
+            cookiePolicy={'single_host_origin'}
+            isSignedIn={true}
+            useOneTap
+            shape='pill'
+        />
     );
 };
 
