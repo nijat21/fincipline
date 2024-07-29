@@ -15,7 +15,7 @@ const GoogleSignIn = () => {
             const response = await googleAuth(credentialResponse.credential);
             console.log("Google Auth run", response);
             storeToken(response.data.authToken);
-            authenticateUser();
+            await authenticateUser();
         } catch (error) {
             console.log('Error logging in!', error);
         }

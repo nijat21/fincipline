@@ -15,7 +15,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 function Balance() {
     const [accounts, setAccounts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const { banks, renderBanks } = useContext(AuthContext);
+    const { banks, renderBanks, setClearData } = useContext(AuthContext);
     const { setSelectedBank, currBank, setCurrBank, setCurrency } = useContext(FilterContext);
 
 
@@ -65,6 +65,7 @@ function Balance() {
                 setAccounts([]);
                 setCurrBank(null);
                 localStorage.removeItem('currBank');
+                setClearData(uuidv4());
                 await renderBanks();
             } catch (error) {
                 console.log('Error deleting the bank account', error);

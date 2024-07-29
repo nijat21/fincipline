@@ -11,7 +11,7 @@ export const login = user => {
 };
 
 // Google auth
-export const googleAuth = token => {
+export const googleAuth = async (token) => {
     return axios.post(`${baseUrl}/googleAuth`, {
         google_token: token
     });
