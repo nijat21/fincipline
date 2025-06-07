@@ -1,55 +1,53 @@
 # Fincipline
 
-## A personal finance app that helps users to keep informed of their financials and make better financial decisions.
+A modern personal finance dashboard to track, analyze, and manage your finances with ease. Connect your bank accounts, visualize spending, and gain insights into your financial habits.
 
-## Data
+![Version](https://img.shields.io/badge/version-0.0.0-blue.svg?cacheSeconds=2592000)
 
-### Backend
+## Features
+- **Bank Account Integration:** Securely connect your bank accounts using Plaid.
+- **Dashboard:** View balances, recent transactions, and analytics at a glance.
+- **Transactions:** Filter, search, and export your transaction history.
+- **Analytics:** Visualize your spending and income trends with interactive charts.
+- **User Authentication:** Sign up, log in, and manage your profile securely.
+- **Dark Mode:** Enjoy a modern, responsive UI with dark mode support.
 
-#### User
+## Tech Stack
+- **Frontend:** React, Vite, Tailwind CSS, Framer Motion
+- **Charts:** Recharts
+- **Bank Integration:** Plaid
+- **Other:** Axios, Sonner (notifications), Radix UI, uuid
 
-## API's
+## Getting Started
 
-<br>
+### Prerequisites
+- Node.js (v16+ recommended)
+- npm
 
-## Packages & Libraries
+### Installation
+```sh
+npm install
+```
 
-Tailwind
-<br/>
-Chakra UI
-<br/>
-Fontawesome
-<br/>
-Framer Motion
-<br/>
-React-scroll
-<br/>
-Currency Symbol Map
-<br/>
+### Running Locally
+```sh
+npm run dev
+```
 
-Uuid
-<br/>
-Sonner
-<br/>
-jspdf - for exporting the transactions as a pdf file
-<br>
+The app will be available at [http://localhost:5173](http://localhost:5173).
 
-## Components
+## Folder Structure
+- `src/` - Main source code
+  - `pages/` - App pages (Home, Analytics, Transactions, etc.)
+  - `components/` - Reusable UI components
+  - `context/` - React context providers
+  - `API/` - API utilities (Plaid, etc.)
 
-DateRange => Regulates date range selection assignation to context states and storage in LocalStorage in TransactionsDetails.
+## Author
+- Nijat Ismayilov ([LinkedIn](https://www.linkedin.com/in/nijat-ismayilov))
 
-Filters => Regulates selection of other filters in TransactionsDetails and stores values in context states and in LocalStorage.
+---
+Give a ⭐️ if you like this project!
 
-## Links
-
-### Repositories and links related to the project
-
-Github: [Frontend,](https://github.com/nijat21/phoenix_pages)
-[Fake Backend](https://github.com/luigoncalves/json-server-backend)
-<br/>
-
-Netlify: [Phoenix Pages](https://phoenix-pages.netlify.app/)
-
-### Contributors
-
-Nijat Ismayilov - [GitHub](https://github.com/nijat21) - [LinkedIn](https://www.linkedin.com/in/nijat-ismayilov/)
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
